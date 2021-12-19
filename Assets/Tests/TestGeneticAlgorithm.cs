@@ -1,22 +1,31 @@
 using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class GeneticAlgorithm
+
+public class TestGeneticAlgorithm
 {
+    private GeneticAlgorithm _geneticAlgorithm;
+
+    [OneTimeSetUp]
+    public void Setup()
+    {
+        var rootObject = new GameObject();
+        _geneticAlgorithm = rootObject.AddComponent<GeneticAlgorithm>();
+    }
+
     // A Test behaves as an ordinary method
     [Test]
-    public void GeneticAlgorithmSimplePasses()
+    public void TestGeneticAlgorithmExists()
     {
-        // Use the Assert class to test conditions
+        Assert.IsNotNull(_geneticAlgorithm);
     }
 
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
     // `yield return null;` to skip a frame.
     [UnityTest]
-    public IEnumerator GeneticAlgorithmWithEnumeratorPasses()
+    public IEnumerator TestGeneticAlgorithmWithEnumeratorPasses()
     {
         // Use the Assert class to test conditions.
         // Use yield to skip a frame.

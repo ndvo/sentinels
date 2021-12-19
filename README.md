@@ -74,3 +74,27 @@ the genetic algorithm.
 
 To create a first test open Window->General->Test Runner and use the provided
 buttons to create the test folders and test files.
+
+### Setup the assembly definition
+**create an assembly definition file** An assembly definition file must be
+added to the folders one wants to be able to reference from within the tests.
+This file can be created from the Unity3D Editor by simply clicking with the
+right button on the folder and choosing create assembly definition.
+
+**reference the assembly definition** The test folder must also have an
+assembly definition file that can be created in the same manner. In the Unity3D
+Editor, click the assembly definition file in the test folder, go on to the
+"Assembly Definition References" and add the assembly definition file you
+created in the scripts folder.
+
+### Test Setup
+
+#### Referencing game objects
+Use the OneTimeSetup NunitAttribute to create a Setup function that will run
+before the tests. Use this setup to create a rootObject that will contain the
+GameObjects. This is necessary because game objects must be created with the
+AddComponent method.
+
+#### Create tests
+Use the Test or UnityTest Attributes to create the tests.
+
