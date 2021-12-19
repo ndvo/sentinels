@@ -1,9 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
+using Random = System.Random;
 
+namespace GeneticAlgorithm
+{
+    
 public class GeneticAlgorithm : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -16,4 +16,16 @@ public class GeneticAlgorithm : MonoBehaviour
     {
         
     }
+
+    public float[] GenerateRandomShip()
+    {
+        var random = new Random(Utils.Time.UnixNow());
+        var genome = new float[35];
+        for (var i=0; i<35; i++)
+        {
+            genome[i] = random.Next();
+        }
+        return genome;
+    }
+}
 }
