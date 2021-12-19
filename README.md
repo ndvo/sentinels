@@ -70,3 +70,7 @@ the appearence and the behaviour of the space ship. To achieve this the
 prototype will need to integrate the Unity3D game object, Editor interface and
 the genetic algorithm.
 
+## Testing 
+
+To create a first test open Window->General->Test Runner and use the provided
+buttons to create the test folders and test files.
