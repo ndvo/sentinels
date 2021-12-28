@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utils;
 using Random = System.Random;
 
 namespace GeneticAlgorithm
@@ -26,6 +27,19 @@ public class GeneticAlgorithm : MonoBehaviour
             genome[i] = random.Next();
         }
         return genome;
+    }
+
+    public static float[] CrossOver(float[] genomeA, float[] genomeB)
+    {
+        var result = new float[genomeA.Length];
+        var random = new Random(Utils.Time.UnixNow());
+        for (var i = 0; i < genomeA.Length; i++)
+        {
+            var coin = random.Next(1, 3);
+            var gene = coin == 1 ? genomeA[i] : genomeB[i];
+            result[i] = gene;
+        }
+        return result;
     }
 }
 }

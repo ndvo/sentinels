@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using GeneticAlgorithm;
 using NUnit.Framework;
 using UnityEngine;
@@ -75,10 +76,11 @@ namespace Tests
                 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
                 9, 9, 9, 9, 9,
             });
-            var crossedOver = GeneticAlgorithm.CrossOver(shipGenomeA, shipGenomeB);
-            var crossedOverGenome = crossedOver.GetGenome();
-            Assert.IsTrue(crossedOverGenome.Average() > 1);
-            Assert.IsTrue(crossedOverGenome.Average() < 9);
+            var crossedOver = GeneticAlgorithm.GeneticAlgorithm.CrossOver(
+                shipGenomeA.GetGenome(),
+                shipGenomeB.GetGenome());
+            Assert.IsTrue(crossedOver.Average() > 1, "Average must be higher than the lower genome.");
+            Assert.IsTrue(crossedOver.Average() < 9, "Average must be lower than the higher genome.");
         }
 
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
