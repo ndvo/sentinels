@@ -60,6 +60,27 @@ namespace Tests
             Assert.IsTrue(shipGenome.wing.position == 2.0);
         }
 
+        [Test]
+        public void TestGeneticAlgorithmCrossOver()
+        {
+            var shipGenomeA = new GeneticAlgorithm.ShipGenome(new float[]
+            {
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 1, 1, 1, 1,
+            });
+            var shipGenomeB = new GeneticAlgorithm.ShipGenome(new float[]
+            {
+                9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+                9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+                9, 9, 9, 9, 9,
+            });
+            var crossedOver = GeneticAlgorithm.CrossOver(shipGenomeA, shipGenomeB);
+            var crossedOverGenome = crossedOver.GetGenome();
+            Assert.IsTrue(crossedOverGenome.Average() > 1);
+            Assert.IsTrue(crossedOverGenome.Average() < 9);
+        }
+
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
         // `yield return null;` to skip a frame.
         [UnityTest]
