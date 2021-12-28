@@ -1,4 +1,5 @@
 using System.Collections;
+using GeneticAlgorithm;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -35,6 +36,28 @@ namespace Tests
             {
                 Assert.IsTrue(i != 0, "A gene cannot be null");
             }
+        }
+
+        [Test]
+        public void TestGeneticAlgorithmParsesGenome()
+        {
+            var shipGenome = new GeneticAlgorithm.ShipGenome(new float[]
+            {
+                1, 2, 3, 4, 5,
+                1, 2, 3, 4, 5,
+                1, 2, 3, 4, 5,
+                1, 2, 3, 4, 5,
+                1, 2, 3, 4, 5,
+                1, 2, 3, 4, 5,
+                1, 2, 3, 4, 5,
+            });
+            Assert.IsTrue(shipGenome.body.count == 1.0);
+            Assert.IsTrue(shipGenome.bridge.position == 2.0);
+            Assert.IsTrue(shipGenome.laserCannon.rotation == 3.0);
+            Assert.IsTrue(shipGenome.missileLauncher.size == 4.0);
+            Assert.IsTrue(shipGenome.tractor.type == 5.0);
+            Assert.IsTrue(shipGenome.turbine.count == 1.0);
+            Assert.IsTrue(shipGenome.wing.position == 2.0);
         }
 
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
