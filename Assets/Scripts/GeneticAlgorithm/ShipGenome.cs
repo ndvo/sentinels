@@ -1,3 +1,4 @@
+using System.Linq;
 using Utils;
 
 namespace GeneticAlgorithm
@@ -22,6 +23,21 @@ namespace GeneticAlgorithm
             turbine = new ShipPartGenome(data.SubArray(25, 5));
             wing = new ShipPartGenome(data.SubArray(30, 5));
         }
+
+        /// <summary>
+        /// Convert from Genome to Array.
+        /// </summary>
+        /// <returns></returns>
+        public float[] GetGenome()
+        {
+            return body.GetGene()
+                .Concat(bridge.GetGene())
+                .Concat(laserCannon.GetGene())
+                .Concat(missileLauncher.GetGene())
+                .Concat(tractor.GetGene())
+                .Concat(turbine.GetGene())
+                .Concat(wing.GetGene()).ToArray();
+        }
     }
 
     public class ShipPartGenome
@@ -39,6 +55,13 @@ namespace GeneticAlgorithm
             rotation = data[2];
             size = data[3];
             type = data[4];
+        }
+
+        public float[] GetGene()
+        {
+            return new float[] {
+                count, position, rotation, size, type
+            };
         }
     }
 
