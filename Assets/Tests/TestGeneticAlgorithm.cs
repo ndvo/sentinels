@@ -16,8 +16,7 @@ namespace Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            var rootObject = new GameObject();
-            _geneticAlgorithm = rootObject.AddComponent<GeneticAlgorithm.GeneticAlgorithm>();
+            _geneticAlgorithm = new GeneticAlgorithm.GeneticAlgorithm();
         }
 
         // A Test behaves as an ordinary method
