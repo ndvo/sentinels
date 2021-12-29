@@ -11,6 +11,13 @@ namespace Tests
 {
     public class TestGeneticAlgorithm
     {
+        // this variable creates a standard genome
+        private static float[] _oneThroughFiveGenome = new float[] {
+                1, 2, 3, 4, 5,   1, 2, 3, 4, 5,
+                1, 2, 3, 4, 5,   1, 2, 3, 4, 5,
+                1, 2, 3, 4, 5,   1, 2, 3, 4, 5,
+                1, 2, 3, 4, 5
+        };
         private GeneticAlgorithm.GeneticAlgorithm _geneticAlgorithm;
 
         [OneTimeSetUp]
@@ -41,23 +48,14 @@ namespace Tests
         [Test]
         public void TestGeneticAlgorithmParsesGenome()
         {
-            var shipGenome = new GeneticAlgorithm.ShipGenome(new float[]
-            {
-                1, 2, 3, 4, 5,
-                1, 2, 3, 4, 5,
-                1, 2, 3, 4, 5,
-                1, 2, 3, 4, 5,
-                1, 2, 3, 4, 5,
-                1, 2, 3, 4, 5,
-                1, 2, 3, 4, 5,
-            });
-            Assert.IsTrue(shipGenome.body.count == 1.0);
-            Assert.IsTrue(shipGenome.bridge.position == 2.0);
-            Assert.IsTrue(shipGenome.laserCannon.rotation == 3.0);
-            Assert.IsTrue(shipGenome.missileLauncher.size == 4.0);
-            Assert.IsTrue(shipGenome.tractor.type == 5.0);
-            Assert.IsTrue(shipGenome.turbine.count == 1.0);
-            Assert.IsTrue(shipGenome.wing.position == 2.0);
+            var shipGenome = new GeneticAlgorithm.ShipGenome(TestGeneticAlgorithm._oneThroughFiveGenome);
+            Assert.IsNotNull(shipGenome.body, "Should have created a body");
+            Assert.IsNotNull(shipGenome.bridge, "Should have created a bridge");
+            Assert.IsNotNull(shipGenome.laserCannon, "Should have created a laserCannon");
+            Assert.IsNotNull(shipGenome.missileLauncher, "Should have created a missileLauncher");
+            Assert.IsNotNull(shipGenome.tractor, "Should have created a tractor");
+            Assert.IsNotNull(shipGenome.turbine, "Should have created a turbine");
+            Assert.IsNotNull(shipGenome.wing, "Should have created a wing");
         }
 
         [Test]
