@@ -42,26 +42,48 @@ namespace GeneticAlgorithm
 
     public class ShipPartGenome
     {
+        private float[] _data;
         public float count;
         public float position;
         public float rotation;
         public float size;
-        public float type;
+        public int type;
 
-        public ShipPartGenome(float[] data)
+        private readonly int _maxParts;
+        private readonly float _maxPosition;
+        private readonly float _maxRotation;
+        private readonly float _maxSize;
+
+        public ShipPartGenome(
+            float[] data, float maxPosition=4, int maxParts=6,
+            float maxRotate=45, float maxSize=100
+            )
         {
-            count = data[0];
-            position = data[1];
-            rotation = data[2];
-            size = data[3];
-            type = data[4];
+            _maxPosition = maxPosition;
+            _maxParts = maxParts;
+            _maxRotation = maxRotate;
+            _maxSize = maxSize;
+            SetGene(data);
+        }
+
+        private void _setFeatures()
+        {
+            count = 1 + (int) _data[0] * _maxParts;
+            position = _data[1] * _maxPosition;
+            rotation = _data[2] * _maxRotation;
+            size = _data[3] * _maxSize;
+            type = (int) _data[4] * 3;
         }
 
         public float[] GetGene()
         {
-            return new float[] {
-                count, position, rotation, size, type
-            };
+            return _data;
+        }
+
+        public void SetGene(float[] data)
+        {
+            _data = data;
+            _setFeatures();
         }
     }
 
