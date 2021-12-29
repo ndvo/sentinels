@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Linq;
-using GeneticAlgorithm;
 using NUnit.Framework;
-using UnityEngine;
 using UnityEngine.TestTools;
 using Assert = UnityEngine.Assertions.Assert;
 
@@ -18,6 +16,21 @@ namespace Tests
                 1, 2, 3, 4, 5,   1, 2, 3, 4, 5,
                 1, 2, 3, 4, 5
         };
+
+        private static float[] _allOnes = new float[]
+        {
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1,
+        };
+        
+        private static float[] _allNines = new float[]
+        {
+            9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+            9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+            9, 9, 9, 9, 9,
+        };
+        
         private GeneticAlgorithm.GeneticAlgorithm _geneticAlgorithm;
 
         [OneTimeSetUp]
@@ -61,23 +74,28 @@ namespace Tests
         [Test]
         public void TestGeneticAlgorithmCrossOver()
         {
-            var shipGenomeA = new GeneticAlgorithm.ShipGenome(new float[]
-            {
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1,
-            });
-            var shipGenomeB = new GeneticAlgorithm.ShipGenome(new float[]
-            {
-                9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-                9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-                9, 9, 9, 9, 9,
-            });
-            var crossedOver = GeneticAlgorithm.GeneticAlgorithm.CrossOver(
+            var shipGenomeA = new GeneticAlgorithm.ShipGenome(_allOnes);
+            var shipGenomeB = new GeneticAlgorithm.ShipGenome(_allNines);
+            var uniformCrossOver = GeneticAlgorithm.GeneticAlgorithm.UniformCrossOver(
                 shipGenomeA.GetGenome(),
                 shipGenomeB.GetGenome());
-            Assert.IsTrue(crossedOver.Average() > 1, "Average must be higher than the lower genome.");
-            Assert.IsTrue(crossedOver.Average() < 9, "Average must be lower than the higher genome.");
+            Assert.IsTrue(uniformCrossOver.Average() > 1, "Average must be higher than the lower genome.");
+            Assert.IsTrue(uniformCrossOver.Average() < 9, "Average must be lower than the higher genome.");
+            var onePointCrossOver = GeneticAlgorithm.GeneticAlgorithm.OnePointCrossOver(
+                shipGenomeA.GetGenome(),
+                shipGenomeB.GetGenome());
+            Assert.IsTrue(onePointCrossOver.Average() > 1, "Average must be higher than the lower genome.");
+            Assert.IsTrue(onePointCrossOver.Average() < 9, "Average must be lower than the higher genome.");
+            Assert.AreApproximatelyEqual(1f, onePointCrossOver[0], "First should be from A");
+            Assert.AreApproximatelyEqual(9f, onePointCrossOver[onePointCrossOver.Length], "Last should be from B");
+            var twoPointCrossOver = GeneticAlgorithm.GeneticAlgorithm.KPointCrossOver(
+                shipGenomeA.GetGenome(),
+                shipGenomeB.GetGenome(),
+                2);
+            Assert.IsTrue(twoPointCrossOver.Average() > 1, "Average must be higher than the lower genome.");
+            Assert.IsTrue(twoPointCrossOver.Average() < 9, "Average must be lower than the higher genome.");
+            Assert.AreApproximatelyEqual(1f, onePointCrossOver[0], "First must be from A");
+            Assert.AreApproximatelyEqual(1f, onePointCrossOver[0], "Last must be from A");
         }
 
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use

@@ -19,7 +19,29 @@ public class GeneticAlgorithm
         return genome;
     }
 
-    public static float[] CrossOver(float[] genomeA, float[] genomeB)
+    public static float[] OnePointCrossOver(float[] genomeA, float[] genomeB)
+    {
+        return KPointCrossOver(genomeA, genomeB, 1);
+    }
+
+    public static float[] KPointCrossOver(float[] genomeA, float[] genomeB, int k)
+    {
+        var result = new float[genomeA.Length];
+        var random = new Random(Utils.Time.UnixNow());
+        var kPoints = new int[k];
+        for (var i = 0; i < k; i++) kPoints[i] = random.Next(0, k);
+        Array.Sort(kPoints);
+        var coin = 0;
+        for (var i = 0; i < genomeA.Length; i++)
+        {
+            if (Array.IndexOf(kPoints, i) != -1) coin = (coin + 1) % 2;
+            var gene = coin == 1 ? genomeA[i] : genomeB[i];
+            result[i] = gene;
+        }
+        return result;
+    }
+    
+    public static float[] UniformCrossOver(float[] genomeA, float[] genomeB)
     {
         var result = new float[genomeA.Length];
         var random = new Random(Utils.Time.UnixNow());
