@@ -1,8 +1,11 @@
+using System;
 using System.Linq;
+using UnityEngine;
 using Utils;
 
 namespace GeneticAlgorithm
 {
+
     public class ShipGenome
     {
         public ShipPartGenome body;
@@ -55,8 +58,8 @@ namespace GeneticAlgorithm
         private readonly float _maxSize;
 
         public ShipPartGenome(
-            float[] data, float maxPosition=4, int maxParts=6,
-            float maxRotate=45, float maxSize=100
+            float[] data, float maxPosition=5, int maxParts=6,
+            float maxRotate=90, float maxSize=2
             )
         {
             _maxPosition = maxPosition;
@@ -68,6 +71,7 @@ namespace GeneticAlgorithm
 
         private void _setFeatures()
         {
+            Debug.Log(_data);
             count = 1 + (int) _data[0] * _maxParts;
             position = _data[1] * _maxPosition;
             rotation = _data[2] * _maxRotation;
