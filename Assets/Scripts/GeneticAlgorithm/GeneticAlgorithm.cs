@@ -14,7 +14,7 @@ public class GeneticAlgorithm
         var genome = new float[35];
         for (var i=0; i<35; i++)
         {
-            genome[i] = random.Next();
+            genome[i] = (float) random.NextDouble();
         }
         return genome;
     }
