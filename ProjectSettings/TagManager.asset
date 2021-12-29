@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - ShipBody
+  - ShipBridge
+  - ShipLaserCannon
+  - ShipMissileLauncher
+  - ShipTractor
+  - ShipTurbines
+  - ShipWings
   layers:
   - Default
   - TransparentFX
