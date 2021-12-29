@@ -5,18 +5,8 @@ using Random = System.Random;
 namespace GeneticAlgorithm
 {
     
-public class GeneticAlgorithm : MonoBehaviour
+public class GeneticAlgorithm 
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public float[] GenerateRandomShip()
     {
