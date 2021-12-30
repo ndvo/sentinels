@@ -1,5 +1,4 @@
-using UnityEngine;
-using Utils;
+using System;
 using Random = System.Random;
 
 namespace GeneticAlgorithm
@@ -29,13 +28,13 @@ public class GeneticAlgorithm
         var result = new float[genomeA.Length];
         var random = new Random(Utils.Time.UnixNow());
         var kPoints = new int[k];
-        for (var i = 0; i < k; i++) kPoints[i] = random.Next(0, k);
+        for (var i = 0; i < k; i++) kPoints[i] = random.Next(0, genomeA.Length);
         Array.Sort(kPoints);
         var coin = 0;
         for (var i = 0; i < genomeA.Length; i++)
         {
             if (Array.IndexOf(kPoints, i) != -1) coin = (coin + 1) % 2;
-            var gene = coin == 1 ? genomeA[i] : genomeB[i];
+            var gene = coin == 1 ? genomeB[i] : genomeA[i];
             result[i] = gene;
         }
         return result;
