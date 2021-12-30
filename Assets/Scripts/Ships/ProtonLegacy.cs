@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using GeneticAlgorithm;
@@ -68,17 +67,14 @@ public class ProtonLegacy : MonoBehaviour
     private void _ApplyGenome()
     {
         if (_genome == null) return;
-        static Action<Transform> TranslateOnZ (float v) => 
-            (Transform b) => b.Translate(new Vector3(0f, 0f, v), Space.Self);
+        static void TranslateOnZ (Transform b, float v) =>
+            b.Translate(new Vector3(0f, 0f, v), Space.Self);
         static Action<Transform> RotateOnY (float v) =>
             (Transform b) => b.Rotate(new Vector3(0f, v, 0f), Space.Self);
-        var value = _genome.body.position;
-        Utils.Iterables.SymmetricalApply(bodies, TranslateOnZ(value), TranslateOnZ(-1 * value));
-        value = _genome.turbine.position;
-        Utils.Iterables.SymmetricalApply(turbines, TranslateOnZ(value), TranslateOnZ(-1 * value));
-        value = _genome.laserCannon.position;
-        Utils.Iterables.SymmetricalApply(laserCannons, TranslateOnZ(value), TranslateOnZ(-1 * value));
-        value = _genome.turbine.rotation;
+        foreach (var r in bodies) TranslateOnZ(r, _genome.body.position);
+        foreach (var r in turbines) TranslateOnZ(r, _genome.turbine.position);
+        foreach (var r in laserCannons) TranslateOnZ(r, _genome.laserCannon.position);
+        var value = _genome.turbine.rotation;
         Utils.Iterables.SymmetricalApply(turbines, RotateOnY(value), RotateOnY(-1 * value));
         value = _genome.laserCannon.rotation;
         Utils.Iterables.SymmetricalApply(laserCannons, RotateOnY(value), RotateOnY(-1 * value));
