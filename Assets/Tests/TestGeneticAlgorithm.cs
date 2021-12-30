@@ -87,7 +87,7 @@ namespace Tests
             Assert.IsTrue(onePointCrossOver.Average() > 1, "Average must be higher than the lower genome.");
             Assert.IsTrue(onePointCrossOver.Average() < 9, "Average must be lower than the higher genome.");
             Assert.AreApproximatelyEqual(1f, onePointCrossOver[0], "First should be from A");
-            Assert.AreApproximatelyEqual(9f, onePointCrossOver[onePointCrossOver.Length], "Last should be from B");
+            Assert.AreApproximatelyEqual(9f, onePointCrossOver[onePointCrossOver.Length - 1], "Last should be from B");
             var twoPointCrossOver = GeneticAlgorithm.GeneticAlgorithm.KPointCrossOver(
                 shipGenomeA.GetGenome(),
                 shipGenomeB.GetGenome(),
