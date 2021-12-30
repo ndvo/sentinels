@@ -292,13 +292,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.068359084, y: 0.9306559, z: -0.23101456, w: -0.27538893}
-  m_LocalPosition: {x: 17.53169, y: 15.952587, z: 21.013067}
+  m_LocalRotation: {x: 0.24091417, y: 0, z: 0, w: 0.9705464}
+  m_LocalPosition: {x: 30.836582, y: 28.887926, z: 41.525974}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 27.881, y: 0, z: 0}
 --- !u!1001 &1009759917
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -306,6 +306,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1077994612751982655, guid: 82473e792ce04c9e796e4513e5fffdd6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9396927
+      objectReference: {fileID: 0}
+    - target: {fileID: 1077994612751982655, guid: 82473e792ce04c9e796e4513e5fffdd6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1077994612751982655, guid: 82473e792ce04c9e796e4513e5fffdd6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.3420201
+      objectReference: {fileID: 0}
+    - target: {fileID: 1077994612751982655, guid: 82473e792ce04c9e796e4513e5fffdd6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1077994612751982655, guid: 82473e792ce04c9e796e4513e5fffdd6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 6838199413328904955, guid: 82473e792ce04c9e796e4513e5fffdd6, type: 3}
       propertyPath: m_Name
       value: ProtonLegacy1
