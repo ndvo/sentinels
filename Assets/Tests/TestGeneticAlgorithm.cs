@@ -98,6 +98,24 @@ namespace Tests
             Assert.AreApproximatelyEqual(1f, onePointCrossOver[0], "Last must be from A");
         }
 
+        [Test]
+        public void TestMutation()
+        {
+            var shipGenome = new GeneticAlgorithm.ShipGenome(_allOnes).GetGenome();
+            var mutated = GeneticAlgorithm.GeneticAlgorithm.Mutation(
+                shipGenome, 1, 10
+            );
+            for (int i = 0; i < shipGenome.Length ; i++)
+            {
+                Assert.AreNotApproximatelyEqual(
+                    shipGenome[i],
+                    mutated[i],
+                    "No gene should be equal"
+                    );
+            }
+        }
+
+
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
         // `yield return null;` to skip a frame.
         [UnityTest]

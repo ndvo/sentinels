@@ -52,5 +52,27 @@ public class GeneticAlgorithm
         }
         return result;
     }
+
+    public static float[] Mutation(
+        float[] genome,
+        float mutationProbability = 0.01f,
+        float mutationIncrement = 0.02f
+        )
+    {
+        var result = new float[genome.Length];
+        var random = new Random(Utils.Time.UnixNow());
+        for (int i = 0; i < genome.Length; i++)
+        {
+            var increment = 0f;
+            if (random.NextDouble() < mutationProbability)
+            {
+                var decrementModifier = random.NextDouble() >= 0.5 ? -1 : 1;
+                increment = (float) random.NextDouble() * mutationIncrement * decrementModifier;
+            }
+            result[i] = genome[i] + increment;
+        }
+        return result;
+    }
+
 }
 }
