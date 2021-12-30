@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Random = System.Random;
 
 namespace GeneticAlgorithm
@@ -16,6 +17,53 @@ public class GeneticAlgorithm
             genome[i] = (float) random.NextDouble();
         }
         return genome;
+    }
+
+    public static Individual[] EvaluateGeneration(Individual[] generation, Func<float[], float> fitness)
+    {
+        foreach (var ind in generation) ind.fitness = fitness(ind.achievements);
+        return generation.OrderBy(r => r.fitness).ToArray();
+    }
+
+    /// <summary>
+    /// Selection algorithms receive as input a Generation (array of individuals) and output an array of surviving
+    /// Individuals.
+    /// 
+    /// Roulette selection accomplishes this by giving individuals a change of being selected as high as their
+    /// proportional fitness value.
+    ///
+    /// Please, notice that the Roulette Selection makes it likely for the same individual to be over represented in
+    /// the next generation. Each draw from the pool takes into consideration the initial probabilities. Nothing else.
+    /// </summary>
+    /// <param name="generation">The generation to be selected from. The generation must have been already evaluated.
+    /// </param>
+    /// <param name="deathRate">The proportion of the individuals that are not going to be selected.</param>
+    /// <returns></returns>
+    public static Individual[] SelectionRoulette(Individual[] generation, float deathRate = 0.2f)
+    {
+        var fitnessSum = generation.Sum(r => r.fitness);
+        var ranking = new float[generation.Length];
+        var previous = 0f;
+        for (var i = 0; i < generation.Length; i++)
+        {
+            ranking[i] = (generation[i].fitness / fitnessSum) + previous;
+            previous = ranking[i];
+        }
+        var selectionSize = (int) (generation.Length * (1 - deathRate));
+        var selected = new Individual[selectionSize];
+        var random = new Random(Utils.Time.UnixNow());
+        for (int i = 0; i < (int) selectionSize; i++)
+        {
+            var chosenValue = random.NextDouble();
+            for (int ii = 0; ii < generation.Length; ii++)
+            {
+                if (chosenValue > ranking[ii]) continue;
+                var value = ii <= 0 ? 0 : ii - 1;
+                selected[i] = generation[value];
+                break;
+            }
+        }
+        return selected;
     }
 
     public static float[] OnePointCrossOver(float[] genomeA, float[] genomeB)
@@ -75,4 +123,12 @@ public class GeneticAlgorithm
     }
 
 }
+
+public class Individual
+{
+    public float[] achievements;
+    public float[] genes;
+    public float fitness;
+}
+
 }

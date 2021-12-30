@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Linq;
+using GeneticAlgorithm;
 using NUnit.Framework;
 using UnityEngine.TestTools;
 using Assert = UnityEngine.Assertions.Assert;
@@ -113,6 +115,46 @@ namespace Tests
                     "No gene should be equal"
                     );
             }
+        }
+
+        [Test]
+        public void TestEvaluateGeneration()
+        {
+            var generation = new Individual[10];
+            for (int i = 0; i < generation.Length; i++)
+            {
+                generation[i] = new Individual
+                {
+                    genes = new float[] {i, i, i},
+                    achievements = new float[] {i, i, i},
+                };
+            }
+            var evaluated = GeneticAlgorithm.GeneticAlgorithm.EvaluateGeneration(
+                generation, r => r.Sum()
+            );
+            Assert.AreEqual(evaluated[0].fitness, 0);
+            Assert.AreEqual(evaluated[1].fitness, 3);
+            Assert.AreEqual(evaluated[9].fitness, 27);
+        }
+
+        [Test]
+        public void TestSelectionRoulette()
+        {
+            var generation = new Individual[10];
+            for (int i = 0; i < generation.Length; i++)
+            {
+                generation[i] = new Individual
+                {
+                    genes = new float[] {i, i, i},
+                    achievements = new float[] {i, i, i},
+                    fitness = (float) Math.Pow(i, 5)
+                };
+            }
+            var selected = GeneticAlgorithm.GeneticAlgorithm.SelectionRoulette(generation);
+            var previousGenAvg = generation.Average(r => r.fitness);
+            var nextGenAvg = selected.Average(r => r.fitness);
+            Assert.AreNotApproximatelyEqual(previousGenAvg, nextGenAvg);
+            Assert.IsTrue(nextGenAvg > previousGenAvg);
         }
 
 
