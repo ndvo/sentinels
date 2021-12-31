@@ -43,7 +43,51 @@ public class GeneticAlgorithm
     public static Individual[] EvaluateGeneration(Individual[] generation, Func<float[], float> fitness)
     {
         foreach (var ind in generation) ind.fitness = fitness(ind.achievements);
-        return generation.OrderBy(r => r.fitness).ToArray();
+        return generation.OrderByDescending(r => r.fitness).ToArray();
+    }
+
+    /// <summary>
+    /// Creates a new generation of individuals.
+    ///
+    /// This function implements the Genetic Algorithm pipeline.
+    /// 1- Applies a fitness function to the given generation (an array of Individuals)
+    /// 2- Applies a selection function to the given generation (create a smaller array of Individuals: the survivors)
+    /// 3- Applies a matching function to the survivors (create an array of matches)
+    /// 4- Applies a crossover function to the matches (create an array of genomes)
+    /// </summary>
+    /// <param name="previousGeneration"></param>
+    /// <param name="fitnessFunction"></param>
+    /// <param name="selectionFunction"></param>
+    /// <param name="matchingFunction"></param>
+    /// <param name="crossoverFunction"></param>
+    public static float[][] NewGeneration(
+        Individual[] previousGeneration,
+        Func<float[], float> fitnessFunction,
+        Func<Individual[], Individual[]> selectionFunction,
+        Func<Individual[], Individual[][]> matchingFunction,
+        Func<float[], float[], float[]> crossoverFunction 
+        )
+    { 
+        /* 1- Assess the generation
+             in this step we apply a fitness function to the generation in order to fill each individual with the
+             fitness result.
+        */
+        var _ = previousGeneration.Select(i => i.fitness = fitnessFunction(i.achievements));
+        /* 2- Select the fittest (i.e. remove a percentage from the surviving pool)
+            For this step we need a Selection Method and a Fitness Function
+        */
+        var survivors = selectionFunction(previousGeneration);
+        /* 3- Create the matches
+            We now match surviving individuals
+         */
+        var matches = matchingFunction(survivors);
+        /* 4- Generate the offspring */
+        var offspring = _breedMatches(
+            matches.Select(r => new float[][] {r[0].genes, r[1].genes}).ToArray(),
+            crossoverFunction);
+        /* 5- Mutate:  
+        */
+        return offspring.Select(r => Mutation(r)).ToArray();
     }
 
     /// <summary>
@@ -153,6 +197,27 @@ public class GeneticAlgorithm
             result[i] = genome[i] + increment;
         }
         return result;
+    }
+
+    /// <summary>
+    /// Given an array of pairs of genomes, apply a crossover function to each twice, generating a number of offspring
+    /// equal to double the Length of the matches array, that is, the same size of the original population.
+    /// </summary>
+    /// <param name="matches">An Array of Matches. Each match is an array of Genomes containing 2 genomes. Each Genome
+    /// is an Array of floats.</param>
+    /// <param name="crossoverFunction">A function that receives two genomes and return one.</param>
+    /// <returns>An array of genomes.</returns>
+    private static float[][] _breedMatches(float[][][] matches, Func<float[], float[], float[]> crossoverFunction)
+    {
+        var offspring = new float[matches.Length * 2][];
+        for (int i = 0; i < matches.Length; i++)
+        {
+            var first = i * 2;
+            var second = first + 1;
+            offspring[first] = crossoverFunction(matches[i][0], matches[i][1]);
+            offspring[second] = crossoverFunction(matches[i][0], matches[i][1]);
+        }
+        return offspring;
     }
 
 }
