@@ -6,6 +6,12 @@ using Utils;
 namespace GeneticAlgorithm
 {
 
+    /// <summary>
+    /// ShipGenome is the complete genome of a full ship.
+    ///
+    /// It aggregates in a semantic manner all of the genomes for each of the ship's parts.
+    ///
+    /// </summary>
     public class ShipGenome
     {
         public ShipPartGenome body;
