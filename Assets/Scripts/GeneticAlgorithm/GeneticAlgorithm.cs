@@ -5,6 +5,21 @@ using Random = System.Random;
 namespace GeneticAlgorithm
 {
     
+/// <summary>
+/// The GeneticAlgorithm class manages the Execution of the genetic algorithm.
+///
+/// The idea is that a solution for a problem is encoded and evolved over generations starting from a random starting
+/// point.
+///
+/// The problem, in our case, is finding an enemy ship, mine or missile that best achieves its goals.
+/// The solution is encoded as an array of floating point numbers.
+/// Each number is a gene and can be decoded into a feature.
+/// Each array of genes is a genome and can be decoded into a full solution.
+/// An individual is a solution with a record of achievements (a solution that has already performed and can be
+/// evaluated).
+/// A generation is a set of genomes.
+/// 
+/// </summary>
 public class GeneticAlgorithm 
 {
 
@@ -19,6 +34,12 @@ public class GeneticAlgorithm
         return genome;
     }
 
+    /// <summary>
+    /// Applies a fitness function to each individual ard return a sorted array of fittest.
+    /// </summary>
+    /// <param name="generation"></param>
+    /// <param name="fitness"></param>
+    /// <returns></returns>
     public static Individual[] EvaluateGeneration(Individual[] generation, Func<float[], float> fitness)
     {
         foreach (var ind in generation) ind.fitness = fitness(ind.achievements);
@@ -101,6 +122,18 @@ public class GeneticAlgorithm
         return result;
     }
 
+    /// <summary>
+    /// Mutates with given probability each of the genes from the genome.
+    ///
+    /// Mutation occur randomly. For each gene a random number between 0 and 1 is chosen and if it is greater than
+    /// mutationProbability the gene is mutated.
+    /// Each mutation is capped to an increment of 0.02, but its value is random. The increment cap can be configured
+    /// by setting mutationIncrement.
+    /// </summary>
+    /// <param name="genome">The genome to be mutated.</param>
+    /// <param name="mutationProbability">The probability of each mutation.</param>
+    /// <param name="mutationIncrement">The maximum increment (or decrement) of each mutation.</param>
+    /// <returns></returns>
     public static float[] Mutation(
         float[] genome,
         float mutationProbability = 0.01f,
