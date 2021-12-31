@@ -14,13 +14,13 @@ namespace GeneticAlgorithm
     /// </summary>
     public class ShipGenome
     {
-        public ShipPartGenome body;
-        public ShipPartGenome bridge;
-        public ShipPartGenome laserCannon;
-        public ShipPartGenome missileLauncher;
-        public ShipPartGenome tractor;
-        public ShipPartGenome turbine;
-        public ShipPartGenome wing;
+        public readonly ShipPartGenome body;
+        public readonly ShipPartGenome bridge;
+        public readonly ShipPartGenome laserCannon;
+        public readonly ShipPartGenome missileLauncher;
+        public readonly ShipPartGenome tractor;
+        public readonly ShipPartGenome turbine;
+        public readonly ShipPartGenome wing;
         
         public ShipGenome (float[] data)
         {
