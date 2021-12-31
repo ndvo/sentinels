@@ -31,6 +31,8 @@ public class TestHeadquarters
         var randomGenome = _headquarterManager.NewShipGenome();
         Assert.IsNotNull(randomGenome);
         Assert.IsNotNull(randomGenome.body.count);
+        Assert.IsNotNull(randomGenome.body.rotation);
+        Assert.IsNotNull(randomGenome.body.type);
         Assert.IsTrue(randomGenome.bridge.position >= 0, "Genes should be values between 0 and 1.");
         Assert.IsTrue(randomGenome.tractor.size <= 1, "Genes should be values between 0 and 1.");
         Assert.IsTrue(_testGenome(randomGenome.GetGenome()));
