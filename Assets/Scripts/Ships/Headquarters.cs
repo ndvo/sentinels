@@ -30,4 +30,16 @@ public class Headquarters : MonoBehaviour
         var randomShip = _ga.GenerateRandomShip();
         return new ShipGenome(randomShip);
     }
+
+    /// <summary>
+    /// Creates a generation of N random genomes of ships.
+    /// </summary>
+    /// <param name="n">number of different random genomes to create</param>
+    /// <returns></returns>
+    public ShipGenome[] NewShipGenomeGeneration(int n)
+    {
+        return (from s in new float[n] select NewShipGenome()).ToArray();
+
+    }
+    
 }
