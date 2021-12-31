@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using GeneticAlgorithm;
 using UnityEngine;
 
@@ -39,7 +38,6 @@ public class Headquarters : MonoBehaviour
     public ShipGenome[] NewShipGenomeGeneration(int n)
     {
         return (from s in new float[n] select NewShipGenome()).ToArray();
-
     }
     
 }
