@@ -6,9 +6,9 @@ using UnityEngine.TestTools;
 
 public class TestProtonLegacy
 {
-    private GameObject headquartersPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+    private readonly GameObject _headquartersPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
         "Assets/Prefabs/EnemyHeadQuarters.prefab");
-    private GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+    private readonly GameObject _prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
         "Assets/Prefabs/ProtonLegacy1.prefab");
     // A Test behaves as an ordinary method
     [Test]
