@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Compilation;
 using UnityEngine.TestTools;
 
 public class TestProtonLegacy
