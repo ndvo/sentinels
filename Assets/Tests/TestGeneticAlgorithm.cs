@@ -132,9 +132,10 @@ namespace Tests
             var evaluated = GeneticAlgorithm.GeneticAlgorithm.EvaluateGeneration(
                 generation, r => r.Sum()
             );
-            Assert.AreEqual(evaluated[0].fitness, 0);
-            Assert.AreEqual(evaluated[1].fitness, 3);
-            Assert.AreEqual(evaluated[9].fitness, 27);
+            Assert.AreEqual(evaluated[0].fitness, 27);
+            Assert.AreEqual(evaluated[1].fitness, 24);
+            Assert.AreEqual(evaluated[8].fitness, 3);
+            Assert.AreEqual(evaluated[9].fitness, 0);
         }
 
         [Test]

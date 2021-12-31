@@ -33,8 +33,8 @@ public class TestHeadquarters
         Assert.IsNotNull(randomGenome.body.count);
         Assert.IsNotNull(randomGenome.body.rotation);
         Assert.IsNotNull(randomGenome.body.type);
-        Assert.IsTrue(randomGenome.bridge.position >= 0, "Genes should be values between 0 and 1.");
-        Assert.IsTrue(randomGenome.tractor.size <= 1, "Genes should be values between 0 and 1.");
+        Assert.IsNotNull(randomGenome.bridge.position);
+        Assert.IsNotNull(randomGenome.tractor.size);
         Assert.IsTrue(_testGenome(randomGenome.GetGenome()));
     }
 
@@ -46,7 +46,7 @@ public class TestHeadquarters
         Assert.IsTrue(randomGeneration.Length == 5, "Should create the specified number of genomes.");
         Assert.IsTrue(randomGeneration.All(r => !(r is null)), "No generated ship is null");
         Assert.IsTrue(randomGeneration.All(r => _testGenome(r.GetGenome())), "Genomes should be valid.");
-        Assert.IsTrue(randomGeneration.All(r => r.body.GetGene().Length == 35), "Each genome is 35 genes long");
+        Assert.IsTrue(randomGeneration.All(r => r.body.GetGene().Length == 5), "Each feature is 5 genes long");
 
     }
 

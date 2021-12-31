@@ -13,7 +13,6 @@ public class Case
         Y = y;
         this.result = result;
     }
-
 }
 
 public class TestUtils
