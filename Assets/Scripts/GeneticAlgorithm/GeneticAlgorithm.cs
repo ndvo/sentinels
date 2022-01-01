@@ -56,16 +56,25 @@ public class GeneticAlgorithm
     /// 3- Applies a matching function to the survivors (create an array of matches)
     /// 4- Applies a crossover function to the matches (create an array of genomes)
     /// </summary>
-    /// <param name="previousGeneration"></param>
-    /// <param name="fitnessFunction"></param>
-    /// <param name="selectionFunction"></param>
-    /// <param name="matchingFunction"></param>
+    /// <param name="previousGeneration">
+    /// An array of individuals with both genes and achievements.
+    /// </param>
+    /// <param name="fitnessFunction">
+    /// The fitness function takes the individual's achievements and return a fitness value.
+    /// </param>
+    /// <param name="selectionFunction">
+    /// The selection function removes some individuals from the generation before the matching process.
+    /// </param>
+    /// <param name="matchingFunction">
+    /// The matching function needs to receive a generation and return couples.
+    /// The fitness function is passed into it so that it can be used to choose the pairs.
+    /// </param>
     /// <param name="crossoverFunction"></param>
     public static float[][] NewGeneration(
         Individual[] previousGeneration,
         Func<float[], float> fitnessFunction,
         Func<Individual[], Individual[]> selectionFunction,
-        Func<Individual[], Individual[][]> matchingFunction,
+        Func<Individual[], Func<float[], float>, Individual[][]> matchingFunction,
         Func<float[], float[], float[]> crossoverFunction 
         )
     { 
