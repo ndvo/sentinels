@@ -35,6 +35,18 @@ public class GeneticAlgorithm
         return genome;
     }
 
+    public Func<Individual[], float[][]> GAFactory(
+        Func<float[], float> fitnessFunction,
+        Func<Individual[], Individual[]> selectionFunction,
+        Func<Individual[], Func<float[], float>, Individual[][]> matchingFunction,
+        Func<float[], float[], float[]> crossoverFunction 
+    )
+    {
+        return (individuals)=> NewGeneration(
+                individuals,
+                fitnessFunction, selectionFunction, matchingFunction, crossoverFunction);
+    }
+
     /// <summary>
     /// Applies a fitness function to each individual ard return a sorted array of fittest.
     /// </summary>
