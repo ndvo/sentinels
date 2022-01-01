@@ -90,10 +90,10 @@ public class GeneticAlgorithm
         /* 3- Create the matches
             We now match surviving individuals
          */
-        var matches = matchingFunction(survivors);
+        var matches = matchingFunction(survivors, fitnessFunction);
         /* 4- Generate the offspring */
         var offspring = _breedMatches(
-            matches.Select(r => new float[][] {r[0].genes, r[1].genes}).ToArray(),
+            matches.Select(r => new[] {r[0].genes, r[1].genes}).ToArray(),
             crossoverFunction);
         /* 5- Mutate:  
         */
@@ -126,8 +126,8 @@ public class GeneticAlgorithm
         }
         var selectionSize = (int) (generation.Length * (1 - deathRate));
         var selected = new Individual[selectionSize];
-        var random = new Random(Utils.Time.UnixNow());
-        for (int i = 0; i < (int) selectionSize; i++)
+        var random = new Random(Time.UnixNow());
+        for (int i = 0; i < selectionSize; i++)
         {
             var chosenValue = random.NextDouble();
             for (int ii = 0; ii < generation.Length; ii++)
@@ -195,7 +195,7 @@ public class GeneticAlgorithm
     public static float[] KPointCrossOver(float[] genomeA, float[] genomeB, int k)
     {
         var result = new float[genomeA.Length];
-        var random = new Random(Utils.Time.UnixNow());
+        var random = new Random(Time.UnixNow());
         var kPoints = new int[k];
         for (var i = 0; i < k; i++) kPoints[i] = random.Next(0, genomeA.Length);
         Array.Sort(kPoints);
@@ -212,7 +212,7 @@ public class GeneticAlgorithm
     public static float[] UniformCrossOver(float[] genomeA, float[] genomeB)
     {
         var result = new float[genomeA.Length];
-        var random = new Random(Utils.Time.UnixNow());
+        var random = new Random(Time.UnixNow());
         for (var i = 0; i < genomeA.Length; i++)
         {
             var coin = random.Next(1, 3);
@@ -241,7 +241,7 @@ public class GeneticAlgorithm
         )
     {
         var result = new float[genome.Length];
-        var random = new Random(Utils.Time.UnixNow());
+        var random = new Random(Time.UnixNow());
         for (int i = 0; i < genome.Length; i++)
         {
             var increment = 0f;
