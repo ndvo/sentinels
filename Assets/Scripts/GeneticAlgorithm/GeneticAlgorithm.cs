@@ -26,7 +26,7 @@ public class GeneticAlgorithm
 
     public float[] GenerateRandomShip()
     {
-        var random = new Random(Utils.Time.UnixNow());
+        var random = new Random(Time.UnixNow());
         var genome = new float[35];
         for (var i=0; i<35; i++)
         {
