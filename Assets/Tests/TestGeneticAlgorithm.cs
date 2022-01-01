@@ -151,6 +151,26 @@ namespace Tests
             Assert.IsTrue(nextGenAvg > previousGenAvg);
         }
 
+        [Test]
+        public void TestMatchingLeaderChoice()
+        {
+            var generation = _createGeneration(6);
+            generation[0].achievements[0] = 9999f;
+            generation[1].achievements[0] = 8888f;
+            generation[2].achievements[1] = 7777f;
+            generation[3].achievements[1] = 6666f;
+            generation[4].achievements[2] = 5555f;
+            generation[5].achievements[2] = 4444f;
+            var matches = GeneticAlgorithm.GeneticAlgorithm.MatchingLeaderChoice(
+                generation, floats => floats.Sum()
+                );
+            Assert.AreEqual(matches[0][0], generation[0]);
+            Assert.AreEqual(matches[0][1], generation[2]);
+            Assert.AreEqual(matches[1][0], generation[1]);
+            Assert.AreEqual(matches[1][1], generation[3]);
+            Assert.AreEqual(matches[2][0], generation[4]);
+            Assert.AreEqual(matches[2][1], generation[5]);
+        }
 
         /// <summary>
         /// Helper function to create a generation for tests.

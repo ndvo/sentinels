@@ -1,6 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using Random = System.Random;
+using Utils;
 
 namespace GeneticAlgorithm
 {
@@ -129,6 +130,52 @@ public class GeneticAlgorithm
             }
         }
         return selected;
+    }
+
+    /// <summary>
+    /// Create couples with complementary features following the leader's choice.
+    ///
+    /// Take the first ranked Individual and chooses a couple with the highest 
+    /// </summary>
+    /// <param name="generation"></param>
+    /// <param name="fitnessFunc"></param>
+    /// <returns></returns>
+    public static Individual[][] MatchingLeaderChoice(Individual[] generation, Func<float[], float> fitnessFunc)
+    {
+        /* Avoid messing up the original array by cloning it. */
+        var couples = new List<Individual[]>();
+        var source = ( (Individual[]) generation.Clone())
+                // Apply the fitness function once before starting to make sure the function is consistent
+                .Select(r => { r.fitness = fitnessFunc(r.achievements); return r; })
+                .OrderByDescending(r => r.fitness).ToList()
+                ;
+        while (source.Count() > 1) {
+            var leader = source.First();
+            var leaderCompetence = leader.achievements.ToList().IndexOf(leader.achievements.Max());
+            var chosen = source
+                    .Where(r => !r.Equals(leader))
+                    // Disregard the feature the leader is better at
+                    .Select(r =>
+                    {
+                        r.achievements[leaderCompetence] = r.achievements[leaderCompetence]/10;
+                        r.fitness = fitnessFunc(r.achievements);
+                        return r;
+                    })
+                    .OrderByDescending(r => r.fitness)
+                    // Return the list to it's original state
+                    .Select(r =>
+                    {
+                        r.achievements[leaderCompetence] = r.achievements[leaderCompetence]*10;
+                        r.fitness = fitnessFunc(r.achievements);
+                        return r;
+                    })
+                    .First()
+                ;
+            couples.Add(new[]{leader, chosen});
+            source.Remove(leader);
+            source.Remove(chosen);
+        }
+        return couples.ToArray();
     }
 
     public static float[] OnePointCrossOver(float[] genomeA, float[] genomeB)
