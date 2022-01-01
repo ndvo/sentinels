@@ -120,17 +120,10 @@ namespace Tests
         [Test]
         public void TestEvaluateGeneration()
         {
-            var generation = new Individual[10];
-            for (int i = 0; i < generation.Length; i++)
-            {
-                generation[i] = new Individual
-                {
-                    genes = new float[] {i, i, i},
-                    achievements = new float[] {i, i, i},
-                };
-            }
+            var generation = _createGeneration(10);
             var evaluated = GeneticAlgorithm.GeneticAlgorithm.EvaluateGeneration(
-                generation, r => r.Sum()
+                generation,
+          r => r.Sum()
             );
             Assert.AreEqual(evaluated[0].fitness, 27);
             Assert.AreEqual(evaluated[1].fitness, 24);
@@ -159,14 +152,25 @@ namespace Tests
         }
 
 
-        // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-        // `yield return null;` to skip a frame.
-        [UnityTest]
-        public IEnumerator TestGeneticAlgorithmWithEnumeratorPasses()
+        /// <summary>
+        /// Helper function to create a generation for tests.
+        ///
+        /// Each created individual is identified by having it's index value as each of the gene and achievements value.
+        /// </summary>
+        /// <param name="numberOfIndividuals"></param>
+        private static Individual[] _createGeneration(int numberOfIndividuals)
         {
-            // Use the Assert class to test conditions.
-            // Use yield to skip a frame.
-            yield return null;
+            var result = new Individual[numberOfIndividuals];
+            for (var i = 0; i < numberOfIndividuals; i++)
+            {
+                result[i] = new Individual
+                {
+                    genes = new float[] {i, i, i},
+                    achievements = new float[] {i, i, i},
+                };
+            }
+            return result;
         }
+
     }
 }
