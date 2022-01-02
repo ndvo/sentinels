@@ -1,4 +1,5 @@
 using System.Collections;
+using GeneticAlgorithm;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEditor;
@@ -12,7 +13,7 @@ public class TestProtonLegacy
         "Assets/Prefabs/ProtonLegacy1.prefab");
 
     [UnityTest]
-    public IEnumerator TestProtonLegacyWithEnumeratorApplyGenome()
+    public IEnumerator TestProtonLegacyApplyGenome()
     {
         var headquarters = Object.Instantiate(_headquartersPrefab, new Vector3(), Quaternion.identity);
         headquarters.name = "EnemyHeadQuarters";
@@ -20,6 +21,10 @@ public class TestProtonLegacy
         var protonManager = ship.GetComponent<ProtonLegacy>();
         var body = protonManager.GetParts("ShipBody")[0];
         var bodyPosition = body.position.z;
+        yield return null;
+        var ga = new global::GeneticAlgorithm.GeneticAlgorithm();
+        var newGenome = new ShipGenome(ga.GenerateRandomShip());
+        protonManager.SetGenome(newGenome);
         yield return null;
         var bodyPosition2 = body.position.z;
         Assert.AreNotEqual(bodyPosition, bodyPosition2, "Should have changed initial position.");
