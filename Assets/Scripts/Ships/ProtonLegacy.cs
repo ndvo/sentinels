@@ -10,6 +10,8 @@ public class ProtonLegacy : MonoBehaviour
     private GameObject _headquartersGameObject;
     private Headquarters _headquarters;
     private ShipGenome _genome;
+    private Individual _individual;
+    public float[] achievements;
     public Transform[] bodies;
     public Transform[] bridges;
     public Transform[] laserCannons;
@@ -24,10 +26,19 @@ public class ProtonLegacy : MonoBehaviour
         _headquartersGameObject = GameObject.Find("EnemyHeadQuarters");
         _headquarters = _headquartersGameObject.GetComponent<Headquarters>();
         if (_headquarters is null) return;
-        var newGenome = _headquarters.NewShipGenome();
-        if (newGenome != null) _genome = newGenome;
+        _IdentifyParts();
+    }
+
+    public void SetGenome(ShipGenome genome)
+    {
+        _genome = genome;
         _IdentifyParts();
         _ApplyGenome();
+        _individual = new Individual
+        {
+            genes = _genome.GetGenome(),
+            achievements = new float[7]
+        };
     }
 
     void _IdentifyParts()
@@ -78,6 +89,11 @@ public class ProtonLegacy : MonoBehaviour
         Utils.Iterables.SymmetricalApply(turbines, RotateOnY(value), RotateOnY(-1 * value));
         value = _genome.laserCannon.rotation;
         Utils.Iterables.SymmetricalApply(laserCannons, RotateOnY(value), RotateOnY(-1 * value));
+    }
+
+    public Individual GetIndividual()
+    {
+        return _individual;
     }
 
 }
