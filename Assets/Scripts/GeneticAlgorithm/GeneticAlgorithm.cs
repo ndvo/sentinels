@@ -129,6 +129,7 @@ public class GeneticAlgorithm
     public static Individual[] SelectionRoulette(Individual[] generation, float deathRate = 0.2f)
     {
         var fitnessSum = generation.Sum(r => r.fitness);
+        fitnessSum = fitnessSum == 0 ? 1 : fitnessSum;
         var ranking = new float[generation.Length];
         var previous = 0f;
         for (var i = 0; i < generation.Length; i++)
