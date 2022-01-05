@@ -94,7 +94,10 @@ public class GeneticAlgorithm
              in this step we apply a fitness function to the generation in order to fill each individual with the
              fitness result.
         */
-        var _ = previousGeneration.Select(i => i.fitness = fitnessFunction(i.achievements));
+        foreach (var i in previousGeneration)
+        {
+            i.fitness = fitnessFunction(i.achievements);
+        }
         /* 2- Select the fittest (i.e. remove a percentage from the surviving pool)
             For this step we need a Selection Method and a Fitness Function
         */
@@ -165,23 +168,32 @@ public class GeneticAlgorithm
     {
         /* Avoid messing up the original array by cloning it. */
         var couples = new List<Individual[]>();
-        var source = ( (Individual[]) generation.Clone())
-                // Apply the fitness function once before starting to make sure the function is consistent
-                .Select(r => { r.fitness = fitnessFunc(r.achievements); return r; })
-                .OrderByDescending(r => r.fitness).ToList()
-                ;
+        var generationCopy = new Individual[generation.Length];
+        for (var i = 0; i < generation.Length; i++)
+        {
+            var ind = generation[i];
+            ind.fitness = fitnessFunc(ind.achievements);
+            generationCopy[i] = ind;
+        }
+        var source = generationCopy.OrderByDescending(r => r.fitness).ToList();
         while (source.Count() > 1) {
             var leader = source.First();
             var leaderCompetence = leader.achievements.ToList().IndexOf(leader.achievements.Max());
-            var chosen = source
-                    .Where(r => !r.Equals(leader))
-                    // Disregard the feature the leader is better at
-                    .Select(r =>
-                    {
-                        r.achievements[leaderCompetence] = r.achievements[leaderCompetence]/10;
-                        r.fitness = fitnessFunc(r.achievements);
-                        return r;
-                    })
+            var notLeaders = source.Where(r => r.GetHashCode() != leader.GetHashCode()).ToArray();
+            if (notLeaders.Length == 0)
+            {
+                couples.Add(MakeCouple(leader, source.Last()));
+                continue;
+            }
+            var reEvaluated = notLeaders
+                // Disregard the feature the leader is better at
+                .Select(r =>
+                {
+                    r.achievements[leaderCompetence] = r.achievements[leaderCompetence] / 10;
+                    r.fitness = fitnessFunc(r.achievements);
+                    return r;
+                }).ToArray();
+            var corrected = reEvaluated
                     .OrderByDescending(r => r.fitness)
                     // Return the list to it's original state
                     .Select(r =>
@@ -189,14 +201,17 @@ public class GeneticAlgorithm
                         r.achievements[leaderCompetence] = r.achievements[leaderCompetence]*10;
                         r.fitness = fitnessFunc(r.achievements);
                         return r;
-                    })
-                    .First()
-                ;
-            couples.Add(new[]{leader, chosen});
-            source.Remove(leader);
-            source.Remove(chosen);
+                    }).ToArray();
+            var chosen = corrected.First();
+            couples.Add(MakeCouple(leader, chosen));
         }
         return couples.ToArray();
+        
+        Individual[] MakeCouple(Individual a, Individual b) {
+            source.Remove(a);
+            source.Remove(b);
+            return new Individual[] {a, b};
+        }
     }
 
     public static float[] OnePointCrossOver(float[] genomeA, float[] genomeB)
@@ -283,6 +298,19 @@ public class GeneticAlgorithm
             offspring[second] = crossoverFunction(matches[i][0], matches[i][1]);
         }
         return offspring;
+    }
+
+    public static void SetArbitraryAchievements(Individual[] generation)
+    {
+        for (var i=0; i < generation.Length; i++)
+        {
+            generation[i].achievements = new float[]
+            {
+                i/10f,
+                i/10f,
+                i/10f,
+            };
+        }
     }
 
 }
