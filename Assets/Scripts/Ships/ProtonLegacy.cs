@@ -78,17 +78,30 @@ public class ProtonLegacy : MonoBehaviour
     private void _ApplyGenome()
     {
         if (_genome == null) return;
-        static void TranslateOnZ (Transform b, float v) =>
+        var GenomePartPair = new[]
+        {
+            new {parts = bodies, genes = _genome.body},
+            new {parts = bridges, genes = _genome.bridge},
+            new {parts = laserCannons, genes = _genome.laserCannon},
+            new {parts = missileLaunchers, genes = _genome.missileLauncher},
+            new {parts = tractors, genes = _genome.tractor},
+            new {parts = wings, genes = _genome.wing},
+        };
+        static void TranslateOnZ(Transform b, float v) =>
             b.Translate(new Vector3(0f, 0f, v), Space.Self);
-        static Action<Transform> RotateOnY (float v) =>
+        static Action<Transform> RotateOnY(float v) =>
             (Transform b) => b.Rotate(new Vector3(0f, v, 0f), Space.Self);
-        foreach (var r in bodies) TranslateOnZ(r, _genome.body.position);
-        foreach (var r in turbines) TranslateOnZ(r, _genome.turbine.position);
-        foreach (var r in laserCannons) TranslateOnZ(r, _genome.laserCannon.position);
-        var value = _genome.turbine.rotation;
-        Utils.Iterables.SymmetricalApply(turbines, RotateOnY(value), RotateOnY(-1 * value));
-        value = _genome.laserCannon.rotation;
-        Utils.Iterables.SymmetricalApply(laserCannons, RotateOnY(value), RotateOnY(-1 * value));
+        foreach (var part in GenomePartPair)
+        {
+            // position
+            foreach (var r in part.parts) TranslateOnZ(r, part.genes.position);
+            // rotation
+            var rotation = part.genes.rotation;
+            Utils.Iterables.SymmetricalApply(
+                turbines, RotateOnY(rotation), RotateOnY(-1 * rotation));
+            // size
+            foreach (var r in part.parts) r.localScale *= part.genes.size;
+        }
     }
 
     public Individual GetIndividual()
