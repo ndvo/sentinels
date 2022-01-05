@@ -23,14 +23,14 @@ namespace GeneticAlgorithm
 /// </summary>
 public class GeneticAlgorithm 
 {
+    private static readonly Random _random = new Random(Time.UnixNow());
 
     public float[] GenerateRandomShip()
     {
-        var random = new Random(Time.UnixNow());
         var genome = new float[35];
         for (var i=0; i<35; i++)
         {
-            genome[i] = (float) random.NextDouble();
+            genome[i] = (float) _random.NextDouble();
         }
         return genome;
     }
@@ -138,10 +138,9 @@ public class GeneticAlgorithm
         }
         var selectionSize = (int) (generation.Length * (1 - deathRate));
         var selected = new Individual[selectionSize];
-        var random = new Random(Time.UnixNow());
         for (int i = 0; i < selectionSize; i++)
         {
-            var chosenValue = random.NextDouble();
+            var chosenValue = _random.NextDouble();
             for (int ii = 0; ii < generation.Length; ii++)
             {
                 if (chosenValue > ranking[ii]) continue;
@@ -207,9 +206,8 @@ public class GeneticAlgorithm
     public static float[] KPointCrossOver(float[] genomeA, float[] genomeB, int k)
     {
         var result = new float[genomeA.Length];
-        var random = new Random(Time.UnixNow());
         var kPoints = new int[k];
-        for (var i = 0; i < k; i++) kPoints[i] = random.Next(0, genomeA.Length);
+        for (var i = 0; i < k; i++) kPoints[i] = _random.Next(0, genomeA.Length);
         Array.Sort(kPoints);
         var coin = 0;
         for (var i = 0; i < genomeA.Length; i++)
@@ -224,10 +222,9 @@ public class GeneticAlgorithm
     public static float[] UniformCrossOver(float[] genomeA, float[] genomeB)
     {
         var result = new float[genomeA.Length];
-        var random = new Random(Time.UnixNow());
         for (var i = 0; i < genomeA.Length; i++)
         {
-            var coin = random.Next(1, 3);
+            var coin = _random.Next(1, 3);
             var gene = coin == 1 ? genomeA[i] : genomeB[i];
             result[i] = gene;
         }
@@ -253,14 +250,13 @@ public class GeneticAlgorithm
         )
     {
         var result = new float[genome.Length];
-        var random = new Random(Time.UnixNow());
         for (int i = 0; i < genome.Length; i++)
         {
             var increment = 0f;
-            if (random.NextDouble() < mutationProbability)
+            if (_random.NextDouble() < mutationProbability)
             {
-                var decrementModifier = random.NextDouble() >= 0.5 ? -1 : 1;
-                increment = (float) random.NextDouble() * mutationIncrement * decrementModifier;
+                var decrementModifier = _random.NextDouble() >= 0.5 ? -1 : 1;
+                increment = (float) _random.NextDouble() * mutationIncrement * decrementModifier;
             }
             result[i] = genome[i] + increment;
         }
