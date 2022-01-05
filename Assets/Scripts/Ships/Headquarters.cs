@@ -102,6 +102,10 @@ public class Headquarters : MonoBehaviour
                 r => r.GetIndividual()
             ).ToArray();
             genomes = _protonLegacyGA(currentGen).Select(r => new ShipGenome(r)).ToArray();
+            for (var i = 0; i < currentGen.Length - genomes.Length; i++)
+            {
+                genomes = genomes.Append<ShipGenome>(NewShipGenome()).ToArray();
+            }
         }
         foreach (Transform ship in _shipsContainer.transform) Destroy(ship.gameObject);
         var spawnPoints = ( from Transform i in _gameObject.transform select i).ToArray();
