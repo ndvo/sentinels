@@ -59,6 +59,10 @@ public class Headquarters : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Creates a new ShipGenome from random values.
+    /// </summary>
+    /// <returns>The random ShipGenome</returns>
     public ShipGenome NewShipGenome()
     {
         _setGeneticAlgorithm();
