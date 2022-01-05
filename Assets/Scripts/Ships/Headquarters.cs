@@ -76,14 +76,22 @@ public class Headquarters : MonoBehaviour
         return (from s in new float[n] select NewShipGenome()).ToArray();
     }
 
-    private GameObject[] SpawnGeneration()
+    /// <summary>
+    /// Spawns n new enemy ships for this HeadQuarters.
+    ///
+    /// If there is already an existing generation, it will use the genetic algorithm to evaluate it and breed the next
+    /// generation from it.
+    /// </summary>
+    /// <param name="n"></param>
+    /// <returns>The new generation of ships</returns>
+    private GameObject[] SpawnGeneration(int n = 7)
     {
         var currentGeneration = _shipsContainer.GetComponentsInChildren<ProtonLegacy>();
         ShipGenome[] genomes;
         if (currentGeneration.Length == 0)
         {
-            genomes = new ShipGenome[7];
-            for (var i = 0; i < 7; i++)
+            genomes = new ShipGenome[n];
+            for (var i = 0; i < n; i++)
             {
                 genomes[i] = NewShipGenome();
             }
