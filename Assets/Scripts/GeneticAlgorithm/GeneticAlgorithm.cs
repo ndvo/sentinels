@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Utils;
 
 namespace GeneticAlgorithm
 {
@@ -23,7 +22,7 @@ namespace GeneticAlgorithm
 /// </summary>
 public class GeneticAlgorithm 
 {
-    private static readonly Random _random = new Random(Time.UnixNow());
+    private static readonly Random _random = new Random(SentinelsUtils.Time.UnixNow());
 
     public float[] GenerateRandomShip()
     {

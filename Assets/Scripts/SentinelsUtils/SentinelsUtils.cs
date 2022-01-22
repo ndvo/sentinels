@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Utils
+namespace SentinelsUtils
 {
-    public class Time
+    public static class Time
     {
         /// <summary>
         /// Returns the current time in unix timestamp as a double.

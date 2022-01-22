@@ -97,7 +97,7 @@ public class ProtonLegacy : MonoBehaviour
             foreach (var r in part.parts) TranslateOnZ(r, part.genes.position);
             // rotation
             var rotation = part.genes.rotation;
-            Utils.Iterables.SymmetricalApply(
+            SentinelsUtils.Iterables.SymmetricalApply(
                 turbines, RotateOnY(rotation), RotateOnY(-1 * rotation));
             // size
             foreach (var r in part.parts) r.localScale *= part.genes.size;
