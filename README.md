@@ -7,6 +7,6 @@ London.
 
 Game features are being developed as prototypes, which are described bellow.
 
-- [Genetic Algorithm](docs/GeneticAlgorithm.md) 
-- [Orbital Flight](docs/OrbitalFlight.md)
-- [Stage Generation](docs/StageGeneration.md)
+- [Genetic Algorithm](Docs/GeneticAlgorithm.md) 
+- [Orbital Flight](Docs/OrbitalFlight.md)
+- [Stage Generation](Docs/StageGeneration.md)
