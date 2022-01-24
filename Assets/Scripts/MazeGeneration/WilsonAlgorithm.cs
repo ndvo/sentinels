@@ -163,7 +163,26 @@ namespace MazeGeneration
         {
             return new bool[sizeX, sizeY];
         }
-        
-        
+
+        private Position? _stepNextCell(Position currentCell)
+        {
+            var nextCell = currentCell + _maze[currentCell.x, currentCell.y];
+            if (_validatePosition(nextCell))
+            {
+                return nextCell;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private bool _validatePosition(Position pos)
+        {
+            return (
+                pos.x >= 0 && pos.x < sizeX &&
+                pos.y >= 0 && pos.y < sizeY
+            );
+        }
     }
 }
