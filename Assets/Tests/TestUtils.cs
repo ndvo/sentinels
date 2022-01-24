@@ -35,7 +35,7 @@ public class TestUtils
             };
             foreach (var c in cases)
             {
-                Utils.Iterables.SymmetricalApply( c, (r) => r.X += 1, (r) => r.X -= 1 );
+                SentinelsUtils.Iterables.SymmetricalApply( c, (r) => r.X += 1, (r) => r.X -= 1 );
                 Assert.AreApproximatelyEqual(2, c[0].X, "add to the first");
                 Assert.AreApproximatelyEqual(1, c[1].X, "subtract to the second");
                 if (c.Length > 2)

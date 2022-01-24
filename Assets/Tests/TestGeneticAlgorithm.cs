@@ -41,7 +41,6 @@ namespace Tests
             _geneticAlgorithm = new GeneticAlgorithm.GeneticAlgorithm();
         }
 
-        // A Test behaves as an ordinary method
         [Test]
         public void TestGeneticAlgorithmExists()
         {

@@ -1,7 +1,5 @@
-using System;
 using System.Linq;
-using UnityEngine;
-using Utils;
+using SentinelsUtils;
 
 namespace GeneticAlgorithm
 {
