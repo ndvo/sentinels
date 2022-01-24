@@ -78,11 +78,20 @@ namespace MazeGeneration
         private void _updateMaze(Position startPos)
         {
             var currentCell = startPos;
-            do
+            while (true)
             {
                 var direction = _randomDirection();
-                var adjacent = currentCell + direction;
                 _maze[currentCell.x, currentCell.y] = direction;
+                var adjacent = currentCell + direction;
+                if (
+                    !_validatePosition(adjacent)
+                    ||
+                    !_isPositionInBoard(adjacent, _visitedBoard)
+                )
+                {
+                    break;
+                }
+
                 currentCell = adjacent;
             } while (!_isPositionInBoard(currentCell, _visitedBoard));
 
