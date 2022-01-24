@@ -45,7 +45,6 @@ namespace MazeGeneration
             this.sizeX = sizeX;
             this.sizeY = sizeY;
             _maze = new Position[sizeX, sizeY];
-            ;
         }
 
         public Position[,] CreateMaze()
@@ -93,9 +92,7 @@ namespace MazeGeneration
                 }
 
                 currentCell = adjacent;
-            } while (!_isPositionInBoard(currentCell, _visitedBoard));
-
-            return _maze;
+            }
         }
 
         /// <summary>
