@@ -60,6 +60,7 @@ namespace MazeGeneration
                 _updateMaze(currentCell);
                 mazeCreated += _addToVisited(currentCell);
             }
+
             return _maze;
         }
 
@@ -107,12 +108,19 @@ namespace MazeGeneration
         {
             var count = 0;
             var currentCell = startPos;
-            while (!_isPositionInBoard(currentCell, _visitedBoard))
+            while (
+                _validatePosition(currentCell)
+                &&
+                !_isPositionInBoard(currentCell, _visitedBoard)
+                )
             {
                 _visitedBoard[currentCell.x, currentCell.y] = true;
-                currentCell += _maze[currentCell.x, currentCell.y];
+                var next = _stepNextCell(currentCell);
+                var nextCell = currentCell + _maze[currentCell.x, currentCell.y];
+                currentCell = nextCell;
                 count++;
             }
+
             return count;
         }
 
@@ -150,11 +158,12 @@ namespace MazeGeneration
                 incrementY = _random.Next(-1, 1);
             } while (
                 // We need x and y to be different for it to be a direction.
-                (incrementX == incrementY) 
+                (incrementX == incrementY)
                 ||
                 // We also need to exclude diagonals (-1,1), (1,-1)
                 (incrementX + incrementY == 0)
-                );
+            );
+
             return new Position(incrementX, incrementY);
         }
 
