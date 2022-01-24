@@ -17,8 +17,8 @@ namespace MazeGeneration
         {
             return new Position(a.x + b.x, a.y + b.y);
         }
-
     }
+
     /// <summary>
     /// Wilson's algorithm creates an unbiased maze.
     ///
@@ -37,14 +37,14 @@ namespace MazeGeneration
         private readonly Position[,] _maze;
         private bool[,] _visitedBoard;
         private readonly Random _random = new Random(SentinelsUtils.Time.UnixNow());
-        private readonly int _sizeX;
-        private readonly int _sizeY;
+        public readonly int sizeX;
+        public readonly int sizeY;
 
         public WilsonAlgorithm(int sizeX, int sizeY)
         {
-            _sizeX = sizeX;
-            _sizeY = sizeY;
-            _maze = new Position[,] {}
+            this.sizeX = sizeX;
+            this.sizeY = sizeY;
+            _maze = new Position[sizeX, sizeY];
             ;
         }
 
@@ -53,7 +53,7 @@ namespace MazeGeneration
             _visitedBoard = _createBoard();
             var currentCell = _randomPosition();
             _visitedBoard[currentCell.x, currentCell.y] = true;
-            var mazeLength = _sizeX * _sizeY;
+            var mazeLength = sizeX * sizeY;
             var mazeCreated = 1;
             while (mazeCreated < mazeLength)
             {
@@ -125,8 +125,8 @@ namespace MazeGeneration
         private Position _randomPosition()
         {
             return new Position(
-                _random.Next(0, _sizeX),
-                _random.Next(0, _sizeY)
+                _random.Next(0, sizeX),
+                _random.Next(0, sizeY)
             );
         }
 
@@ -161,7 +161,7 @@ namespace MazeGeneration
         /// <returns>A clean board with all fields false</returns>
         private bool[,] _createBoard()
         {
-            return new bool[_sizeX, _sizeY];
+            return new bool[sizeX, sizeY];
         }
         
         
