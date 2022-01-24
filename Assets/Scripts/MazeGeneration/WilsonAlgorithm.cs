@@ -58,7 +58,7 @@ namespace MazeGeneration
             while (mazeCreated < mazeLength)
             {
                 currentCell = _randomPosition();
-                _createPath(currentCell);
+                _updateMaze(currentCell);
                 mazeCreated += _addToVisited(currentCell);
             }
             return _maze;
@@ -75,7 +75,7 @@ namespace MazeGeneration
         /// </summary>
         /// <param name="startPos"></param>
         /// <returns></returns>
-        private Position[,] _createPath(Position startPos)
+        private void _updateMaze(Position startPos)
         {
             var currentCell = startPos;
             do
