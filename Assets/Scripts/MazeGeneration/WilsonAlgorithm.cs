@@ -1,23 +1,9 @@
+using SentinelsUtils;
 using Random = System.Random;
 
 namespace MazeGeneration
 {
-    public readonly struct Position
-    {
-        public readonly int x;
-        public readonly int y;
-
-        public Position(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-
-        public static Position operator +(Position a, Position b)
-        {
-            return new Position(a.x + b.x, a.y + b.y);
-        }
-    }
+    
 
     /// <summary>
     /// Wilson's algorithm creates an unbiased maze.

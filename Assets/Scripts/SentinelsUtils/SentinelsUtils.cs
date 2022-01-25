@@ -83,4 +83,57 @@ namespace SentinelsUtils
         }
         
     }
+    
+    public readonly struct Position
+        {
+            private bool Equals(Position other)
+            {
+                return x == other.x && y == other.y;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is Position other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return (x * 397) ^ y;
+                }
+            }
+
+            public readonly int x;
+            public readonly int y;
+    
+            public Position(int x, int y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+    
+            public static Position operator +(Position a, Position b)
+            {
+                return new Position(a.x + b.x, a.y + b.y);
+            }
+    
+            public static bool operator ==(Position a, Position b)
+            {
+                return a.x == b.x && a.y == b.y;
+            }
+    
+            public static bool operator !=(Position a, Position b)
+            {
+                return !(a == b);
+            }
+        }
+
+    internal static class Direction
+    {
+        public static readonly Position North = new Position(1, 0);
+        public static readonly Position South = new Position(-1, 0);
+        public static readonly Position East = new Position(0, 1);
+        public static readonly Position West = new Position(0, -1);
+    }
 }
