@@ -7,7 +7,6 @@ public class TestMazeWilsonAlgorithm
     [OneTimeSetUp]
     public void Setup()
     {
-        _mazeWilson = new MazeGeneration.WilsonAlgorithm(3, 3);
     }
 
     [Test]
@@ -19,20 +18,26 @@ public class TestMazeWilsonAlgorithm
     [Test]
     public void TestMazeWilsonCreateMazeWithGivenSizes()
     {
-        var maze = _mazeWilson.CreateMaze();
-        Assert.Equals(maze.Length, 2);
-        Assert.Equals(maze.GetLength(0), _mazeWilson.sizeX);
-        Assert.Equals(maze.GetLength(1), _mazeWilson.sizeY);
+        var sizeX = 3;
+        var sizeY = 3;
+        var mazeGenerator = new MazeGeneration.WilsonAlgorithm(sizeX, sizeY);
+        var maze = mazeGenerator.CreateMaze();
+        Assert.IsTrue(maze.Length == sizeX * sizeY);
+        Assert.IsTrue(maze.GetLength(0) == mazeGenerator.sizeX);
+        Assert.IsTrue(maze.GetLength(1) == mazeGenerator.sizeY);
     }
 
     [Test]
     public void TestMazeWilsonContainsDirections()
     {
-        var maze = _mazeWilson.CreateMaze();
-        foreach (var i in maze)
+        for (int a = 0; a < 100; a++)
         {
-            Assert.IsTrue(i.x != 0 || i.y != 0);
-            Assert.IsTrue(i.x != i.y );
+            var maze = _mazeWilson.CreateMaze();
+            foreach (var i in maze)
+            {
+                Assert.IsTrue(i.x != 0 || i.y != 0);
+                Assert.IsTrue(i.x != i.y );
+            }
         }
     }
 
