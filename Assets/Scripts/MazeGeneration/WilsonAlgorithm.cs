@@ -19,7 +19,7 @@ namespace MazeGeneration
     /// <see>https://en.wikipedia.org/wiki/Maze_generation_algorithm</see>
     /// <see>https://people.cs.ksu.edu/~ashley78/wiki.ashleycoleman.me/index.php/Wilson's_Algorithm.html</see>
     /// </summary>
-    public class WilsonAlgorithm
+    public class WilsonAlgorithm : IMazeAlgorithm
     {
         private readonly Position[,] _maze;
         private bool[,] _visitedBoard;
@@ -141,14 +141,11 @@ namespace MazeGeneration
             int incrementY;
             do
             {
-                incrementX = _random.Next(-1, 1);
-                incrementY = _random.Next(-1, 1);
+                incrementX = _random.Next(-1, 2);
+                incrementY = _random.Next(-1, 2);
             } while (
-                // We need x and y to be different for it to be a direction.
-                (incrementX == incrementY)
-                ||
-                // We also need to exclude diagonals (-1,1), (1,-1)
-                (incrementX + incrementY == 0)
+                // We also need to exclude diagonals (-1,1), (1,-1) and no movement (0, 0)
+                (Math.Abs(incrementX + incrementY) != 1)
             );
 
             return new Position(incrementX, incrementY);
