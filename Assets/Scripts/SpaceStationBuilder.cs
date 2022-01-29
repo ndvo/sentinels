@@ -69,8 +69,8 @@ public class SpaceStationBuilder : MonoBehaviour
 
     private GameObject _createObject(GameObject[] availablePrefabs)
     {
-        var prefab = availablePrefabs[_random.Next(availablePrefabs.Length)];
-        return Object.Instantiate(prefab);
+        var prefab = availablePrefabs[_random.Next(0, availablePrefabs.Length)];
+        return Object.Instantiate(prefab, this.transform);
     }
 
 }
