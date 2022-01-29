@@ -22,22 +22,22 @@ public class SpaceStationBuilder : MonoBehaviour
     void Start()
     {
         _core1Prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-            _spaceStationAssetFolder + "Core1" + _prefabExtension
+            SpaceStationAssetFolder + "Core1" + PrefabExtension
         );
         _core2Prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-            _spaceStationAssetFolder + "Core2" + _prefabExtension
+            SpaceStationAssetFolder + "Core2" + PrefabExtension
         );
         _panelsPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-            _spaceStationAssetFolder + "Panels" + _prefabExtension
+            SpaceStationAssetFolder + "Panels" + PrefabExtension
         );
         _commonPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-            _spaceStationAssetFolder + "Common" + _prefabExtension
+            SpaceStationAssetFolder + "Common" + PrefabExtension
         );
         _regularConnectionPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-            _spaceStationAssetFolder + "RegularConnection" + _prefabExtension
+            SpaceStationAssetFolder + "RegularConnection" + PrefabExtension
         );
         _tubularConnectionPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-            _spaceStationAssetFolder + "TubularConnection" + _prefabExtension
+            SpaceStationAssetFolder + "TubularConnection" + PrefabExtension
         );
         _shortPrefabs = new[] {_commonPrefab, _panelsPrefab};
         _corePrefabs = new[] {_core1Prefab, _core2Prefab};
@@ -72,7 +72,5 @@ public class SpaceStationBuilder : MonoBehaviour
         var prefab = availablePrefabs[_random.Next(availablePrefabs.Length)];
         return Object.Instantiate(prefab);
     }
-    
-
 
 }
