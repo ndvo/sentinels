@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SentinelsUtils
+namespace Utils
 {
     public static class Time
     {
@@ -57,6 +57,46 @@ namespace SentinelsUtils
                 else mirror(el);
             }
             if (odds > 0) transformation(enumerable[n - 1]);
+        }
+        
+        /// <summary>
+        /// Creates an array of integers starting from floor(-n/2) up to n.
+        ///
+        /// Creates an array of integers with numbers balanced as evenly as possible around zero.
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns>a balanced range</returns>
+        public static int[] BalancedRange(int items)
+        {
+            return (from num in Enumerable.Range(0, items) select (num - items / 2)).ToArray();
+        }
+        
+        /// <summary>
+        /// Creates a grid from two different lists
+        ///
+        /// The grid will have A.Length rows and B.length columns.
+        /// Each cell will have an element from A and an element from B.
+        ///
+        /// Example: A = [a, b, c], B = [d, e, f]
+        /// returns: [[[a,d], [a,e], [a,f]], [[b,d], [b,e], [b,f]], [[c,d], [c,e], [c,f]]]
+        /// </summary>
+        /// <param name="listA"></param>
+        /// <param name="listB"></param>
+        /// <typeparam name="T">the type of the element in the array</typeparam>
+        /// <returns></returns>
+        public static T[,][] CreateGrid<T>(T[] listA, T[] listB)
+        {
+            var sizeA = listA.Length;
+            var sizeB = listB.Length;
+            var grid = new T[sizeA, sizeB][];
+            for (var x = 0; x < sizeA; x++)
+            {
+                for (var y = 0; y < sizeB; y++)
+                {
+                    grid[x, y] = new T[] {listA[x], listB[y]};
+                }
+            }
+            return grid;
         }
     }
 

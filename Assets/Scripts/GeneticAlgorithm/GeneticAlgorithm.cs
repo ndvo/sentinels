@@ -22,7 +22,7 @@ namespace GeneticAlgorithm
 /// </summary>
 public class GeneticAlgorithm 
 {
-    private static readonly Random _random = new Random(SentinelsUtils.Time.UnixNow());
+    private static readonly Random _random = new Random(Utils.Time.UnixNow());
 
     public float[] GenerateRandomShip()
     {

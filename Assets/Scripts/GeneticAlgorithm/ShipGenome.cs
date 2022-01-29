@@ -1,5 +1,5 @@
 using System.Linq;
-using SentinelsUtils;
+using Utils;
 
 namespace GeneticAlgorithm
 {

@@ -1,4 +1,5 @@
-using SentinelsUtils;
+using System;
+using Utils;
 using Random = System.Random;
 
 namespace MazeGeneration
@@ -22,7 +23,7 @@ namespace MazeGeneration
     {
         private readonly Position[,] _maze;
         private bool[,] _visitedBoard;
-        private readonly Random _random = new Random(SentinelsUtils.Time.UnixNow());
+        private readonly Random _random = new Random(Utils.Time.UnixNow());
         public readonly int sizeX;
         public readonly int sizeY;
 

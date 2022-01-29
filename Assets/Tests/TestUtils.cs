@@ -22,7 +22,6 @@ public class TestUtils
         {
         }
         
-        // A Test behaves as an ordinary method
         [Test]
         public void TestSymmetricalApply()
         {
@@ -35,7 +34,7 @@ public class TestUtils
             };
             foreach (var c in cases)
             {
-                SentinelsUtils.Iterables.SymmetricalApply( c, (r) => r.X += 1, (r) => r.X -= 1 );
+                Utils.Iterables.SymmetricalApply( c, (r) => r.X += 1, (r) => r.X -= 1 );
                 Assert.AreApproximatelyEqual(2, c[0].X, "add to the first");
                 Assert.AreApproximatelyEqual(1, c[1].X, "subtract to the second");
                 if (c.Length > 2)
@@ -43,6 +42,40 @@ public class TestUtils
                     Assert.AreApproximatelyEqual(2, c[2].X, "add to the last odd");
                 }
             }
+        }
+
+        [Test]
+        public void TestBalancedRange()
+        {
+            var range = Utils.Iterables.BalancedRange(3);
+            Assert.AreEqual(-1, range[0]);
+            Assert.AreEqual(0, range[1]);
+            Assert.AreEqual(1, range[2]);
+            var rand = new System.Random();
+            for (int i = 0; i < 100; i++)
+            {
+                var randomRange = Utils.Iterables.BalancedRange(rand.Next(1, 60));
+                var difference = randomRange[randomRange.Length - 1] + randomRange[0]; 
+                Assert.IsTrue(difference == 0 || difference == -1);
+            }
+        }
+
+        [Test]
+        public void TestCreateGrid()
+        {
+            var grid = Utils.Iterables.CreateGrid(
+                new int[] {1, 2, 3},
+                new int[] {9, 8, 7}
+                );
+            Assert.IsTrue(grid.Length == 9);
+            Assert.IsTrue(grid[0, 0][0] == 1);
+            Assert.IsTrue(grid[0, 0][1] == 9);
+            Assert.IsTrue(grid[1, 0][0] == 2);
+            Assert.IsTrue(grid[1, 0][1] == 9);
+            Assert.IsTrue(grid[0, 1][0] == 1);
+            Assert.IsTrue(grid[0, 1][1] == 8);
+            Assert.IsTrue(grid[1, 1][0] == 2);
+            Assert.IsTrue(grid[1, 1][1] == 8);
         }
 
 }
