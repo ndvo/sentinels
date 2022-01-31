@@ -61,27 +61,9 @@ public class SpaceStationBuilder : MonoBehaviour
 
     private void _setupPrefabs()
     {
-        _core1Prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-            SpaceStationAssetFolder + "Core1" + PrefabExtension
-        );
-        _core2Prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-            SpaceStationAssetFolder + "Core2" + PrefabExtension
-        );
-        _panelsPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-            SpaceStationAssetFolder + "Panels" + PrefabExtension
-        );
-        _commonPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-            SpaceStationAssetFolder + "Common" + PrefabExtension
-        );
-        _regularConnectionPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-            SpaceStationAssetFolder + "RegularConnection" + PrefabExtension
-        );
-        _tubularConnectionPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-            SpaceStationAssetFolder + "TubularConnection" + PrefabExtension
-        );
-        _shortPrefabs = new[] {_commonPrefab, _panelsPrefab};
-        _corePrefabs = new[] {_core1Prefab, _core2Prefab};
-        _longPrefabs = new[] {_regularConnectionPrefab, _tubularConnectionPrefab};
+        _shortPrefabs = new[] {commonPrefab, panelsPrefab};
+        _corePrefabs = new[] {core1Prefab, core2Prefab};
+        _longPrefabs = new[] {regularConnectionPrefab, tubularConnectionPrefab};
     }
 
     private void _rotatePiece(GameObject piece, Position direction)

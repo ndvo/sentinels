@@ -8,7 +8,6 @@ using Object = UnityEngine.Object;
 public class Headquarters : MonoBehaviour
 {
 
-    private GameObject _protonLegacyPrefab;
     private Func<Individual[], float[][]> _protonLegacyGA;
     
     private GeneticAlgorithm.GeneticAlgorithm _ga;
@@ -16,12 +15,11 @@ public class Headquarters : MonoBehaviour
     private GameObject _shipsContainer;
     private GameObject _gameObject;
 
+    public GameObject ProtonLegacyPrefab; 
+
     // Start is called before the first frame update
     private void Awake()
     {
-        _protonLegacyPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-            "Assets/Prefabs/ProtonLegacy1.prefab"
-        );
         _gameObject = GameObject.Find("SpawnPoints");
         _shipsContainer = GameObject.Find("Ships");
     }
@@ -117,7 +115,7 @@ public class Headquarters : MonoBehaviour
         for (var i = 0; i < result.Length; i++)
         {
             var ship = Object.Instantiate(
-                                           _protonLegacyPrefab,
+                                           ProtonLegacyPrefab,
                                            spawnPoints[i].position,
                                            spawnPoints[i].rotation,
                                            _shipsContainer.transform
