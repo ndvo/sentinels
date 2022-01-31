@@ -1,21 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 public class OrbitalFlight : MonoBehaviour
 {
     
     public float speed;
+    private int _verticalMovement = 0;
+    private int _horizontalMovement = 0;
+    [SerializeField] private bool inertia;
 
     private void FixedUpdate()
     {
-        if (Input.GetKey("up"))
-            transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.left, speed);
-        if (Input.GetKey("down"))
-            transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.left, speed * -1);
-        if (Input.GetKey("right"))
-            transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.forward,  speed);
+        SetHorizontalMovement();
+        SetVerticalMovement();
+        transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.left, speed *  _verticalMovement);
+        transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.forward, speed * _horizontalMovement);
+        LookAtDirection();
+    }
+
+    private void SetHorizontalMovement()
+    {
         if (Input.GetKey("left"))
-            transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.forward, speed * -1);
+            _horizontalMovement = 1;
+        if (Input.GetKey("right"))
+            _horizontalMovement = -1;
+        if (Input.GetKey("up") || Input.GetKey("down"))
+            _horizontalMovement = 0;
+    }
+
+    private void SetVerticalMovement()
+    {
+        if (Input.GetKey("up"))
+            _verticalMovement = -1;
+        if (Input.GetKey("down"))
+            _verticalMovement = 1;
+        if (Input.GetKey("right") || Input.GetKey("left"))
+            _verticalMovement = 0;
+    }
+
+    private void LookAtDirection()
+    {
+        if (Input.GetKey("up"))
+            transform.LookAt(transform.position + new Vector3(0f, 0f, 1000f));
+        if (Input.GetKey("down"))
+            transform.LookAt(transform.position + new Vector3(0f, 0f, -1000f));
+        if (Input.GetKey("right"))
+            transform.LookAt(transform.position + new Vector3(1000f, 0f, 0f));
+        if (Input.GetKey("left"))
+            transform.LookAt(transform.position + new Vector3(-1000f, 0f, 0f));
     }
 }
