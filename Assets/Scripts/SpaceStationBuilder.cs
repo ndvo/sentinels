@@ -2,61 +2,73 @@ using System;
 using System.Linq;
 using MazeGeneration;
 using Utils;
-using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 public class SpaceStationBuilder : MonoBehaviour
 {
-    private GameObject _commonPrefab;
-    private GameObject _core1Prefab;
-    private GameObject _core2Prefab;
-    private GameObject _panelsPrefab;
-    private GameObject _regularConnectionPrefab;
-    private GameObject _tubularConnectionPrefab;
+    public GameObject commonPrefab;
+    public GameObject core1Prefab;
+    public GameObject core2Prefab;
+    public GameObject panelsPrefab;
+    public GameObject regularConnectionPrefab;
+    public GameObject tubularConnectionPrefab;
     private GameObject[] _corePrefabs;
     private GameObject[] _longPrefabs;
     private GameObject[] _shortPrefabs;
     private IMazeAlgorithm _mazeGeneraton;
-    private int _cellSize = 15;
-    private int _maxSize = 5;
-    private int _minSize = 3;
+    [SerializeField]
+    private float cellSize = 0.1f;
+    [SerializeField]
+    private int maxSize = 5;
+    [SerializeField]
+    private int minSize = 3;
     private readonly System.Random _random = new System.Random(Utils.Time.UnixNow());
     private const string PrefabExtension = ".prefab";
     private const string SpaceStationAssetFolder = "Assets/Prefabs/SpaceStation/";
 
     public void SetStationsMaxSize(int newMaxSize, int newMinSize)
     {
-        _maxSize = newMaxSize;
-        _minSize = newMinSize;
+        maxSize = newMaxSize;
+        minSize = newMinSize;
     }
 
     public void Start()
     {
         _setupPrefabs();
-        var sizeX = _random.Next(_minSize, _maxSize);
-        var sizeY = _random.Next(_minSize, _maxSize);
+        var sizeX = _random.Next(minSize, maxSize);
+        var sizeY = _random.Next(minSize, maxSize);
         _mazeGeneraton = new WilsonAlgorithm(sizeX, sizeY);
         var maze = _mazeGeneraton.CreateMaze();
         var stationParts = (from i in 
                 new int[maze.GetLength(0) * maze.GetLength(1)]
             select _createConnection()).ToArray();
         var positionGrid = Utils.Iterables.CreateGrid(
-            (from n in  Utils.Iterables.BalancedRange(sizeX) select n * _cellSize).ToArray(), 
-            (from n in Utils.Iterables.BalancedRange(sizeY) select n * _cellSize).ToArray() 
+            (from n in  Utils.Iterables.BalancedRange(sizeX) select (float) n * cellSize).ToArray(), 
+            (from n in Utils.Iterables.BalancedRange(sizeY) select (float) n * cellSize).ToArray() 
             );
         for (int i = 0; i < stationParts.Length; i++)
         {
             var col = Math.Abs(i % maze.GetLength(1));
             var row = Math.Abs(i / maze.GetLength(0));
-            _transformPosition(stationParts[i], positionGrid[row, col]);
             _rotatePiece(stationParts[i], maze[row, col]);
+            _transformPosition(stationParts[i], positionGrid[row, col]);
         }
     }
 
-    private void _transformPosition(GameObject part, int[] position)
+    /// <summary>
+    /// Changes the position of a part making it relative to the space station builder object.
+    ///
+    /// makes the part.transform.position equal to this.transform.position plus the provided x and z values.
+    /// Even though the game is 3D the action actually happens in a curved 2D plane around Earth.
+    /// The z axis of the 3D world is the y axis of our virtual plane.
+    /// </summary>
+    /// <param name="part"></param>
+    /// <param name="position"></param>
+    private void _transformPosition(GameObject part, float[] position)
     {
-        part.transform.position += new Vector3(position[0], 0, position[1]);
+        part.transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.left, (float) position[0]);
+        part.transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.forward, (float) position[1]);
     }
 
     private void _setupPrefabs()
@@ -68,7 +80,6 @@ public class SpaceStationBuilder : MonoBehaviour
 
     private void _rotatePiece(GameObject piece, Position direction)
     {
-        piece.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
         if (direction == Direction.South) piece.transform.Rotate(new Vector3(0f, 180f, 0f));
         if (direction == Direction.East) piece.transform.Rotate(new Vector3(0f, 90f, 0f));
         if (direction == Direction.West) piece.transform.Rotate(new Vector3(0f, -90f, 0f));
