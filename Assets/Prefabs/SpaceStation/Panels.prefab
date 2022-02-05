@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 3688516522374578615}
   - component: {fileID: 3695762692905310239}
   - component: {fileID: 3705844292159764185}
-  m_Layer: 0
+  - component: {fileID: 5923356624976257770}
+  m_Layer: 6
   m_Name: Panels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e283ec6c0d89a5a3ea5093c37dd0dda3, type: 2}
+  - {fileID: 2100000, guid: 81b30271a334df34191202323e31f6a0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,3 +83,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5923356624976257770
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3690815269096666927}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.92322, y: 2.3901775, z: 3.4549823}
+  m_Center: {x: 0.04323411, y: 0.25397313, z: 0.035300493}
