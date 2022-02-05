@@ -7,14 +7,24 @@ public class OrbitalFlight : MonoBehaviour
     public float speed;
     private int _verticalMovement = 0;
     private int _horizontalMovement = 0;
+    private float _deltaTimeSpeed = 0;
     [SerializeField] private bool inertia;
 
     private void FixedUpdate()
     {
+        _deltaTimeSpeed = speed * Time.deltaTime;
         SetHorizontalMovement();
         SetVerticalMovement();
-        transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.left, speed *  _verticalMovement);
-        transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.forward, speed * _horizontalMovement);
+        transform.RotateAround(
+            new Vector3(0f, 0f, 0f),
+            Vector3.left,
+            _deltaTimeSpeed *  _verticalMovement
+            );
+        transform.RotateAround(
+            new Vector3(0f, 0f, 0f),
+            Vector3.forward,
+            _deltaTimeSpeed * _horizontalMovement
+            );
         LookAtDirection();
     }
 
