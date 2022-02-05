@@ -171,9 +171,28 @@ namespace Utils
 
     internal static class Direction
     {
-        public static readonly Position North = new Position(1, 0);
-        public static readonly Position South = new Position(-1, 0);
-        public static readonly Position East = new Position(0, 1);
-        public static readonly Position West = new Position(0, -1);
+        
+        public static readonly Position North = new Position(0, -1);
+        public static readonly Position South = new Position(0, 1);
+        public static readonly Position East = new Position(1, 0);
+        public static readonly Position West = new Position(-1, 0);
+
+        public static string ToString(Position pos)
+        {
+            if (pos == North) return "North";
+            if (pos == South) return "South";
+            if (pos == West) return "West";
+            if (pos == East) return "East";
+            throw new Exception("Unknown direction");
+        }
+
+        public static float ToAngle(Position pos)
+        {
+            if (pos == North) return 0f;
+            if (pos == South) return 180f;
+            if (pos == West) return 90f;
+            if (pos == East) return -90f;
+            return 0f;
+        }
     }
 }
