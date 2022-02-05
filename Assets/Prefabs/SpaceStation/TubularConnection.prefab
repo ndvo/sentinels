@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2658252807695930363}
   - component: {fileID: 4223154564307261616}
+  - component: {fileID: 2092615683256227753}
   m_Layer: 6
   m_Name: TubularConnection
   m_TagString: Untagged
@@ -48,6 +49,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 11.979973, y: 3.023745, z: 4.174553}
   m_Center: {x: 5.6049166, y: -0.11771917, z: -0.024766445}
+--- !u!114 &2092615683256227753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2658252807695930360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a490460c2d34a538858632b1f5179b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2658252808496261823
 GameObject:
   m_ObjectHideFlags: 0
