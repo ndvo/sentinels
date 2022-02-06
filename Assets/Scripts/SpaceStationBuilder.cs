@@ -24,8 +24,6 @@ public class SpaceStationBuilder : MonoBehaviour
     [SerializeField]
     private int minSize = 3;
     private readonly System.Random _random = new System.Random(Utils.Time.UnixNow());
-    private const string PrefabExtension = ".prefab";
-    private const string SpaceStationAssetFolder = "Assets/Prefabs/SpaceStation/";
 
     public void SetStationsMaxSize(int newMaxSize, int newMinSize)
     {
