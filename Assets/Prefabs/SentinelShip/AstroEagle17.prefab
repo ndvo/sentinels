@@ -54,6 +54,7 @@ Transform:
   - {fileID: 359556182536338884}
   - {fileID: 489307638361445987}
   - {fileID: 2839021475189653654}
+  - {fileID: 4522181779093733070}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -112,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac534c5c4c75fe7baac7eea0e9d9f167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  energyLevel: 1000
 --- !u!82 &2620871688701363240
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1005,6 +1007,28 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4674516704547448, guid: 40d8370d303eb9244af67c5370b8e0da, type: 3}
   m_PrefabInstance: {fileID: 4408544942723294084}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4526705394312928744
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4624338250736186334}
+    m_Modifications:
+    - target: {fileID: 1416108594893988, guid: 4cfd60b2a6ae4cfb959c9406a5ab3b23, type: 3}
+      propertyPath: m_Name
+      value: Shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524270474355494, guid: 4cfd60b2a6ae4cfb959c9406a5ab3b23, type: 3}
+      propertyPath: m_RootOrder
+      value: 22
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4cfd60b2a6ae4cfb959c9406a5ab3b23, type: 3}
+--- !u!4 &4522181779093733070 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4524270474355494, guid: 4cfd60b2a6ae4cfb959c9406a5ab3b23, type: 3}
+  m_PrefabInstance: {fileID: 4526705394312928744}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5065319355263014239
 PrefabInstance:
