@@ -1,25 +1,104 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
-public class TestMonteCarloTreeSearch
+namespace Tests
 {
-    // A Test behaves as an ordinary method
-    [Test]
-    public void TestMonteCarloTreeSearchSimplePasses()
+    public class TestMonteCarloTreeSearch
     {
-        // Use the Assert class to test conditions
-    }
 
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator TestMonteCarloTreeSearchWithEnumeratorPasses()
-    {
-        // Use the Assert class to test conditions.
-        // Use yield to skip a frame.
-        yield return null;
+        [Test]
+        public void TestMonteCarloTreeSearchLongBranchShortPath()
+        {
+            var tree = new TreeNode(false, false, new Vector3(5, 5, 5), new []
+            {
+                new TreeNode(false, false, new Vector3(5, 3, 2), new[]
+                {
+                    new TreeNode(true, false, new Vector3(0, 2, 0), new TreeNode[]
+                    {
+                        // perfect match with blocked parent
+                        new TreeNode(false, true, new Vector3(0, 0, 0), null)
+                    }),
+                    new TreeNode(false, false, new Vector3(1, 1, 2), new[]
+                    {
+                        // best possible match
+                        new TreeNode(false, true, new Vector3(0, 0, 1))
+                    }),
+                }),
+                new TreeNode(false, false, new Vector3(1, 2, 1), new[]
+                {
+                    new TreeNode(true, false, new Vector3(0, 2, 0), new TreeNode[]
+                    {
+                        // perfect match with blocked parent and a closer parent
+                        new TreeNode(false, true, new Vector3(0, 0, 0), null)
+                    }),
+                    new TreeNode(false, false, new Vector3(1, 1, 2), new[]
+                    {
+                        // shorter total path with the leaf further thar best match
+                        new TreeNode (false, true, new Vector3(0, 0, 2))
+                    }),
+                })
+            });
+            var monteCarloSteer = new MonteCarloTreeSearch();
+            var path = monteCarloSteer.ComputePath(tree, Vector3.zero);
+            Assert.AreEqual(tree.Children[0], path.Nodes[1]);
+        }
+    
+        [Test]
+        public void TestMonteCarloTreeSearchReturnUnblocked()
+        {
+            var tree = new TreeNode(false, false, new Vector3(5, 5, 5), new []
+            {
+                new TreeNode(true, true, new Vector3(5, 3, 2), new TreeNode[] {}),
+                new TreeNode(true, true, new Vector3(6, 3, 2), new TreeNode[] {}),
+                new TreeNode(true, true, new Vector3(7, 3, 2), new TreeNode[] {}),
+                new TreeNode(true, true, new Vector3(8, 3, 2), new TreeNode[] {}),
+                new TreeNode(true, true, new Vector3(9, 3, 2), new TreeNode[] {}),
+                new TreeNode(false, true, new Vector3(10, 3, 2), new TreeNode[] {}),
+            });
+            var monteCarloSteer = new MonteCarloTreeSearch();
+            var path = monteCarloSteer.ComputePath(tree, Vector3.zero);
+            Assert.AreEqual(tree.Children[5], path.Nodes[1]);
+        }
+
+        [Test]
+        public void TestMonteCarloTreeSearchReturnShortest()
+        {
+            var tree = new TreeNode(false, false, new Vector3(5, 5, 5), new []
+            {
+                new TreeNode(false, true, new Vector3(5, 3, 2), new TreeNode[] {}),
+                new TreeNode(false, true, new Vector3(6, 3, 2), new TreeNode[] {}),
+                new TreeNode(false, true, new Vector3(7, 3, 2), new TreeNode[] {}),
+                new TreeNode(false, true, new Vector3(8, 3, 2), new TreeNode[] {}),
+                new TreeNode(false, true, new Vector3(9, 3, 2), new TreeNode[] {}),
+                new TreeNode(false, true, new Vector3(10, 3, 2), new TreeNode[] {}),
+            });
+            var monteCarloSteer = new MonteCarloTreeSearch();
+            var path = monteCarloSteer.ComputePath(tree, Vector3.zero);
+            Assert.AreEqual(tree.Children[0], path.Nodes[1]);
+        }
+        
+        [Test]
+        public void TestMonteCarloTreeSearchReturnReached()
+        {
+            var tree = new TreeNode(false, false, new Vector3(5, 5, 5), new []
+            {
+                new TreeNode(false, false, new Vector3(5, 3, 2), new TreeNode[]
+                {
+                    new TreeNode(false, false, new Vector3(6, 3, 2), new TreeNode[]
+                    {
+                        new TreeNode(false, true, new Vector3(8, 3, 2), new TreeNode[] {}),
+                        new TreeNode(false, true, new Vector3(9, 3, 2), new TreeNode[] {}),
+                        new TreeNode(false, true, new Vector3(0, 0, 0), new TreeNode[] {}),
+                    }),
+                    new TreeNode(false, true, new Vector3(7, 3, 2), new TreeNode[] {}),
+                }),
+                new TreeNode(false, true, new Vector3(6, 3, 2), new TreeNode[] {}),
+                new TreeNode(false, true, new Vector3(7, 3, 2), new TreeNode[] {}),
+            });
+            var monteCarloSteer = new MonteCarloTreeSearch();
+            var path = monteCarloSteer.ComputePath(tree, Vector3.zero);
+            Assert.AreEqual(tree.Children[0], path.Nodes[1]);
+        }
     }
 }
