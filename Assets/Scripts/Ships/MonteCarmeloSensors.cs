@@ -27,9 +27,9 @@ namespace Ships
             var forward = Object.Instantiate(sensorTemplate, parent.transform);
             var left = Object.Instantiate(sensorTemplate, parent.transform);
             var right = Object.Instantiate(sensorTemplate, parent.transform);
-            _move(forward.transform, 0, 1);
-            _move(left.transform, 1, 0);
-            _move(right.transform, 1, 0);
+            _move(forward.transform, 0, 2);
+            _move(left.transform, -2, 0);
+            _move(right.transform, 2, 0);
             if (childrenLevel == 0)
             {
                 forward.GetComponent<SensorBehaviour>().SetLeaf();
@@ -45,13 +45,13 @@ namespace Ships
         {
             t.RotateAround(
                 Vector3.zero, 
-                Vector3.left,
-                directionY
+                Vector3.right,
+                directionZ
             );
             t.RotateAround(
                 Vector3.zero, 
                 Vector3.forward,
-                directionZ
+                directionY
             );
         }
     }
