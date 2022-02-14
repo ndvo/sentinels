@@ -12,10 +12,10 @@ public struct TreeNode
         Children = children ?? new TreeNode[] { };
     }
 
-    public readonly bool Blocked;
-    public readonly bool Leaf;
-    public readonly Vector3 Position;
-    public readonly TreeNode[] Children;
+    public bool Blocked;
+    public bool Leaf;
+    public Vector3 Position;
+    public TreeNode[] Children;
     
     public override string ToString() => $"blocked {Blocked}, leaf {Leaf}, position {Position.x},{Position.y},{Position.z}, Children: {Children.Length}";
 }
