@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6840774199230643787}
   - component: {fileID: 505026337697802797}
+  - component: {fileID: 5908337059181018851}
   m_Layer: 0
   m_Name: ProtonLegacy1
   m_TagString: Untagged
@@ -56,6 +57,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ready: 0
+  achievements: []
   bodies: []
   bridges: []
   laserCannons: []
@@ -63,6 +65,20 @@ MonoBehaviour:
   tractors: []
   turbines: []
   wings: []
+--- !u!114 &5908337059181018851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6838199413328904955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 900d75d4615c79a6991ec4c02f00fa43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 4
+  sensorTemplate: {fileID: 7457838906571813135, guid: 1ecd20086568183bd80c758949d43ded, type: 3}
 --- !u!1001 &730999856242623668
 PrefabInstance:
   m_ObjectHideFlags: 0
