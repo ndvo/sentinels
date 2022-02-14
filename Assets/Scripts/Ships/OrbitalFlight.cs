@@ -21,22 +21,22 @@ public class OrbitalFlight : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _deltaTimeSpeed = speed * Time.deltaTime;
         _setNewDirection();
-        _move(transform, _deltaTimeSpeed);
         _positionAim();
         LookAtDirection();
+        _deltaTimeSpeed = speed * Time.deltaTime;
+        _move(transform, _deltaTimeSpeed);
     }
 
     private void _move(Transform t, float moveSpeed)
     {
         t.RotateAround(
-            new Vector3(0f, 0f, 0f),
+            Vector3.zero, 
             Vector3.left,
             moveSpeed * _direction.y
         );
         t.RotateAround(
-            new Vector3(0f, 0f, 0f),
+            Vector3.zero, 
             Vector3.forward,
             moveSpeed * _direction.x
         );
