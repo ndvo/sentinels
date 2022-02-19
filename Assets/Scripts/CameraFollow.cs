@@ -2,17 +2,16 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform targetObject;
-    private Vector3 initialOffset = new Vector3(0f, 200f, 0f);
+    public GameObject targetObject;
+    private OrbitalFlight targetOrbitalFlight;
 
     void Start()
     {
-        initialOffset = transform.position - targetObject.position;
+        targetOrbitalFlight = targetObject.GetComponent<OrbitalFlight>();
     }
 
     private void FixedUpdate()
     {
-        var cameraPosition = targetObject.position + initialOffset;
-        transform.SetPositionAndRotation(cameraPosition, transform.rotation);
+        targetOrbitalFlight.MoveWithMe(this.transform);
     }
 }
