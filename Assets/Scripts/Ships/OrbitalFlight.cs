@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Utils;
 using Time = UnityEngine.Time;
@@ -11,21 +10,41 @@ public class OrbitalFlight : MonoBehaviour
     private Position _direction = new Position(0, 0);
     private Position _previousDirection = new Position(0, 0);
     private float _deltaTimeSpeed = 0;
-    private GameObject _aim;
+    // aim is used to set the direction the ship is looking to.
+    // the idea is to have an object slightly ahead that moves in the same manner (transform and rotate)
+    // using the aim to guide the lookAt function allow us to get rid of bugs due to the orbital navigation.
+    private GameObject aim;
     [SerializeField] private bool inertia;
+    // The SpaceStationBuilder is responsible for creating the board as is capable of noticing if the ship has left the board.
+    private SpaceStationBuilder spaceStationBuilder;
+    private bool offBoard;
+    public float warpMultiplier;
 
     public void Awake()
     {
-        _aim = new GameObject();
+        aim = new GameObject();
+        spaceStationBuilder = GameObject.Find("SpaceStationBuilder").GetComponent<SpaceStationBuilder>();
     }
 
     private void FixedUpdate()
     {
-        _setNewDirection();
+        offBoard = spaceStationBuilder.IsOffBoard(transform.position);
+        _orbitalFlight();
+    }
+
+    private void _orbitalFlight()
+    {
+        _deltaTimeSpeed = speed * Time.deltaTime;
+        if (offBoard) _deltaTimeSpeed *= warpMultiplier;
+        if (!offBoard) _setNewDirection();
         _positionAim();
         LookAtDirection();
-        _deltaTimeSpeed = speed * Time.deltaTime;
         _move(transform, _deltaTimeSpeed);
+    }
+
+    public void MoveWithMe(Transform t)
+    {
+        _move(t, _deltaTimeSpeed);
     }
 
     private void _move(Transform t, float moveSpeed)
@@ -57,15 +76,15 @@ public class OrbitalFlight : MonoBehaviour
 
     private void _positionAim()
     {
-        _aim.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        _aim.transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z,
-            transform.rotation.w);
-        _move(_aim.transform, speed);
+        var position = transform.position;
+        var rotation = transform.rotation;
+        aim.transform.position = new Vector3(position.x, position.y, position.z);
+        aim.transform.rotation = new Quaternion(rotation.x, rotation.y, rotation.z, rotation.w);
+        _move(aim.transform, speed);
     }
 
     private void LookAtDirection()
     {
-        transform.LookAt(_aim.transform.position);
+        transform.LookAt(aim.transform.position);
     }
-
 }

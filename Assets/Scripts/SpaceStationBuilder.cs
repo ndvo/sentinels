@@ -24,6 +24,8 @@ public class SpaceStationBuilder : MonoBehaviour
     [SerializeField]
     private int minSize = 3;
     private readonly System.Random _random = new System.Random(Utils.Time.UnixNow());
+    private int size;
+    private GameObject border;
 
     public void SetStationsMaxSize(int newMaxSize, int newMinSize)
     {
@@ -34,16 +36,16 @@ public class SpaceStationBuilder : MonoBehaviour
     public void Start()
     {
         _setupPrefabs();
-        var sizeX = _random.Next(minSize, maxSize);
-        var sizeY = _random.Next(minSize, maxSize);
-        _mazeGeneraton = new WilsonAlgorithm(sizeX, sizeY);
+        size = _random.Next(minSize, maxSize);
+        border = _createBorderGameObject(Direction.North);
+        _mazeGeneraton = new WilsonAlgorithm(size, size);
         var maze = _mazeGeneraton.CreateMaze();
         var stationParts = (from i in 
                 new int[maze.GetLength(0) * maze.GetLength(1)]
             select _createConnection()).ToArray();
         var positionGrid = Utils.Iterables.CreateGrid(
-            (from n in  Utils.Iterables.BalancedRange(sizeX) select (float) n * cellSize).ToArray(), 
-            (from n in Utils.Iterables.BalancedRange(sizeY) select (float) n * cellSize).ToArray() 
+            (from n in  Utils.Iterables.BalancedRange(size) select (float) n * cellSize).ToArray(), 
+            (from n in Utils.Iterables.BalancedRange(size) select (float) n * cellSize).ToArray() 
             );
         for (int i = 0; i < stationParts.Length; i++)
         {
@@ -52,6 +54,16 @@ public class SpaceStationBuilder : MonoBehaviour
             _rotatePiece(stationParts[i], maze[row, col]);
             _transformPosition(stationParts[i], positionGrid[row, col]);
         }
+    }
+
+    GameObject _createBorderGameObject(Position direction, float padding = 5)
+    {
+        var go = new GameObject(direction.ToString());
+        go.transform.position = transform.position + Vector3.zero;
+        go.transform.RotateAround(
+            new Vector3(0f, 0f, 0f), 
+            new Vector3(direction.y, 0, direction.x), (cellSize/2) * size + padding);
+        return go;
     }
 
     /// <summary>
@@ -65,7 +77,7 @@ public class SpaceStationBuilder : MonoBehaviour
     /// <param name="position"></param>
     private void _transformPosition(GameObject part, float[] position)
     {
-        part.transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.left, (float) position[0]);
+        part.transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.right, (float) position[0]);
         part.transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.forward, (float) position[1]);
     }
 
@@ -102,6 +114,11 @@ public class SpaceStationBuilder : MonoBehaviour
     {
         var prefab = availablePrefabs[_random.Next(0, availablePrefabs.Length)];
         return Object.Instantiate(prefab, this.transform);
+    }
+
+    public bool IsOffBoard(Vector3 position)
+    {
+        return position.y < border.transform.position.y;
     }
 
 }
