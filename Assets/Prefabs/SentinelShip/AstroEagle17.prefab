@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4624338250736186334}
-  - component: {fileID: 3349849705621763600}
   - component: {fileID: 5611535215311927578}
   - component: {fileID: 2053411465795471284}
-  - component: {fileID: 811116232989080022}
   - component: {fileID: 2620871688701363240}
+  - component: {fileID: 811116232989080022}
+  - component: {fileID: 6452748918476257306}
   m_Layer: 0
   m_Name: AstroEagle17
   m_TagString: Untagged
@@ -60,21 +60,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3349849705621763600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4622659811913641992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72fc9ab853ae0ea449022eb12108583b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  inertia: 0
-  warpMultiplier: 0
 --- !u!65 &5611535215311927578
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -104,19 +89,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &811116232989080022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4622659811913641992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac534c5c4c75fe7baac7eea0e9d9f167, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  energyLevel: 1000
 --- !u!82 &2620871688701363240
 AudioSource:
   m_ObjectHideFlags: 0
@@ -213,6 +185,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &811116232989080022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4622659811913641992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac534c5c4c75fe7baac7eea0e9d9f167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyLevel: 1000
+--- !u!114 &6452748918476257306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4622659811913641992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd922401caaa4930e8fc31b6c8782991, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 4
+  inertia: 0
+  warpMultiplier: 30
 --- !u!1001 &232013337214712388
 PrefabInstance:
   m_ObjectHideFlags: 0
