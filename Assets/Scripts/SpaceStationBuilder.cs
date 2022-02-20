@@ -16,7 +16,7 @@ public class SpaceStationBuilder : MonoBehaviour
     private GameObject[] _corePrefabs;
     private GameObject[] _longPrefabs;
     private GameObject[] _shortPrefabs;
-    private IMazeAlgorithm _mazeGeneraton;
+    private IMazeAlgorithm _mazeGenerator;
     [SerializeField]
     private float cellSize = 0.1f;
     [SerializeField]
@@ -27,6 +27,12 @@ public class SpaceStationBuilder : MonoBehaviour
     private int size;
     private GameObject border;
 
+    public void Awake()
+    {
+        size = _random.Next(minSize, maxSize);
+        _mazeGenerator = new WilsonAlgorithm(size, size);
+    }
+
     public void SetStationsMaxSize(int newMaxSize, int newMinSize)
     {
         maxSize = newMaxSize;
@@ -36,10 +42,8 @@ public class SpaceStationBuilder : MonoBehaviour
     public void Start()
     {
         _setupPrefabs();
-        size = _random.Next(minSize, maxSize);
         border = _createBorderGameObject(Direction.North);
-        _mazeGeneraton = new WilsonAlgorithm(size, size);
-        var maze = _mazeGeneraton.CreateMaze();
+        var maze = _mazeGenerator.CreateMaze();
         var stationParts = (from i in 
                 new int[maze.GetLength(0) * maze.GetLength(1)]
             select _createConnection()).ToArray();
@@ -119,6 +123,11 @@ public class SpaceStationBuilder : MonoBehaviour
     public bool IsOffBoard(Vector3 position)
     {
         return position.y < border.transform.position.y;
+    }
+
+    public int GetBoardSize()
+    {
+        return size;
     }
 
 }
