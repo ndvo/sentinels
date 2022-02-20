@@ -1,17 +1,19 @@
+using Ships;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
     public GameObject targetObject;
-    private OrbitalFlight targetOrbitalFlight;
+    private SentinelFlight sentinelFlight;
 
     void Start()
     {
-        targetOrbitalFlight = targetObject.GetComponent<OrbitalFlight>();
+        sentinelFlight = targetObject.GetComponent<SentinelFlight>();
+        sentinelFlight.GoToStartPosition(transform);
     }
 
     private void FixedUpdate()
     {
-        targetOrbitalFlight.MoveWithMe(this.transform);
+        sentinelFlight.MoveWithMe(transform);
     }
 }
