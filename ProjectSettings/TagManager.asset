@@ -11,6 +11,7 @@ TagManager:
   - ShipTractor
   - ShipTurbines
   - ShipWings
+  - Sensor
   layers:
   - Default
   - TransparentFX
