@@ -3,88 +3,106 @@ using Utils;
 using Time = UnityEngine.Time;
 using Vector3 = UnityEngine.Vector3;
 
-public class OrbitalFlight : MonoBehaviour
+namespace Ships
 {
-
-    public float speed;
-    private Position _direction = new Position(0, 0);
-    private Position _previousDirection = new Position(0, 0);
-    private float _deltaTimeSpeed = 0;
-    // aim is used to set the direction the ship is looking to.
-    // the idea is to have an object slightly ahead that moves in the same manner (transform and rotate)
-    // using the aim to guide the lookAt function allow us to get rid of bugs due to the orbital navigation.
-    private GameObject aim;
-    [SerializeField] private bool inertia;
-    // The SpaceStationBuilder is responsible for creating the board as is capable of noticing if the ship has left the board.
-    private SpaceStationBuilder spaceStationBuilder;
-    private bool offBoard;
-    public float warpMultiplier;
-
-    public void Awake()
+    public class OrbitalFlight : MonoBehaviour
     {
-        aim = new GameObject();
-        spaceStationBuilder = GameObject.Find("SpaceStationBuilder").GetComponent<SpaceStationBuilder>();
-    }
 
-    private void FixedUpdate()
-    {
-        offBoard = spaceStationBuilder.IsOffBoard(transform.position);
-        _orbitalFlight();
-    }
+        public float speed;
+        protected Position Direction = new Position(0, 0);
+        protected Position PreviousDirection = new Position(0, 0);
 
-    private void _orbitalFlight()
-    {
-        _deltaTimeSpeed = speed * Time.deltaTime;
-        if (offBoard) _deltaTimeSpeed *= warpMultiplier;
-        if (!offBoard) _setNewDirection();
-        _positionAim();
-        LookAtDirection();
-        _move(transform, _deltaTimeSpeed);
-    }
+        protected float DeltaTimeSpeed = 0;
+        // aim is used to set the direction the ship is looking to.
+        // the idea is to have an object slightly ahead that moves in the same manner (transform and rotate)
+        // using the aim to guide the lookAt function allow us to get rid of bugs due to the orbital navigation.
+        protected GameObject Aim;
+        [SerializeField] private bool inertia;
+        // The SpaceStationBuilder is responsible for creating the board as is capable of noticing if the ship has left the board.
+        protected SpaceStationBuilder SpaceStationBuilder;
+        protected bool OffBoard;
+        public float warpMultiplier;
 
-    public void MoveWithMe(Transform t)
-    {
-        _move(t, _deltaTimeSpeed);
-    }
+        public virtual void Awake()
+        {
+            Aim = new GameObject();
+            SpaceStationBuilder = GameObject.Find("SpaceStationBuilder").GetComponent<SpaceStationBuilder>();
+        }
 
-    private void _move(Transform t, float moveSpeed)
-    {
-        t.RotateAround(
-            Vector3.zero, 
-            Vector3.left,
-            moveSpeed * _direction.y
-        );
-        t.RotateAround(
-            Vector3.zero, 
-            Vector3.forward,
-            moveSpeed * _direction.x
-        );
-    }
+        public virtual void Start()
+        {
+        }
 
-    private void _setNewDirection()
-    {
-        _previousDirection = new Position(_direction.x, _direction.y);
-        if (Input.GetKey("left"))
-            _direction = Direction.East;
-        if (Input.GetKey("right"))
-            _direction = Direction.West;
-        if (Input.GetKey("down"))
-            _direction = Direction.South;
-        if (Input.GetKey("up"))
-            _direction = Direction.North;
-    }
 
-    private void _positionAim()
-    {
-        var position = transform.position;
-        var rotation = transform.rotation;
-        aim.transform.position = new Vector3(position.x, position.y, position.z);
-        aim.transform.rotation = new Quaternion(rotation.x, rotation.y, rotation.z, rotation.w);
-        _move(aim.transform, speed);
-    }
+        public void FixedUpdate()
+        {
+            OffBoard = SpaceStationBuilder.IsOffBoard(transform.position);
+            _orbitalFlight();
+        }
 
-    private void LookAtDirection()
-    {
-        transform.LookAt(aim.transform.position);
+        protected void _orbitalFlight()
+        {
+            DeltaTimeSpeed = speed * Time.deltaTime;
+            if (OffBoard) DeltaTimeSpeed *= warpMultiplier;
+            if (!OffBoard) _setNewDirection();
+            _positionAim();
+            LookAtDirection();
+            _move(transform, DeltaTimeSpeed);
+        }
+
+        protected virtual void _move(Transform t, float moveSpeed)
+        {
+            t.RotateAround(
+                Vector3.zero, 
+                Vector3.left,
+                moveSpeed * Direction.y
+            );
+            t.RotateAround(
+                Vector3.zero, 
+                Vector3.forward,
+                moveSpeed * Direction.x
+            );
+        }
+
+        protected virtual void _setNewDirection()
+        {
+            Direction = Utils.Direction.North;
+        }
+
+        protected virtual void _positionAim()
+        {
+            var position = transform.position;
+            var rotation = transform.rotation;
+            Aim.transform.position = new Vector3(position.x, position.y, position.z);
+            Aim.transform.rotation = new Quaternion(rotation.x, rotation.y, rotation.z, rotation.w);
+            _move(Aim.transform, speed);
+        }
+
+        protected virtual void LookAtDirection()
+        {
+            transform.LookAt(Aim.transform.position);
+        }
+
+        public void GoToBoardCenter()
+        {
+            var pos = transform.position;
+            pos.x = 0;
+            pos.z = 0;
+        }
+
+        public void GoToStartPosition(Transform t = null)
+        {
+            GoTo(Utils.Direction.South, 90, t);
+        }
+
+        public void GoTo(Position dir, float angle, Transform t = null)
+        {
+            t = t ? t: transform;
+            GoToBoardCenter();
+            var oldDirection = Direction;
+            Direction = dir;
+            _move(t, angle);
+            Direction = oldDirection;
+        }
     }
 }
