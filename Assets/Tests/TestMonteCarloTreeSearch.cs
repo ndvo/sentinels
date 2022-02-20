@@ -1,5 +1,6 @@
 using System.Linq;
 using NUnit.Framework;
+using Ships;
 using UnityEngine;
 
 namespace Tests
