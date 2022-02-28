@@ -11,38 +11,49 @@ namespace Tests
         [Test]
         public void TestMonteCarloTreeSearchLongBranchShortPath()
         {
+            var correctBranch = new[]
+            {
+                new TreeNode(true, false, new Vector3(0, 2, 0), new TreeNode[]
+                {
+                    // perfect match with blocked parent
+                    new TreeNode(false, true, new Vector3(0, 0, 0), null)
+                }),
+                new TreeNode(false, false, new Vector3(1, 1, 2), new[]
+                {
+                    // best possible match
+                    new TreeNode(false, true, new Vector3(0, 0, 1))
+                }),
+            };
+            var incorrectBranch = new[]
+            {
+                new TreeNode(true, false, new Vector3(0, 2, 0), new TreeNode[]
+                {
+                    // perfect match with blocked parent and a closer parent
+                    new TreeNode(false, true, new Vector3(0, 0, 0), null)
+                }),
+                new TreeNode(false, false, new Vector3(1, 1, 2), new[]
+                {
+                    // shorter total path with the leaf further thar best match
+                    new TreeNode(false, true, new Vector3(0, 0, 2))
+                }),
+            };
             var tree = new TreeNode(false, false, new Vector3(5, 5, 5), new []
             {
-                new TreeNode(false, false, new Vector3(5, 3, 2), new[]
-                {
-                    new TreeNode(true, false, new Vector3(0, 2, 0), new TreeNode[]
-                    {
-                        // perfect match with blocked parent
-                        new TreeNode(false, true, new Vector3(0, 0, 0), null)
-                    }),
-                    new TreeNode(false, false, new Vector3(1, 1, 2), new[]
-                    {
-                        // best possible match
-                        new TreeNode(false, true, new Vector3(0, 0, 1))
-                    }),
-                }),
-                new TreeNode(false, false, new Vector3(1, 2, 1), new[]
-                {
-                    new TreeNode(true, false, new Vector3(0, 2, 0), new TreeNode[]
-                    {
-                        // perfect match with blocked parent and a closer parent
-                        new TreeNode(false, true, new Vector3(0, 0, 0), null)
-                    }),
-                    new TreeNode(false, false, new Vector3(1, 1, 2), new[]
-                    {
-                        // shorter total path with the leaf further thar best match
-                        new TreeNode (false, true, new Vector3(0, 0, 2))
-                    }),
-                })
+                new TreeNode(false, false, new Vector3(5, 3, 2), correctBranch),
+                new TreeNode(false, false, new Vector3(1, 2, 1), incorrectBranch),
             });
             var monteCarloSteer = new MonteCarloTreeSearch();
             var path = monteCarloSteer.ComputePath(tree, Vector3.zero);
+            // Find path to the left
             Assert.AreEqual(tree.Children[0], path.Nodes[1]);
+            tree = new TreeNode(false, false, new Vector3(5, 5, 5), new []
+            {
+                new TreeNode(false, false, new Vector3(1, 2, 1), incorrectBranch),
+                new TreeNode(false, false, new Vector3(5, 3, 2), correctBranch),
+            });
+            path = monteCarloSteer.ComputePath(tree, Vector3.zero);
+            // Find path to the right
+            Assert.AreEqual(tree.Children[1], path.Nodes[1]);
         }
     
         [Test]
