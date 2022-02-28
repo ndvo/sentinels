@@ -24,16 +24,22 @@ namespace Ships
         protected SpaceStationBuilder SpaceStationBuilder;
         protected bool OffBoard;
         public float warpMultiplier;
+        private bool _hasSpaceStationBuilder = false;
+        private bool _shipReady = false;
 
         public virtual void Awake()
         {
             Aim = new GameObject();
-            SpaceStationBuilder = GameObject.Find("SpaceStationBuilder").GetComponent<SpaceStationBuilder>();
+            var station = GameObject.Find("SpaceStationBuilder");
+            if (station != null)
+            {
+                SpaceStationBuilder = station.GetComponent<SpaceStationBuilder>();
+                _hasSpaceStationBuilder = true;
+            }
         }
 
         public virtual void Start()
         {
-            GoToStartPosition();
             Direction = Utils.Direction.North;
         }
 
@@ -44,8 +50,16 @@ namespace Ships
 
         public void FixedUpdate()
         {
-            OffBoard = SpaceStationBuilder.IsOffBoard(transform.position);
-            _orbitalFlight();
+            if (_shipReady)
+            {
+                OffBoard = _hasSpaceStationBuilder && SpaceStationBuilder.IsOffBoard(transform.position);
+                _orbitalFlight();
+            }
+            else
+            {
+                GoToStartPosition();
+                _shipReady = true;
+            }
         }
 
         private void _orbitalFlight()
@@ -62,13 +76,13 @@ namespace Ships
         {
             t.RotateAround(
                 Vector3.zero, 
-                Vector3.left,
-                moveSpeed * Direction.y
+                Vector3.right,
+                moveSpeed * Direction.y * -1
             );
             t.RotateAround(
                 Vector3.zero, 
                 Vector3.forward,
-                moveSpeed * Direction.x
+                moveSpeed * Direction.x * -1
             );
         }
 
