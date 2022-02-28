@@ -4,16 +4,16 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public GameObject targetObject;
-    private SentinelFlight sentinelFlight;
+    private OrbitalFlight targetFlight;
 
     void Start()
     {
-        sentinelFlight = targetObject.GetComponent<SentinelFlight>();
-        sentinelFlight.GoToStartPosition(transform);
+        targetFlight = targetObject.GetComponent<OrbitalFlight>();
+        targetFlight.GoToStartPosition(transform);
     }
 
     private void FixedUpdate()
     {
-        sentinelFlight.MoveWithMe(transform);
+        targetFlight.MoveWithMe(transform);
     }
 }
