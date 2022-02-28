@@ -46,22 +46,31 @@ public class SensorBehaviour : MonoBehaviour
     {
         return this.treeNode;
     }
-
+    
     public void OnTriggerEnter(Collider other)
     {
-        treeNode.Blocked = true;
+        if (other.gameObject.layer == LayerMask.NameToLayer("SpaceStation"))
+        {
+            treeNode.Blocked = true;
+        }
     }
 
     public void OnTriggerStay(Collider other)
     {
-        treeNode.Blocked = true;
+        if (other.gameObject.layer == LayerMask.NameToLayer("SpaceStation"))
+        {
+            treeNode.Blocked = true;
+        }
     }
 
     public void OnTriggerExit(Collider other)
     {
-        treeNode.Blocked = false;
+        if (other.gameObject.layer == LayerMask.NameToLayer("SpaceStation"))
+        {
+            treeNode.Blocked = false;
+        }
     }
-
+    
     private void CreateChildren()
     {
         if (level <= 0) return;
