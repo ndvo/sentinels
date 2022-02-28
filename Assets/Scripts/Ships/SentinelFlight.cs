@@ -12,9 +12,9 @@ namespace Ships
         {
             PreviousDirection = new Position(Direction.x, Direction.y);
             if (Input.GetKey("left"))
-                Direction = Utils.Direction.East;
-            if (Input.GetKey("right"))
                 Direction = Utils.Direction.West;
+            if (Input.GetKey("right"))
+                Direction = Utils.Direction.East;
             if (Input.GetKey("down"))
                 Direction = Utils.Direction.South;
             if (Input.GetKey("up"))
