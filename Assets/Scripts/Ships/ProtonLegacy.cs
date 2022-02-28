@@ -25,10 +25,11 @@ public class ProtonLegacy : MonoBehaviour
     {
         _headquartersGameObject = GameObject.Find("EnemyHeadQuarters");
         _headquarters = _headquartersGameObject.GetComponent<Headquarters>();
-        if (_headquarters is null) return;
         _IdentifyParts();
+        if (_headquarters is null) return;
+        
     }
-
+    
     public void SetGenome(ShipGenome genome)
     {
         _genome = genome;
