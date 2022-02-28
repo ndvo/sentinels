@@ -7,17 +7,6 @@ namespace Ships
 {
     public class SentinelFlight : OrbitalFlight
     {
-        public override void Start()
-        {
-            base.Start();
-            GoToStartPosition();
-            Direction = Utils.Direction.North;
-        }
-
-        public void MoveWithMe(Transform t)
-        {
-            _move(t, DeltaTimeSpeed);
-        }
 
         protected override void _setNewDirection()
         {

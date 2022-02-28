@@ -9,6 +9,8 @@ namespace Ships
     {
 
         public float speed;
+        public float latitude = -90f;
+        public float longitude = 0f;
         protected Position Direction = new Position(0, 0);
         protected Position PreviousDirection = new Position(0, 0);
 
@@ -31,8 +33,14 @@ namespace Ships
 
         public virtual void Start()
         {
+            GoToStartPosition();
+            Direction = Utils.Direction.North;
         }
 
+        public void MoveWithMe(Transform t)
+        {
+            _move(t, DeltaTimeSpeed);
+        }
 
         public void FixedUpdate()
         {
@@ -40,7 +48,7 @@ namespace Ships
             _orbitalFlight();
         }
 
-        protected void _orbitalFlight()
+        private void _orbitalFlight()
         {
             DeltaTimeSpeed = speed * Time.deltaTime;
             if (OffBoard) DeltaTimeSpeed *= warpMultiplier;
@@ -92,7 +100,8 @@ namespace Ships
 
         public void GoToStartPosition(Transform t = null)
         {
-            GoTo(Utils.Direction.South, 90, t);
+            GoTo(Utils.Direction.North, latitude, t);
+            GoTo(Utils.Direction.East, longitude, t);
         }
 
         public void GoTo(Position dir, float angle, Transform t = null)
