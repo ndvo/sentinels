@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Ships
 {
-    public struct TreeNode
+    public class TreeNode
     {
         public TreeNode(bool blocked, bool leaf, Vector3 position, TreeNode[] children = null)
         {
@@ -55,30 +55,36 @@ namespace Ships
         /// <param name="path"></param>
         /// <param name="toleranceDistance"></param>
         /// <returns></returns>
-        public Path ComputePath(TreeNode node, Vector3 target, Path path = null, float toleranceDistance = 0f)
+        public Path ComputePath(TreeNode node, Vector3 target, float toleranceDistance = 0f)
         {
-            if (node.Leaf || node.Blocked)
+            var path = new Path(0, node);
+            if (!node.Leaf && !node.Blocked && node.Children != null && node.Children.Length > 0)
             {
-                path = new Path(0, node);
-                _handlePath(path, node, target, toleranceDistance);
-                // if leaf, no more work to do
-                return path;
-            }
-            // otherwise, work through the graph
-            // choose among all children the path with the longest non-blocking nodes
-            var chosen = node.Children.Aggregate(path, (curr, child) =>
-            {
-                path = ComputePath(child, target); // Invoke the children, the leaf will create the path
-                if (curr is null) return path; // If we are the first to evaluate (last of the stack) return path
-                if (curr.Reached) return curr; // this path reaches the target, return it
-                if (path.Reached) return path; // this path reaches the target, return it
-                if (curr.Score == path.Score) // For equal unblocked steps, use the shortest distance
+                // otherwise, work through the graph
+                // choose among all children the path with the longest non-blocking nodes
+                path = node.Children.Aggregate(path, (curr, other) =>
                 {
-                    return curr.Distance <= path.Distance ? curr : path;
-                }
-                return (curr.Score > path.Score) ? curr : path; // prefer the longest unblocked path
-            });
-            _handlePath(chosen, node, target, toleranceDistance);
+                    var otherPath = ComputePath(other, target); // Invoke the children, the leaf will create the path
+                    return _choosePath(curr, otherPath);
+                });
+            }
+            _handlePath(path, node, target, toleranceDistance);
+            return path;
+        }
+
+        private Path _choosePath(Path a, Path b)
+        {
+            Path chosen;
+            if (a.Reached) return a; // this path reaches the target, return it
+            if (b.Reached) return b; // this path reaches the target, return it
+            if (a.Score == b.Score) // For equal unblocked steps, use the shortest distance
+            {
+                chosen = a.Distance <= b.Distance ? a : b;
+            }
+            else
+            {
+                chosen = a.Score > b.Score ? a : b; // prefer the longest unblocked path
+            }
             return chosen;
         }
 
@@ -89,7 +95,8 @@ namespace Ships
             // add 1 to score if node is not blocked.
             path.Score = (node.Blocked ? 0 : 1) + path.Score;
             // distance is set on leaf.
-            path.Distance = node.Leaf ? UnityEngine.Vector3.Distance(node.Position, target) : float.PositiveInfinity;
+            var lastNode = path.Nodes.ElementAt(path.Nodes.Count - 1);
+            path.Distance = Vector3.Distance(lastNode.Position, target);
             // if current node is the target position, the path is flagged as reached.
             path.Reached = (Vector3.Distance(node.Position, target) <= toleranceDistance);
         }
