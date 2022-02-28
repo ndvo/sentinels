@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9163134690965360122}
   - component: {fileID: 6454730123313886994}
   - component: {fileID: 669220101889893293}
-  - component: {fileID: 6237558347863385123}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -27,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5119544685501020891}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.0166, z: -0.2341}
-  m_LocalScale: {x: 1, y: 1.0333, z: 1.026202}
+  m_LocalPosition: {x: 0.000000050273, y: 0.0211, z: 0.19}
+  m_LocalScale: {x: 4, y: 8, z: 4}
   m_Children: []
   m_Father: {fileID: 3322215752778430374}
   m_RootOrder: 0
@@ -83,19 +82,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6237558347863385123
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5119544685501020891}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7457838906571813135
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,8 +109,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7457838906571813135}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.0059164, y: -0.026811, z: -0.36154}
+  m_LocalScale: {x: 2.885235, y: 3.989125, z: 4.0404096}
   m_Children:
   - {fileID: 9163134690965360122}
   m_Father: {fileID: 0}
@@ -141,8 +127,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3.9202878, y: 7.976395, z: 3.8705924}
+  m_Center: {x: 0.027953506, y: -0.014963205, z: 0.18952183}
 --- !u!54 &8420805599795024553
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -155,7 +141,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -173,4 +159,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensorTemplate: {fileID: 7457838906571813135}
   level: 4
-  root: 0
+  ship: {fileID: 0}
