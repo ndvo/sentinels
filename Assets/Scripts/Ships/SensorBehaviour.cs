@@ -1,35 +1,59 @@
+using System.Collections.Generic;
 using System.Linq;
 using Ships;
 using UnityEngine;
+using Utils;
 using Object = UnityEngine.Object;
+using Vector3 = UnityEngine.Vector3;
 
 public class SensorBehaviour : MonoBehaviour
 {
-    private TreeNode treeNode;
+    public TreeNode treeNode;
     public GameObject sensorTemplate;
     public int level;
-    public bool root = false;
+    private int currentLevel;
     private SensorBehaviour parentSensor;
+    public GameObject ship;
+    private OrbitalFlight shipFlight;
+    private MeshRenderer box;
+    private readonly List<SensorBehaviour> _childSensors = new List<SensorBehaviour> ();
+    private readonly List<GameObject> childNodes = new List<GameObject>();
+    private Position direction = Direction.North;
+
+    private void Awake()
+    {
+        treeNode = new TreeNode(false, false, Vector3.zero, new TreeNode[] { });
+    }
 
     public void Start()
     {
+        box = transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
         parentSensor = transform.parent.gameObject.GetComponent<SensorBehaviour>();
         ResetLevel();
         ResetTreeNode();
         ResetChildObjects();
-        CreateChildren();
+        ResetChildren();
     }
 
     private void ResetTreeNode()
     {
         treeNode.Blocked = false;
-        treeNode.Leaf = level == 0;
+        treeNode.Leaf = level - currentLevel == 0;
         treeNode.Position = transform.position;
     }
 
     private void ResetLevel()
     {
-        level = (parentSensor != null) ? parentSensor.level - 1 : level;
+        if (parentSensor != null)
+        {
+            currentLevel = parentSensor.currentLevel + 1;
+            ship = transform.parent.gameObject.GetComponent<SensorBehaviour>().ship;
+        }
+        else
+        {
+            ship = transform.parent.gameObject;
+            shipFlight = ship.GetComponent<OrbitalFlight>();
+        }
     }
 
     private void ResetChildObjects()
@@ -40,7 +64,6 @@ public class SensorBehaviour : MonoBehaviour
                 Destroy(child.gameObject);
         }
     }
-
 
     public TreeNode GetTreeNode()
     {
@@ -71,19 +94,67 @@ public class SensorBehaviour : MonoBehaviour
         }
     }
     
+    private Position[] ChildrenDirections()
+    {
+        if (direction == Direction.North)
+            return new Position[]
+            {
+                new Position(0, 1),
+                new Position(1, 0),
+                new Position(-1, 0)
+            };
+        if (direction == Direction.East)
+        {
+            return new Position[]
+            {
+                new Position(-1, 0),
+                new Position(0, 1),
+                new Position(0, -1)
+            };
+        }
+        if (direction == Direction.West)
+            return new Position[]
+            {
+                new Position(1, 0),
+                new Position(0, 1),
+                new Position(0, -1)
+            };
+        return new Position[] { };
+    }
+    
+    private void CreateChild(Position dir)
+    {
+        var child = Object.Instantiate(gameObject, transform);
+        var sensor = child.GetComponent<SensorBehaviour>();
+        sensor.direction = dir;
+    }
+
+    private void ResetChildren()
+    {
+        if (level - currentLevel <= 0) return;
+        CreateChildren();
+        if (currentLevel == 0)
+        {
+            direction = Direction.East;
+            CreateChildren();
+            direction = Direction.West;
+            CreateChildren();
+            direction = Direction.North;
+        }
+    }
+
     private void CreateChildren()
     {
-        if (level <= 0) return;
-        var forward = Object.Instantiate(gameObject, transform);
-        var left = Object.Instantiate(gameObject, transform);
-        var right = Object.Instantiate(gameObject, transform);
-        var newNodes = new[] {forward, left, right};
-        // Position child sensors
-        forward.GetComponent<SensorBehaviour>().Move(0, 2);
-        left.GetComponent<SensorBehaviour>().Move(-2, 0);
-        right.GetComponent<SensorBehaviour>().Move(2, 0);
-        treeNode.Children = (from n in newNodes 
-            select n.GetComponent<SensorBehaviour>().treeNode).ToArray();
+        var dirs = ChildrenDirections();
+        for (int i = 0; i < dirs.Length; i++)
+        {
+            var child = Object.Instantiate(gameObject, transform);
+            var sensor = child.GetComponent<SensorBehaviour>();
+            _childSensors.Add(sensor);
+            sensor.direction = i == 0 ? direction : new Position(0, 0);
+            sensor.Move(dirs[i].x * 2, dirs[i].y * 2);
+        }
+        treeNode.Children = (from i in _childSensors select i.treeNode).ToArray();
     }
 
     public void Move(int directionY, int directionZ)
@@ -99,5 +170,14 @@ public class SensorBehaviour : MonoBehaviour
             Vector3.forward,
             directionY
         );
+    }
+
+    public void ShowIfInList(IEnumerable<TreeNode> list)
+    {
+        box.material.color = list.Contains(treeNode) ? Color.white : Color.black;
+        foreach (var sensor in _childSensors)
+        {
+            sensor.ShowIfInList(list);
+        }
     }
 }
