@@ -1,3 +1,4 @@
+using MazeGeneration;
 using NUnit.Framework;
 
 public class TestMazeWilsonAlgorithm
@@ -7,6 +8,7 @@ public class TestMazeWilsonAlgorithm
     [OneTimeSetUp]
     public void Setup()
     {
+        _mazeWilson = new WilsonAlgorithm(3, 3);
     }
 
     [Test]
