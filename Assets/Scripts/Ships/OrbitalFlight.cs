@@ -11,7 +11,7 @@ namespace Ships
         public float speed;
         public float latitude = -90f;
         public float longitude = 0f;
-        protected Position Direction = new Position(0, 0);
+        protected Position CurrentDirection = new Position(0, 0);
         protected Position PreviousDirection = new Position(0, 0);
 
         protected float DeltaTimeSpeed = 0;
@@ -40,7 +40,7 @@ namespace Ships
 
         public virtual void Start()
         {
-            Direction = Utils.Direction.North;
+            CurrentDirection = Utils.Direction.North;
         }
 
         public void MoveWithMe(Transform t)
@@ -77,18 +77,18 @@ namespace Ships
             t.RotateAround(
                 Vector3.zero, 
                 Vector3.right,
-                moveSpeed * Direction.y * -1
+                moveSpeed * CurrentDirection.y * -1
             );
             t.RotateAround(
                 Vector3.zero, 
                 Vector3.forward,
-                moveSpeed * Direction.x * -1
+                moveSpeed * CurrentDirection.x * -1
             );
         }
 
         protected virtual void _setNewDirection()
         {
-            Direction = Utils.Direction.North;
+            CurrentDirection = Utils.Direction.North;
         }
 
         protected virtual void _positionAim()
@@ -122,10 +122,10 @@ namespace Ships
         {
             t = t ? t: transform;
             GoToBoardCenter();
-            var oldDirection = Direction;
-            Direction = dir;
+            var oldDirection = CurrentDirection;
+            CurrentDirection = dir;
             _move(t, angle);
-            Direction = oldDirection;
+            CurrentDirection = oldDirection;
         }
     }
 }
