@@ -8,13 +8,13 @@ using Object = UnityEngine.Object;
 public class SpaceShip : MonoBehaviour
 {
     public float energyLevel = 1000;
-    private ParticleSystem _explosionPS;
+    private ParticleSystem _explosionVFX;
     private AudioSource _explosionAudio;
     private GameObject _shield;
     
     private void Start()
     {
-        _explosionPS = GameObject.Find("Explosion").GetComponent<ParticleSystem>();
+        _explosionVFX = GameObject.Find("Explosion").GetComponent<ParticleSystem>();
         _explosionAudio = GetComponent<AudioSource>();
         _shield = GameObject.Find("Shield");
     }
@@ -23,7 +23,7 @@ public class SpaceShip : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("SpaceStation"))
         {
-            TakeDamage(1);
+            TakeDamage(10);
             _explode();
         }
     }
@@ -46,7 +46,9 @@ public class SpaceShip : MonoBehaviour
 
     private void _explode() {
         _explosionAudio.Play();
-        _explosionPS.Play();
+        _explosionVFX.Clear();
+        _explosionVFX.Stop();
+        _explosionVFX.Play();
     }
 
 }
