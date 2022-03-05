@@ -10,15 +10,15 @@ namespace Ships
 
         protected override void _setNewDirection()
         {
-            PreviousDirection = new Position(Direction.x, Direction.y);
+            PreviousDirection = new Position(CurrentDirection.x, CurrentDirection.y);
             if (Input.GetKey("left"))
-                Direction = Utils.Direction.West;
+                CurrentDirection = Utils.Direction.West;
             if (Input.GetKey("right"))
-                Direction = Utils.Direction.East;
+                CurrentDirection = Utils.Direction.East;
             if (Input.GetKey("down"))
-                Direction = Utils.Direction.South;
+                CurrentDirection = Utils.Direction.South;
             if (Input.GetKey("up"))
-                Direction = Utils.Direction.North;
+                CurrentDirection = Utils.Direction.North;
         }
         
     }
