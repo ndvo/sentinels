@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Utils;
 using Time = UnityEngine.Time;
@@ -9,6 +10,7 @@ namespace Ships
     {
 
         public float speed;
+        private float _drag;
         public float latitude = -90f;
         public float longitude = 0f;
         protected Position CurrentDirection = new Position(0, 0);
@@ -60,11 +62,12 @@ namespace Ships
                 GoToStartPosition();
                 _shipReady = true;
             }
+            _drag = 0;
         }
 
         private void _orbitalFlight()
         {
-            DeltaTimeSpeed = speed * Time.deltaTime;
+            DeltaTimeSpeed = (speed - (speed * _drag)) * Time.deltaTime;
             if (OffBoard) DeltaTimeSpeed *= warpMultiplier;
             if (!OffBoard) _setNewDirection();
             _positionAim();
@@ -126,6 +129,19 @@ namespace Ships
             CurrentDirection = dir;
             _move(t, angle);
             CurrentDirection = oldDirection;
+        }
+
+        /// <summary>
+        /// Sets a drag percentage for a single frame.
+        ///
+        /// This function needs to be called for as long as the drag persists.
+        /// </summary>
+        /// <param name="dragPercentage"></param>
+        public void SetDrag(float dragPercentage)
+        {
+            if (dragPercentage < 0) dragPercentage = 0;
+            if (dragPercentage >= speed) dragPercentage = speed * 0.9f;
+            _drag = dragPercentage;
         }
     }
 }

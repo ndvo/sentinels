@@ -912,7 +912,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6840774199230643787}
   - component: {fileID: 5908337059181018851}
-  - component: {fileID: 6343808423671527287}
   - component: {fileID: 3224850943396832675}
   - component: {fileID: -7049380531459909322}
   m_Layer: 0
@@ -970,23 +969,6 @@ MonoBehaviour:
   tractors: []
   turbines: []
   wings: []
---- !u!114 &6343808423671527287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6838199413328904955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dd23736960bd2a48beef6c615cd7607, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  particleSystems: []
-  fadeRenderers: []
-  fadeDuration: 0.5
-  countMultiplier: 1
-  emissionEnabled: 0
 --- !u!65 &3224850943396832675
 BoxCollider:
   m_ObjectHideFlags: 0

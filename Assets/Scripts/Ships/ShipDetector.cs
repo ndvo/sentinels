@@ -17,7 +17,7 @@ namespace Ships
         public int size = 1;
         public List<GameObject> detected;
         private LayerMask _shipLayer;
-        private LayerMask _sentinelLayer;
+        //private LayerMask _sentinelLayer;
         private MeshRenderer _renderer;
         private float _renderTime = 0;
         private float _maxRenderTime = 0.5f;
@@ -25,7 +25,7 @@ namespace Ships
         void Start()
         {
             _shipLayer = LayerMask.NameToLayer("Ship");
-            _sentinelLayer = LayerMask.NameToLayer("Sentinel");
+            //_sentinelLayer = LayerMask.NameToLayer("Sentinel");
             transform.localScale = new Vector3(size, size, size);
             _renderer = GetComponent<MeshRenderer>();
             _renderer.enabled = false;
@@ -40,8 +40,8 @@ namespace Ships
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.layer != _shipLayer &&
-                other.gameObject.layer != _sentinelLayer) return;
+            if (other.gameObject.layer != _shipLayer) return; // &&
+                //other.gameObject.layer != _sentinelLayer) return;
             _renderer.enabled = true;
             _renderTime = 0;
             detected.Add(other.gameObject);
@@ -49,16 +49,17 @@ namespace Ships
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.layer != _shipLayer &&
-                other.gameObject.layer != _sentinelLayer) return;
+            if (other.gameObject.layer != _shipLayer) return; // &&
+                //other.gameObject.layer != _sentinelLayer) return;
             _renderer.enabled = true;
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.layer != _shipLayer &&
-                other.gameObject.layer != _sentinelLayer) return;
+            if (other.gameObject.layer != _shipLayer) return; //&&
+                // other.gameObject.layer != _sentinelLayer) return;
             _renderer.enabled = false;
+            detected.Remove(other.gameObject);
         }
 
         public void ShowSensor()
