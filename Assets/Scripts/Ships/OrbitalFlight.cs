@@ -65,7 +65,7 @@ namespace Ships
             _drag = 0;
         }
 
-        private void _orbitalFlight()
+        protected virtual void _orbitalFlight()
         {
             DeltaTimeSpeed = (speed - (speed * _drag)) * Time.deltaTime;
             if (OffBoard) DeltaTimeSpeed *= warpMultiplier;
