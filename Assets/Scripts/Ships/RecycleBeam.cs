@@ -15,7 +15,8 @@ namespace Ships
         private bool _activateBeam = false;
         private OrbitalFlight _shipFlight;
         private OrbitalFlight _targetFlight;
-        //private SpaceShip _targetShip;
+        private SpaceShip _targetShip;
+        public int power = 10;
 
         // Start is called before the first frame update
         void Start()
@@ -44,29 +45,43 @@ namespace Ships
             if (_hasTarget)
             {
                 _target = found;
-                if (_target is { }) _targetFlight = _target.gameObject.GetComponent<OrbitalFlight>();
+                if (_target is { }) Capture(_target.gameObject);
             }
             else
             {
-                _target = null;
-                _targetFlight = null;
+                Release();
             }
         }
 
-        void Fire(GameObject target)
+        private void Fire(GameObject target)
         
         {
             transform.LookAt(target.transform.position);
             _shipFlight.MoveWithMe(target.transform);
             _shipFlight.SetDrag(0.3f);
             _targetFlight.SetDrag(0.9f);
+            var energyLeft = _targetShip.TakeDamage(power);
+            if (energyLeft <= 0)
+            {
+                Release();
+            }
         }
 
-        void Capture(GameObject target)
+        private void Capture(GameObject target)
         {
-            var go = 
-            _targetFlight = _target.GetComponent<OrbitalFlight>();
-            //_targetShip = _target.GetComponent<SpaceShip>();
+            _targetShip = target.GetComponentInChildren<SpaceShip>();
+            if (!_targetShip.alive)
+            {
+                Release();
+                return;
+            }
+            _targetFlight = target.GetComponent<OrbitalFlight>();
+        }
+
+        private void Release()
+        {
+            _target = null;
+            _targetFlight = null;
         }
     }
 }

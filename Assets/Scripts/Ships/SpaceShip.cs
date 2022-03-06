@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
@@ -9,46 +10,81 @@ public class SpaceShip : MonoBehaviour
 {
     public float energyLevel = 1000;
     private ParticleSystem _explosionVFX;
+    private ParticleSystem _explosionDestroyVFX;
     private AudioSource _explosionAudio;
     private GameObject _shield;
-    
+    private bool _hasShield = false;
+    public bool alive = true;
+
     private void Start()
     {
-        _explosionVFX = GameObject.Find("Explosion").GetComponent<ParticleSystem>();
+        _explosionVFX = transform.Find("Explosion").GetComponent<ParticleSystem>();
         _explosionAudio = GetComponent<AudioSource>();
-        _shield = GameObject.Find("Shield");
+        _explosionDestroyVFX = transform.parent.transform.Find("ExplosionDestroy").GetComponent<ParticleSystem>();
+        _explosionDestroyVFX = _explosionDestroyVFX != null ? _explosionDestroyVFX : _explosionVFX;
+        _shield = transform.Find("Shield").gameObject;
+        if (_shield != null) _hasShield = true;
     }
 
+
     private void OnTriggerEnter(Collider other)
+    {
+        CheckCollisionWithSpaceStation(other);
+        CheckCollisionWithSpaceShip(other);
+    }
+
+    private void CheckCollisionWithSpaceStation(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("SpaceStation"))
         {
             TakeDamage(10);
-            _explode();
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void CheckCollisionWithSpaceShip(Collider other)
     {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Ship") &&
+            other.gameObject.layer != LayerMask.NameToLayer("Sentinel")) return;
+        TakeDamage(10);
     }
 
     private void FixedUpdate()
     {
-        _shield.SetActive(energyLevel >= 900);
+        if (_hasShield) _shield.SetActive(energyLevel >= 900);
     }
 
     public float TakeDamage(float damage)
     {
+
         energyLevel -= damage;
-        return damage;
+        _explode();
+        return energyLevel;
     }
 
-    private void _explode() {
+    private void _explode()
+    {
         _explosionAudio.Play();
-        _explosionVFX.Clear();
-        _explosionVFX.Stop();
-        _explosionVFX.Play();
+        var explosion = _explosionVFX;
+        if (energyLevel <= 0)
+        {
+            alive = false;
+            explosion = _explosionDestroyVFX;
+            Invoke(nameof(SetInactive), 0.3f);
+            Destroy(transform.parent.gameObject, 5);
+        }
+
+        explosion.Clear();
+        explosion.Stop();
+        explosion.Play();
     }
+
+    private void SetInactive()
+    {
+        transform.gameObject.SetActive(false);
+    }
+
+
+
+
 
 }
