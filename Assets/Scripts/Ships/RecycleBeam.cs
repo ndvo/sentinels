@@ -28,8 +28,9 @@ namespace Ships
             _beam = GameObject.Find("Beam");
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
+            _hasTarget = !(_target is null);
             _activateBeam = _hasTarget && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl));
             _beam.SetActive(_activateBeam);
             if (_activateBeam) Fire(_target);
@@ -38,27 +39,19 @@ namespace Ships
 
         void FindTarget()
         {
-            var found = _detector.detected
-                .OrderBy(i => Vector3.Distance(i.transform.position, _shipTransform.position))
-                .FirstOrDefault(i => i != _shipTransform.gameObject);
-            _hasTarget = found is { };
+            _target = _detector.Closest(transform.position);
+            _hasTarget = !(_target is null);
             if (_hasTarget)
-            {
-                _target = found;
-                if (_target is { }) Capture(_target.gameObject);
-            }
+                Capture(_target);
             else
-            {
                 Release();
-            }
         }
 
         private void Fire(GameObject target)
-        
         {
             transform.LookAt(target.transform.position);
             _shipFlight.MoveWithMe(target.transform);
-            _shipFlight.SetDrag(0.3f);
+            _shipFlight.SetDrag(0.5f);
             _targetFlight.SetDrag(0.9f);
             var energyLeft = _targetShip.TakeDamage(power);
             if (energyLeft <= 0)
@@ -70,7 +63,7 @@ namespace Ships
         private void Capture(GameObject target)
         {
             _targetShip = target.GetComponentInChildren<SpaceShip>();
-            if (!_targetShip.alive)
+            if (_targetShip is {alive: false})
             {
                 Release();
                 return;

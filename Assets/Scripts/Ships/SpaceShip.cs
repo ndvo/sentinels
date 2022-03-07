@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -20,12 +21,17 @@ public class SpaceShip : MonoBehaviour
     {
         _explosionVFX = transform.Find("Explosion").GetComponent<ParticleSystem>();
         _explosionAudio = GetComponent<AudioSource>();
-        _explosionDestroyVFX = transform.parent.transform.Find("ExplosionDestroy").GetComponent<ParticleSystem>();
-        _explosionDestroyVFX = _explosionDestroyVFX != null ? _explosionDestroyVFX : _explosionVFX;
-        _shield = transform.Find("Shield").gameObject;
-        if (_shield != null) _hasShield = true;
-    }
+        var explosionDestroy = transform.parent.transform.Find("ExplosionDestroy");
+        if (explosionDestroy is { }) _explosionDestroyVFX = explosionDestroy.GetComponent<ParticleSystem>();
+        _explosionDestroyVFX = !(_explosionDestroyVFX is null) ? _explosionDestroyVFX : _explosionVFX;
+        var shield = transform.Find("Shield");
+        if (shield is { })
+        {
+            _shield = shield.gameObject;
+            _hasShield = true;
+        }
 
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -69,10 +75,9 @@ public class SpaceShip : MonoBehaviour
         {
             alive = false;
             explosion = _explosionDestroyVFX;
-            Invoke(nameof(SetInactive), 0.3f);
-            Destroy(transform.parent.gameObject, 5);
+            Invoke(nameof(SetInactive), 0.8f);
         }
-
+        if (explosion is null) return; // the ship may have been destroyed
         explosion.Clear();
         explosion.Stop();
         explosion.Play();
@@ -80,7 +85,7 @@ public class SpaceShip : MonoBehaviour
 
     private void SetInactive()
     {
-        transform.gameObject.SetActive(false);
+        transform.parent.gameObject.SetActive(false);
     }
 
 

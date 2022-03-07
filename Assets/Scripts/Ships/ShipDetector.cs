@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -17,47 +18,42 @@ namespace Ships
         public int size = 1;
         public List<GameObject> detected;
         private LayerMask _shipLayer;
-        //private LayerMask _sentinelLayer;
         private MeshRenderer _renderer;
-        private float _renderTime = 0;
-        private float _maxRenderTime = 0.5f;
     
         void Start()
         {
             _shipLayer = LayerMask.NameToLayer("Ship");
-            //_sentinelLayer = LayerMask.NameToLayer("Sentinel");
             transform.localScale = new Vector3(size, size, size);
             _renderer = GetComponent<MeshRenderer>();
             _renderer.enabled = false;
         }
 
-        private void Update()
-        {
-            _renderTime += Time.deltaTime;
-            if (_renderTime > 10) _renderTime = _maxRenderTime;
-            //if (_renderTime >= _maxRenderTime) _renderer.enabled = false;
-        }
-
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.layer != _shipLayer) return; // &&
-                //other.gameObject.layer != _sentinelLayer) return;
-            _renderer.enabled = true;
-            _renderTime = 0;
+            if (other.gameObject.layer != _shipLayer) return;
             detected.Add(other.gameObject);
+        }
+
+        private void FixedUpdate()
+        {
+            detected.RemoveAll(i => i is null);
+            _renderer.enabled = false;
         }
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.layer != _shipLayer) return; // &&
-                //other.gameObject.layer != _sentinelLayer) return;
+            if (other.gameObject.layer != _shipLayer) return;
+            if (!other.gameObject.activeSelf)
+            {
+                detected.Remove(other.gameObject);
+                return;
+            }
             _renderer.enabled = true;
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.layer != _shipLayer) return; //&&
-                // other.gameObject.layer != _sentinelLayer) return;
+            if (other.gameObject.layer != _shipLayer) return;
             _renderer.enabled = false;
             detected.Remove(other.gameObject);
         }
@@ -70,6 +66,19 @@ namespace Ships
         public void HideSensor()
         {
             _renderer.enabled = false;
+        }
+
+        public GameObject[] Detect()
+        {
+            return detected.Where(i => !(i is null)).ToArray();
+        }
+
+        public GameObject Closest(Vector3 targetPosition)
+        {
+            detected = detected
+                .Where(i => !(i is null) && i.activeSelf)
+                .OrderBy(i => Vector3.Distance(targetPosition, i.transform.position)).ToList();
+            return detected.FirstOrDefault();
         }
     }
 }
