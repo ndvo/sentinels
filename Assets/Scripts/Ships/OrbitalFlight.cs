@@ -139,9 +139,7 @@ namespace Ships
         /// <param name="dragPercentage"></param>
         public void SetDrag(float dragPercentage)
         {
-            if (dragPercentage < 0) dragPercentage = 0;
-            if (dragPercentage >= speed) dragPercentage = speed * 0.9f;
-            _drag = dragPercentage;
+            _drag = Mathf.Clamp(dragPercentage, 0, 0.9f);
         }
     }
 }
