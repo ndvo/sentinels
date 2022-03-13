@@ -17,6 +17,7 @@ namespace Ships
         private OrbitalFlight _targetFlight;
         private SpaceShip _targetShip;
         public int power = 10;
+        private AudioSource _audioSource;
 
         // Start is called before the first frame update
         void Start()
@@ -26,6 +27,7 @@ namespace Ships
             _shipFlight = parent.gameObject.GetComponent<OrbitalFlight>();
             _detector = detector.GetComponent<ShipDetector>();
             _beam = GameObject.Find("Beam");
+            _audioSource = GetComponent<AudioSource>();
         }
 
         private void Update()
@@ -39,6 +41,7 @@ namespace Ships
 
         void FindTarget()
         {
+            if (_audioSource.isPlaying) _audioSource.Stop();
             _target = _detector.Closest(transform.position);
             _hasTarget = !(_target is null);
             if (_hasTarget)
@@ -49,6 +52,7 @@ namespace Ships
 
         private void Fire(GameObject target)
         {
+            if (!_audioSource.isPlaying) _audioSource.Play();
             transform.LookAt(target.transform.position);
             _shipFlight.MoveWithMe(target.transform);
             _shipFlight.SetDrag(0.5f);
@@ -78,6 +82,7 @@ namespace Ships
         {
             _target = null;
             _targetFlight = null;
+            _audioSource.Stop();
         }
     }
 }
