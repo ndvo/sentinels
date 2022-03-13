@@ -28,6 +28,7 @@ namespace Ships
         public float warpMultiplier;
         private bool _hasSpaceStationBuilder = false;
         private bool _shipReady = false;
+        private AudioSource _audioSource;
 
         public virtual void Awake()
         {
@@ -38,6 +39,7 @@ namespace Ships
                 SpaceStationBuilder = station.GetComponent<SpaceStationBuilder>();
                 _hasSpaceStationBuilder = true;
             }
+            _audioSource = GetComponent<AudioSource>();
         }
 
         public virtual void Start()
@@ -68,8 +70,16 @@ namespace Ships
         protected virtual void _orbitalFlight()
         {
             DeltaTimeSpeed = (speed - (speed * _drag)) * Time.fixedDeltaTime;
-            if (OffBoard) DeltaTimeSpeed *= warpMultiplier;
-            if (!OffBoard) _setNewDirection();
+            if (OffBoard)
+            {
+                DeltaTimeSpeed *= warpMultiplier;
+                if (!(_audioSource is null) && !_audioSource.isPlaying) _audioSource.Play();
+            }
+            else
+            {
+                _setNewDirection();
+                if (!(_audioSource is null) && _audioSource.isPlaying) _audioSource.Stop();
+            }
             _positionAim();
             LookAtDirection();
             _move(transform, DeltaTimeSpeed);
