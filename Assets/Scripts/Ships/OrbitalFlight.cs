@@ -67,7 +67,7 @@ namespace Ships
 
         protected virtual void _orbitalFlight()
         {
-            DeltaTimeSpeed = (speed - (speed * _drag)) * Time.deltaTime;
+            DeltaTimeSpeed = (speed - (speed * _drag)) * Time.fixedDeltaTime;
             if (OffBoard) DeltaTimeSpeed *= warpMultiplier;
             if (!OffBoard) _setNewDirection();
             _positionAim();
