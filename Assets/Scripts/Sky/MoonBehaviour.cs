@@ -14,7 +14,7 @@ public class MoonBehaviour : OrbitalFlight
     protected override void _orbitalFlight()
     {
         transform.LookAt(Vector3.zero);
-        _move(transform, 0.3f * Time.deltaTime);
+        _move(transform, 0.3f * Time.fixedDeltaTime);
     }
     
 }
