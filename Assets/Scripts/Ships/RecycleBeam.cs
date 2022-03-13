@@ -53,11 +53,14 @@ namespace Ships
             _shipFlight.MoveWithMe(target.transform);
             _shipFlight.SetDrag(0.5f);
             _targetFlight.SetDrag(0.9f);
-            var energyLeft = _targetShip.TakeDamage(power);
-            if (energyLeft <= 0)
+            if (!(_target is null))
             {
-                Release();
-            }
+                var energyLeft = _targetShip.TakeDamage(power);
+                if (energyLeft <= 0)
+                {
+                    Release();
+                }
+            } else Release();
         }
 
         private void Capture(GameObject target)
