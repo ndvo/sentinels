@@ -9,9 +9,7 @@ namespace Ships
     {
         public float resistance = 10f;
         public float firePower = 10f;
-        public float fireSpeed = 10f;
         public float drainPower = 10f;
-        public float drainSpeed = 10f;
         public float movementSpeed = 10f;
         public float fleeTime = 10f;
         public float attackProbability = 10f;
@@ -22,9 +20,11 @@ namespace Ships
         private SimpleSensor _sensor;
         
         private float _timeAfterEscape = 0;
+        private AttackEarth _attack;
     
         void Start()
         {
+            _attack = GetComponent<AttackEarth>();
             _timeAfterEscape = fleeTime;
             var sensorObj = transform.Find("SimpleSensor");
             if (sensorObj != null)
@@ -40,7 +40,6 @@ namespace Ships
 
         private void Update()
         {
-            // Regardless of 
             var state = StateMachine.GetState();
             if (state == EnemyShipStates.Dying) return;
             if (state != EnemyShipStates.Fleeing)
@@ -58,9 +57,12 @@ namespace Ships
             switch (StateMachine.GetState())
             {
                 case EnemyShipStates.Dying:
+                    _attack.StopAttack();
+                    break;
                 case EnemyShipStates.AttackingEarth:
                     break;
                 case EnemyShipStates.Fleeing:
+                    _attack.StopAttack();
                     _timeAfterEscape += Time.deltaTime;
                     if (_timeAfterEscape > fleeTime)
                     {
@@ -69,19 +71,23 @@ namespace Ships
                     }
                     break;
                 case EnemyShipStates.Repositioning:
+                    _attack.StopAttack();
                     if (!_sensor.blocked) break;
                     if (Random.value < attackProbability / 100)
                     {
                         StateMachine.AttackEarth();
+                        _attack.SetTarget(_sensor.blocking.transform);
                     }
                     break;
                 case EnemyShipStates.Idle:
-                    if (Random.value < idleProbability / 1000)
+                    _attack.StopAttack();
+                    if (Random.value > idleProbability / 100)
                     {
                         StateMachine.Reposition();
                     }
                     break;
                 case EnemyShipStates.Resisting:
+                    _attack.StopAttack();
                     if (!_sentinelDetector.blocked)
                     {
                         StateMachine.Reposition();
