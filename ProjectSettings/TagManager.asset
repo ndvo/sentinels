@@ -12,6 +12,7 @@ TagManager:
   - ShipTurbines
   - ShipWings
   - Sensor
+  - AttackRay
   layers:
   - Default
   - TransparentFX
