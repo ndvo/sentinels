@@ -10,6 +10,7 @@ using Object = UnityEngine.Object;
 public class SpaceShip : MonoBehaviour
 {
     public float energyLevel = 1000;
+    protected float MAXEnergyLevel;
     private ParticleSystem _explosionVFX;
     private ParticleSystem _explosionDestroyVFX;
     private ParticleSystem _explosionSmokeVFX;
@@ -18,8 +19,9 @@ public class SpaceShip : MonoBehaviour
     private bool _hasShield = false;
     public bool alive = true;
 
-    private void Start()
+    protected virtual void Start()
     {
+        MAXEnergyLevel = energyLevel;
         var parentTransform = transform.parent.transform;
         _explosionVFX = transform.Find("Explosion").GetComponent<ParticleSystem>();
         _explosionAudio = parentTransform.Find("jukebox")?.GetComponent<AudioSource>();
@@ -63,7 +65,7 @@ public class SpaceShip : MonoBehaviour
         if (_hasShield) _shield.SetActive(energyLevel >= 900);
     }
 
-    public float TakeDamage(float damage)
+    public virtual float TakeDamage(float damage)
     {
 
         energyLevel -= damage;
