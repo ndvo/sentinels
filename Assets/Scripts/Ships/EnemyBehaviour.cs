@@ -38,10 +38,6 @@ namespace Ships
             }
         }
 
-        private void ResumeOperation()
-        {
-        }
-
         private void Update()
         {
             // Regardless of 
@@ -73,8 +69,8 @@ namespace Ships
                     }
                     break;
                 case EnemyShipStates.Repositioning:
-                    if (!_sensor.blocked) return;
-                    if (Random.value < attackProbability / 1000)
+                    if (!_sensor.blocked) break;
+                    if (Random.value < attackProbability / 100)
                     {
                         StateMachine.AttackEarth();
                     }
