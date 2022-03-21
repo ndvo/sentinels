@@ -37,9 +37,9 @@ namespace Sky
         private void Update()
         {
             // Earth slowly regenerates itself.
-            mineralResources += Mathf.Min(Time.deltaTime * 0.5f, _maxResource);
-            biologicalResources += Mathf.Min(Time.deltaTime * 0.5f, _maxResource);
-            atmosphericalResources += Mathf.Min(Time.deltaTime * 0.5f, _maxResource);
+            mineralResources += Mathf.Min(Time.deltaTime * 5f, _maxResource);
+            biologicalResources += Mathf.Min(Time.deltaTime * 5f, _maxResource);
+            atmosphericalResources += Mathf.Min(Time.deltaTime * 5f, _maxResource);
             _updateUi();
         }
 
