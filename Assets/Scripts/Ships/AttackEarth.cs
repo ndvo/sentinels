@@ -11,9 +11,11 @@ namespace Ships
         private EarthBehaviour _earth;
         public NaturalResources attackType = NaturalResources.Mineral;
         private EnemyBehaviour _enemyBehaviour;
-
+        private GameObject _capturedVFX;
+        
         void Start()
         {
+            _capturedVFX = transform.Find("CapturedVFX").gameObject;
             _attackRay = transform.Find("AttackRay").gameObject;
             _enemyBehaviour = GetComponent<EnemyBehaviour>();
             _earth = GameObject.Find("/Earth").GetComponent<EarthBehaviour>();
@@ -36,6 +38,8 @@ namespace Ships
             if (_attackRay is { })
             {
                 _attackRay.gameObject.SetActive(true);
+                _capturedVFX.transform.position = target.position;
+                _capturedVFX.SetActive(true);
                 _active = true;
             }
             else
@@ -50,6 +54,7 @@ namespace Ships
             if (!_active) return;
             _active = false;
             _attackRay.SetActive(false);
+            _capturedVFX.SetActive(false);
             _targetStation = null;
         }
 
