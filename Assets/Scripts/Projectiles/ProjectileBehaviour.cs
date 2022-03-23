@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectiveBehaviour : MonoBehaviour
+public class ProjectileBehaviour : MonoBehaviour
 {
 
     public float duration;
@@ -23,6 +23,6 @@ public class ProjectiveBehaviour : MonoBehaviour
         {
             _fadeOut = true;
         }
-
     }
+    
 }
