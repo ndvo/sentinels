@@ -57,7 +57,7 @@ namespace Ships
             _shipFlight.MoveWithMe(target.transform);
             _shipFlight.SetDrag(0.5f);
             _targetFlight.SetDrag(0.9f);
-            if (!(_target is null))
+            if (!(_target is null) && !(_targetShip is null))
             {
                 var energyLeft = _targetShip.TakeDamage(power);
                 if (energyLeft <= 0)
