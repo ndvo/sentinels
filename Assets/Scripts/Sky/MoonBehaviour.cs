@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Ships;
 using UnityEngine;
 
-public class MoonBehaviour : OrbitalFlight
+public class MoonBehaviour : ShipFlight
 {
     public override void Start()
     {

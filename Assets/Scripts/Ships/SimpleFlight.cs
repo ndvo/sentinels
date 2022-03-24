@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace Ships
 {
-    public class SimpleFlight : OrbitalFlight
+    public class SimpleFlight : ShipFlight
     {
         private SimpleSensor _sensor;
         private SimpleSensor _sentinelDetector;

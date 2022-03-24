@@ -13,8 +13,8 @@ namespace Ships
         public GameObject detector;
         private bool _hasTarget;
         private bool _activateBeam = false;
-        private OrbitalFlight _shipFlight;
-        private OrbitalFlight _targetFlight;
+        private ShipFlight _shipFlight;
+        private ShipFlight _targetFlight;
         private SpaceShip _targetShip;
         public int power = 10;
         private AudioSource _audioSource;
@@ -24,7 +24,7 @@ namespace Ships
         {
             var parent = transform.parent;
             _shipTransform = parent.transform;
-            _shipFlight = parent.gameObject.GetComponent<OrbitalFlight>();
+            _shipFlight = parent.gameObject.GetComponent<ShipFlight>();
             _detector = detector.GetComponent<ShipDetector>();
             _beam = GameObject.Find("Beam");
             _audioSource = GetComponent<AudioSource>();
@@ -75,7 +75,7 @@ namespace Ships
                 Release();
                 return;
             }
-            _targetFlight = target.GetComponent<OrbitalFlight>();
+            _targetFlight = target.GetComponent<ShipFlight>();
         }
 
         private void Release()

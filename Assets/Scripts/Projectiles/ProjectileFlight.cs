@@ -7,12 +7,8 @@ using Utils;
 public class ProjectileFlight : OrbitalFlight
 {
     private SimpleSensor _sensor;
-    public GameObject target;
-    public override void Awake()
-    {
-        HasSpaceStationBuilder = false;
-        AudioSource = GetComponent<AudioSource>();
-    }
+    private GameObject _target;
+    private bool _hasTarget = false;
 
     public override void Start()
     {
@@ -23,15 +19,21 @@ public class ProjectileFlight : OrbitalFlight
         }
     }
 
+    public void SetTarget(GameObject target)
+    {
+        _target = target;
+        _hasTarget = true;
+    }
+
     protected override void _setNewDirection()
     {
-        if (!(target is { }))
+        if (!_hasTarget)
         {
             CurrentDirection = new Position(0, 0);
         }
         else
         {
-            var direction = Vector3.Normalize(target.transform.position - transform.position));
+            var direction = Vector3.Normalize(_target.transform.position - transform.position);
             var x = Mathf.Abs(direction.x);
             var z = Mathf.Abs(direction.z);
             if (x.Equals(z))

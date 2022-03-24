@@ -5,7 +5,7 @@ using Time = UnityEngine.Time;
 
 namespace Ships
 {
-    public class SentinelFlight : OrbitalFlight
+    public class SentinelFlight : ShipFlight
     {
 
         protected override void _setNewDirection()
