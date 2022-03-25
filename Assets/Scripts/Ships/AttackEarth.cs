@@ -18,7 +18,8 @@ namespace Ships
             _capturedVFX = transform.Find("CapturedVFX").gameObject;
             _attackRay = transform.Find("AttackRay").gameObject;
             _enemyBehaviour = GetComponent<EnemyBehaviour>();
-            _earth = GameObject.Find("/Earth").GetComponent<EarthBehaviour>();
+            var earthObject = GameObject.Find("/Earth");
+            if (earthObject is {}) _earth = GetComponent<EarthBehaviour>();
         }
 
         void Update()
@@ -29,7 +30,7 @@ namespace Ships
         private void _attack()
         {
             _setRayPosition();
-            _earth.LooseResources(_enemyBehaviour.firePower * Time.deltaTime, attackType);
+            if (_earth is {}) _earth.LooseResources(_enemyBehaviour.firePower * Time.deltaTime, attackType);
         }
 
         public void SetTarget(Transform target)

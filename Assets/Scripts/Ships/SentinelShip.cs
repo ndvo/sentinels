@@ -9,14 +9,15 @@ namespace Ships
         
         protected override void Start()
         {
-            _shieldPowerUI = GameObject.Find("/Canvas/Sentinel/Shield/ShieldPower").GetComponent<Image>();
+            var shieldObject = GameObject.Find("/Canvas/Sentinel/Shield/ShieldPower");
+            if (shieldObject is {}) _shieldPowerUI = shieldObject.GetComponent<Image>();
             base.Start();
         }
 
         public override float TakeDamage(float damage)
         {
             var inflictedDamage = base.TakeDamage(damage);
-            _shieldPowerUI.fillAmount = energyLevel / MAXEnergyLevel;
+            if (_shieldPowerUI is {}) _shieldPowerUI.fillAmount = energyLevel / MAXEnergyLevel;
             return inflictedDamage;
         }
     }

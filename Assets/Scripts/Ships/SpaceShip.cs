@@ -75,7 +75,7 @@ public class SpaceShip : MonoBehaviour
 
     private void _explode()
     {
-        _explosionAudio.Play();
+        if (_explosionAudio is {}) _explosionAudio.Play();
         if (energyLevel <= 0)
         {
             alive = false;
