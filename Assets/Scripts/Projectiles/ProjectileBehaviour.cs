@@ -8,11 +8,11 @@ public class ProjectileBehaviour : MonoBehaviour
     public float duration;
     public float power;
     private bool _fadeOut = false;
-    
-    // Start is called before the first frame update
-    void Start()
+    private Material _material;
+
+    private void Start()
     {
-        
+        transform.GetComponent<MeshRenderer>().material.color = new Color(1f, 1f, 1f, 0f);
     }
 
     // Update is called once per frame
@@ -22,6 +22,16 @@ public class ProjectileBehaviour : MonoBehaviour
         if (duration <= 0)
         {
             _fadeOut = true;
+        }
+
+        if (_fadeOut)
+        {
+            var oldColor = _material.color;
+            _material.color = new Color(oldColor.r, oldColor.g, oldColor.b, oldColor.a - 0.05f * Time.deltaTime);
+            if (_material.color.a <= 0f)
+            {
+                Destroy(this);
+            }
         }
     }
     
