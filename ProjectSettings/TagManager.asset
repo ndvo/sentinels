@@ -13,6 +13,7 @@ TagManager:
   - ShipWings
   - Sensor
   - AttackRay
+  - Projectile
   layers:
   - Default
   - TransparentFX
