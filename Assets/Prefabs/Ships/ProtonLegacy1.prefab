@@ -1353,6 +1353,7 @@ MonoBehaviour:
   tractors: []
   turbines: []
   wings: []
+  level: 1
 --- !u!65 &3224850943396832675
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1382,7 +1383,7 @@ MonoBehaviour:
   latitude: 0
   longitude: 0
   inertia: 0
-  warpMultiplier: 0
+  warpMultiplier: 30
 --- !u!114 &2522526039786788683
 MonoBehaviour:
   m_ObjectHideFlags: 0

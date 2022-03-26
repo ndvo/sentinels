@@ -1789,7 +1789,7 @@ MonoBehaviour:
   latitude: 2
   longitude: 3
   inertia: 0
-  warpMultiplier: 0
+  warpMultiplier: 30
 --- !u!82 &1816296634348388821
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1940,6 +1940,7 @@ MonoBehaviour:
   tractors: []
   turbines: []
   wings: []
+  level: 1
 --- !u!1001 &345065514266606626
 PrefabInstance:
   m_ObjectHideFlags: 0
