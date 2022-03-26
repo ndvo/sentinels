@@ -82,7 +82,7 @@ namespace Ships
                     break;
                 case EnemyShipStates.Idle:
                     _attack.StopAttack();
-                    if (Random.value > idleProbability / 100)
+                    if (Random.value < idleProbability / 100)
                     {
                         StateMachine.Reposition();
                     }
