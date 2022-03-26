@@ -13,7 +13,10 @@ namespace Ships
 
         public override void Start()
         {
-            CurrentDirection = Utils.Direction.North;
+            CurrentDirection = (new Position[]
+            {
+                Utils.Direction.North, Utils.Direction.East, Utils.Direction.South, Utils.Direction.West
+            })[Random.Range(0, 4)];
             var sensorObj = transform.Find("SimpleSensor");
             if (sensorObj != null)
             {
