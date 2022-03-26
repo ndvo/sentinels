@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 325810073484302653}
   m_Layer: 0
   m_Name: ProtonLegacy_Wing_1_Mirrored
-  m_TagString: Untagged
+  m_TagString: ShipWings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 336151441472346083}
   m_Layer: 0
   m_Name: ProtonLegacy_Engine_Mirrored
-  m_TagString: Untagged
+  m_TagString: ShipTurbines
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 1469107353524926614}
   m_Layer: 0
   m_Name: ProtonLegacy_Wing_1_Mirrored
-  m_TagString: Untagged
+  m_TagString: ShipWings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 2073491199898740529}
   m_Layer: 0
   m_Name: ProtonLegacy_Engine
-  m_TagString: Untagged
+  m_TagString: ShipTurbines
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 2081900357165501708}
   m_Layer: 0
   m_Name: ProtonLegacy_Wing_1
-  m_TagString: Untagged
+  m_TagString: ShipWings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -484,7 +484,7 @@ GameObject:
   - component: {fileID: 2271638186955045077}
   m_Layer: 0
   m_Name: ProtonLegacy_Weapon
-  m_TagString: Untagged
+  m_TagString: ShipMissileLauncher
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -566,7 +566,7 @@ GameObject:
   - component: {fileID: 2725639560033148366}
   m_Layer: 0
   m_Name: ProtonLegacy_Wing_1
-  m_TagString: Untagged
+  m_TagString: ShipWings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -944,7 +944,7 @@ GameObject:
   - component: {fileID: 4984836668628666964}
   m_Layer: 0
   m_Name: ProtonLegacy_Core
-  m_TagString: Untagged
+  m_TagString: ShipLaserCannon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1026,7 +1026,7 @@ GameObject:
   - component: {fileID: 5088690269583186845}
   m_Layer: 0
   m_Name: ProtonLegacy_Wing_1_Mirrored
-  m_TagString: Untagged
+  m_TagString: ShipWings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1108,7 +1108,7 @@ GameObject:
   - component: {fileID: 5445566573690059854}
   m_Layer: 0
   m_Name: ProtonLegacy_Wing_2
-  m_TagString: Untagged
+  m_TagString: ShipWings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1190,7 +1190,7 @@ GameObject:
   - component: {fileID: 5491755293618144753}
   m_Layer: 0
   m_Name: ProtonLegacy_Cockpit
-  m_TagString: Untagged
+  m_TagString: ShipBridge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1272,7 +1272,7 @@ GameObject:
   - component: {fileID: 6646662952346098114}
   m_Layer: 0
   m_Name: ProtonLegacy_Wing_1
-  m_TagString: Untagged
+  m_TagString: ShipWings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1354,7 +1354,7 @@ GameObject:
   - component: {fileID: 7623272784744348206}
   m_Layer: 0
   m_Name: ProtonLegacy_Rear
-  m_TagString: Untagged
+  m_TagString: ShipBody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1436,7 +1436,7 @@ GameObject:
   - component: {fileID: 7848419003331467415}
   m_Layer: 0
   m_Name: ProtonLegacy_Ring
-  m_TagString: Untagged
+  m_TagString: ShipTractor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1645,7 +1645,7 @@ GameObject:
   - component: {fileID: 8069288078425564263}
   m_Layer: 0
   m_Name: ProtonLegacy_Wing_2_Mirrored
-  m_TagString: Untagged
+  m_TagString: ShipWings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1728,6 +1728,7 @@ GameObject:
   - component: {fileID: 1816296634348388821}
   - component: {fileID: 3902837449835392213}
   - component: {fileID: 8399416758697249975}
+  - component: {fileID: 6620783099251690748}
   m_Layer: 8
   m_Name: ProtonLegacy8
   m_TagString: Untagged
@@ -1918,6 +1919,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetStation: {fileID: 0}
   attackType: 0
+--- !u!114 &6620783099251690748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8858355983249416439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28d94465824502b8cb84b8ed0db0c7ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ready: 0
+  achievements: []
+  bodies: []
+  bridges: []
+  laserCannons: []
+  missileLaunchers: []
+  tractors: []
+  turbines: []
+  wings: []
 --- !u!1001 &345065514266606626
 PrefabInstance:
   m_ObjectHideFlags: 0
