@@ -14,10 +14,10 @@ namespace Ships
         public float fleeTime = 10f;
         public float attackProbability = 10f;
         public float idleProbability = 10f;
-        
         public readonly EnemyShipStateMachine StateMachine = new EnemyShipStateMachine();
         private SimpleSensor _sentinelDetector;
         private SimpleSensor _sensor;
+        public string state;
         
         private float _timeAfterEscape = 0;
         private AttackEarth _attack;
@@ -40,9 +40,10 @@ namespace Ships
 
         private void Update()
         {
-            var state = StateMachine.GetState();
-            if (state == EnemyShipStates.Dying) return;
-            if (state != EnemyShipStates.Fleeing)
+            var newState = StateMachine.GetState();
+            this.state = newState.ToString();
+            if (newState == EnemyShipStates.Dying) return;
+            if (newState != EnemyShipStates.Fleeing)
             {
                 if (_sentinelDetector.blocked)
                 {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MiscUtil.Collections.Extensions;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -53,6 +54,11 @@ namespace Ships
         {
             if (_state != EnemyShipStates.Fleeing) _throwInvalidState();
             _state = EnemyShipStates.Resisting;
+        }
+
+        public override string ToString()
+        {
+            return $"StateMachine {_state.ToString()}";
         }
 
     }

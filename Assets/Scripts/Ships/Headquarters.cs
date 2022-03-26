@@ -33,7 +33,7 @@ public class Headquarters : MonoBehaviour
             GeneticAlgorithm.GeneticAlgorithm.MatchingLeaderChoice,
             GeneticAlgorithm.GeneticAlgorithm.UniformCrossOver
         );
-        _ships = transform.Find("Ships");
+        _ships = GameObject.Find("Ships").transform;
     }
 
     void _setGeneticAlgorithm()
