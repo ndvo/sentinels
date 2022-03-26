@@ -94,7 +94,6 @@ public class SpaceShip : MonoBehaviour
         }
         else
         {
-            if (_explosionVFX is null) return; // the ship may have been destroyed
             _explosionVFX.Clear();
             _explosionVFX.Stop();
             _explosionVFX.Play();
