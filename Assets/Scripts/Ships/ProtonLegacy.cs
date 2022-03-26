@@ -22,7 +22,7 @@ public class ProtonLegacy : MonoBehaviour
     public Transform[] wings;
     private SimpleFlight _flight;
     private EnemyBehaviour _behaviour;
-    public float Level = 1;
+    public float level = 1;
     
     // Start is called before the first frame update
     void Start()
@@ -30,14 +30,16 @@ public class ProtonLegacy : MonoBehaviour
         _headquartersGameObject = GameObject.Find("EnemyHeadQuarters");
         if (_headquartersGameObject != null)
             _headquarters = _headquartersGameObject.GetComponent<Headquarters>();
+        _flight = GetComponent<SimpleFlight>();
+        _behaviour = GetComponent<EnemyBehaviour>();
         _IdentifyParts();
+        _ApplyGenome();
+        _SetFeatures();
     }
     
     public void SetGenome(ShipGenome genome)
     {
         _genome = genome;
-        _IdentifyParts();
-        _ApplyGenome();
         _individual = new Individual
         {
             genes = _genome.GetGenome(),
@@ -110,13 +112,13 @@ public class ProtonLegacy : MonoBehaviour
 
     private void _SetFeatures()
     {
-        _behaviour.resistance = (10 * Level) * _genome.Resistance;
-        _behaviour.firePower = (10 * Level) * _genome.FirePower;
-        _behaviour.drainPower = (10 * Level) * _genome.DrainPower;
-        _behaviour.movementSpeed = (10 * Level) * _genome.MovementSpeed;
-        _behaviour.fleeTime = (10 * Level) * _genome.FleeTime;
-        _behaviour.attackProbability = (10 * Level) * _genome.AttackProbability;
-        _behaviour.idleProbability = (10 * Level) * _genome.IdleProbability;
+        _behaviour.resistance = (10 * level) * _genome.Resistance;
+        _behaviour.firePower = (10 * level) * _genome.FirePower;
+        _behaviour.drainPower = (10 * level) * _genome.DrainPower;
+        _behaviour.movementSpeed = (10 * level) * _genome.MovementSpeed;
+        _behaviour.fleeTime = (10 * level) * _genome.FleeTime;
+        _behaviour.attackProbability = (10 * level) * _genome.AttackProbability;
+        _behaviour.idleProbability = (10 * level) * _genome.IdleProbability;
     }
 
     public Individual GetIndividual()
