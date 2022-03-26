@@ -26,7 +26,8 @@ namespace Ships
 
         public virtual void Awake()
         {
-            Aim = new GameObject();
+            Aim = new GameObject("aim");
+            Aim.transform.parent = transform;
             var station = GameObject.Find("SpaceStationBuilder");
             if (station != null)
             {
