@@ -110,15 +110,21 @@ public class ProtonLegacy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Transforms the genetic features into behaviour features.
+    ///
+    /// It maps the values from the genome code (between 0 and 1) into meaningful values for the ProtonLegacy family of
+    /// enemies.
+    /// </summary>
     private void _SetFeatures()
     {
-        _behaviour.resistance = (10 * level) * _genome.Resistance;
-        _behaviour.firePower = (10 * level) * _genome.FirePower;
-        _behaviour.drainPower = (10 * level) * _genome.DrainPower;
-        _behaviour.movementSpeed = (10 * level) * _genome.MovementSpeed;
+        _behaviour.resistance = (10 + 5 * level) * _genome.Resistance;
+        _behaviour.firePower = (10 + 5 * level) * _genome.FirePower;
+        _behaviour.drainPower = (10 + 5 * level) * _genome.DrainPower;
+        _behaviour.movementSpeed = 2 + level/2 * _genome.MovementSpeed;
         _behaviour.fleeTime = (10 * level) * _genome.FleeTime;
-        _behaviour.attackProbability = (10 * level) * _genome.AttackProbability;
-        _behaviour.idleProbability = (10 * level) * _genome.IdleProbability;
+        _behaviour.attackProbability = Mathf.Clamp((80 * level) * _genome.AttackProbability, 0, 100);
+        _behaviour.idleProbability = Mathf.Clamp((20 - level) * _genome.IdleProbability, 0, 60);
     }
 
     public Individual GetIndividual()

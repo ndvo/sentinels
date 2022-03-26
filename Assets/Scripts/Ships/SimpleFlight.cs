@@ -28,7 +28,7 @@ namespace Ships
                 _sentinelDetector = sentinelDetectorObj.GetComponent<SimpleSensor>();
             }
             _behaviour = GetComponent<EnemyBehaviour>();
-            speed = 2f + _behaviour.movementSpeed / 10;
+            speed = _behaviour.movementSpeed;
         }
 
         protected override void _setNewDirection()
