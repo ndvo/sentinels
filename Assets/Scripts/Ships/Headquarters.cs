@@ -9,9 +9,8 @@ using Random = UnityEngine.Random;
 
 public class Headquarters : MonoBehaviour
 {
-
     private Func<Individual[], float[][]> _protonLegacyGA;
-    
+
     private GeneticAlgorithm.GeneticAlgorithm _ga;
 
     private GameObject _shipsContainer;
@@ -35,7 +34,7 @@ public class Headquarters : MonoBehaviour
             (r) => GeneticAlgorithm.GeneticAlgorithm.SelectionRoulette(r, 0.0f),
             GeneticAlgorithm.GeneticAlgorithm.MatchingLeaderChoice,
             GeneticAlgorithm.GeneticAlgorithm.UniformCrossOver
-            );
+        );
         _ships = transform.Find("Ships");
     }
 
@@ -47,7 +46,7 @@ public class Headquarters : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Random.value < 0.001f && _ships.childCount < 30)
+        if (Random.value < 0.01f && _ships.childCount < 30)
         {
             var currentGeneration = _shipsContainer.GetComponentsInChildren<ProtonLegacy>();
             var currentGen = currentGeneration.Select(
@@ -56,7 +55,6 @@ public class Headquarters : MonoBehaviour
             GeneticAlgorithm.GeneticAlgorithm.SetArbitraryAchievements(currentGen);
             SpawnGeneration();
         }
-        
     }
 
     /// <summary>
@@ -111,21 +109,22 @@ public class Headquarters : MonoBehaviour
                 genomes = genomes.Append<ShipGenome>(NewShipGenome()).ToArray();
             }
         }
+
         foreach (Transform ship in _shipsContainer.transform) Destroy(ship.gameObject);
-        var spawnPoints = ( from Transform i in _gameObject.transform select i).ToArray();
+        var spawnPoints = (from Transform i in _gameObject.transform select i).ToArray();
         var result = new GameObject[genomes.Length];
         for (var i = 0; i < result.Length; i++)
         {
             var ship = Object.Instantiate(
-                                           shipPrefabs[Random.Range(0, shipPrefabs.Length - 1)],
-                                           spawnPoints[0].position,
-                                           spawnPoints[0].rotation,
-                                           _shipsContainer.transform
-                                       );
+                shipPrefabs[Random.Range(0, shipPrefabs.Length - 1)],
+                spawnPoints[0].position,
+                spawnPoints[0].rotation,
+                _shipsContainer.transform
+            );
             ship.GetComponent<ProtonLegacy>().SetGenome(genomes[i]);
             result[i] = ship;
         }
+
         return result;
     }
-
 }
