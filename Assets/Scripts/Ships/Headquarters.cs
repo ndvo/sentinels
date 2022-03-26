@@ -14,7 +14,6 @@ public class Headquarters : MonoBehaviour
     private GeneticAlgorithm.GeneticAlgorithm _ga;
 
     private GameObject _shipsContainer;
-    private GameObject _gameObject;
 
     public GameObject[] shipPrefabs;
     private Transform _ships;
@@ -22,7 +21,6 @@ public class Headquarters : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        _gameObject = GameObject.Find("SpawnPoints");
         _shipsContainer = GameObject.Find("Ships");
     }
 
@@ -111,14 +109,13 @@ public class Headquarters : MonoBehaviour
         }
 
         foreach (Transform ship in _shipsContainer.transform) Destroy(ship.gameObject);
-        var spawnPoints = (from Transform i in _gameObject.transform select i).ToArray();
         var result = new GameObject[genomes.Length];
         for (var i = 0; i < result.Length; i++)
         {
             var ship = Object.Instantiate(
                 shipPrefabs[Random.Range(0, shipPrefabs.Length - 1)],
-                spawnPoints[0].position,
-                spawnPoints[0].rotation,
+                transform.position,
+                transform.rotation,
                 _shipsContainer.transform
             );
             ship.GetComponent<ProtonLegacy>().SetGenome(genomes[i]);
