@@ -12,7 +12,7 @@ public class ProjectileBehaviour : MonoBehaviour
 
     private void Start()
     {
-        transform.GetComponent<MeshRenderer>().material.color = new Color(1f, 1f, 1f, 0f);
+        _material = transform.GetComponent<MeshRenderer>().material;
     }
 
     // Update is called once per frame
