@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using GeneticAlgorithm;
-using UnityEditor;
+using Ships;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -19,6 +20,11 @@ public class Headquarters : MonoBehaviour
     public int generationAmount = 3;
     public int maxShips = 10;
     private Transform _ships;
+
+    private TextMeshProUGUI _uiTextNumberOfEnemies;
+    private TextMeshProUGUI _uiTextNumberOfInfectedStations;
+
+    private List<EnemyShipStateMachine> _shipStates = new List<EnemyShipStateMachine>();
 
     // Start is called before the first frame update
     private void Awake()
@@ -36,6 +42,9 @@ public class Headquarters : MonoBehaviour
             GeneticAlgorithm.GeneticAlgorithm.UniformCrossOver
         );
         _ships = GameObject.Find("Ships").transform;
+        _uiTextNumberOfEnemies = GameObject.Find("/Canvas/EnemyHeadquarters/enemies").GetComponent<TextMeshProUGUI>();
+        _uiTextNumberOfInfectedStations = GameObject.Find("/Canvas/EnemyHeadquarters/stations").GetComponent<TextMeshProUGUI>();
+        Debug.Log($"Looking for texts in ui {_uiTextNumberOfEnemies} {_uiTextNumberOfInfectedStations}");
     }
 
     void _setGeneticAlgorithm()
@@ -54,8 +63,14 @@ public class Headquarters : MonoBehaviour
                 r => r.GetIndividual()
             ).ToArray();
             GeneticAlgorithm.GeneticAlgorithm.SetArbitraryAchievements(currentGen);
-            SpawnGeneration();
+            var newGen = SpawnGeneration();
+            foreach (var s in newGen)
+            {
+                var stateMachine = s.GetComponent<EnemyBehaviour>().StateMachine;
+                if (stateMachine is {}) _shipStates.Add(stateMachine);
+            }
         }
+        _updateUi();
     }
 
     /// <summary>
@@ -126,5 +141,11 @@ public class Headquarters : MonoBehaviour
         }
 
         return result;
+    }
+
+    private void _updateUi()
+    {
+        _uiTextNumberOfEnemies.text = $"Enemies: {_ships.childCount}";
+        _uiTextNumberOfInfectedStations.text = $"Infected Stations: {_shipStates.Count(i => i.GetState() == EnemyShipStates.AttackingEarth)}";
     }
 }

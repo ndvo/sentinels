@@ -2,7 +2,7 @@
     "name": "GameAssemblyBindings",
     "rootNamespace": "",
     "references": [
-        ""
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
