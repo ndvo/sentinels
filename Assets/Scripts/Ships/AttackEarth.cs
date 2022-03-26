@@ -9,7 +9,6 @@ namespace Ships
         private bool _active;
         private GameObject _attackRay;
         private EarthBehaviour _earth;
-        public NaturalResources attackType = NaturalResources.Mineral;
         private EnemyBehaviour _enemyBehaviour;
         private GameObject _capturedVFX;
         
@@ -19,7 +18,8 @@ namespace Ships
             _attackRay = transform.Find("AttackRay").gameObject;
             _enemyBehaviour = GetComponent<EnemyBehaviour>();
             var earthObject = GameObject.Find("/Earth");
-            if (earthObject is {}) _earth = GetComponent<EarthBehaviour>();
+            if (earthObject is {}) _earth = earthObject.GetComponent<EarthBehaviour>();
+            else Debug.LogError("Could not find Earth");
         }
 
         void Update()
@@ -30,7 +30,8 @@ namespace Ships
         private void _attack()
         {
             _setRayPosition();
-            if (_earth is {}) _earth.LooseResources(_enemyBehaviour.firePower * Time.deltaTime, attackType);
+            var totalDamage = _enemyBehaviour.drainPower * Time.deltaTime;
+            if (_earth is {}) _earth.TakeDamage(totalDamage);
         }
 
         public void SetTarget(Transform target)

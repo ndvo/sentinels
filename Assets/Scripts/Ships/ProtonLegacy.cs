@@ -119,8 +119,8 @@ public class ProtonLegacy : MonoBehaviour
     private void _SetFeatures()
     {
         _behaviour.resistance = (10 + 5 * level) * _genome.Resistance;
-        _behaviour.firePower = (10 + 5 * level) * _genome.FirePower;
-        _behaviour.drainPower = (10 + 5 * level) * _genome.DrainPower;
+        _behaviour.firePower = (10 * level) * _genome.FirePower;
+        _behaviour.drainPower = (10 * level) * _genome.DrainPower;
         _behaviour.movementSpeed = 2 + level/2 * _genome.MovementSpeed;
         _behaviour.fleeTime = (10 * level) * _genome.FleeTime;
         _behaviour.attackProbability = Mathf.Clamp((80 * level) * _genome.AttackProbability, 0, 100);
