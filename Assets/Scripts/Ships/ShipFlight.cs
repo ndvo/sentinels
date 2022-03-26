@@ -92,7 +92,7 @@ namespace Ships
             pos.z = 0;
         }
 
-        public void GoToStartPosition(Transform t = null)
+        public virtual void GoToStartPosition(Transform t = null)
         {
             GoTo(Utils.Direction.North, latitude, t);
             GoTo(Utils.Direction.East, longitude, t);

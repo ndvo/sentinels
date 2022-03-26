@@ -1,5 +1,5 @@
 using System;
-using UnityEngine.PlayerLoop;
+using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
 
@@ -81,5 +81,7 @@ namespace Ships
                 : new Position(0, oppositeZ > 0 ? 1: 0);
         }
         
+        public override void GoToStartPosition(Transform t = null) {}
     }
+    
 }
