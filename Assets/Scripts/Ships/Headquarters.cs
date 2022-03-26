@@ -3,7 +3,9 @@ using System.Linq;
 using GeneticAlgorithm;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 public class Headquarters : MonoBehaviour
 {
@@ -15,7 +17,8 @@ public class Headquarters : MonoBehaviour
     private GameObject _shipsContainer;
     private GameObject _gameObject;
 
-    public GameObject ProtonLegacyPrefab; 
+    public GameObject[] shipPrefabs;
+    private Transform _ships;
 
     // Start is called before the first frame update
     private void Awake()
@@ -33,19 +36,18 @@ public class Headquarters : MonoBehaviour
             GeneticAlgorithm.GeneticAlgorithm.MatchingLeaderChoice,
             GeneticAlgorithm.GeneticAlgorithm.UniformCrossOver
             );
+        _ships = transform.Find("Ships");
     }
 
     void _setGeneticAlgorithm()
     {
-        _ga = this._ga == null 
-            ? new GeneticAlgorithm.GeneticAlgorithm()
-            : _ga;
+        _ga ??= new GeneticAlgorithm.GeneticAlgorithm();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("space"))
+        if (Random.value < 0.001f && _ships.childCount < 30)
         {
             var currentGeneration = _shipsContainer.GetComponentsInChildren<ProtonLegacy>();
             var currentGen = currentGeneration.Select(
@@ -115,9 +117,9 @@ public class Headquarters : MonoBehaviour
         for (var i = 0; i < result.Length; i++)
         {
             var ship = Object.Instantiate(
-                                           ProtonLegacyPrefab,
-                                           spawnPoints[i].position,
-                                           spawnPoints[i].rotation,
+                                           shipPrefabs[Random.Range(0, shipPrefabs.Length - 1)],
+                                           spawnPoints[0].position,
+                                           spawnPoints[0].rotation,
                                            _shipsContainer.transform
                                        );
             ship.GetComponent<ProtonLegacy>().SetGenome(genomes[i]);

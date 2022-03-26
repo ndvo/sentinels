@@ -63,13 +63,13 @@ namespace Tests
         public void TestGeneticAlgorithmParsesGenome()
         {
             var shipGenome = new GeneticAlgorithm.ShipGenome(TestGeneticAlgorithm._oneThroughFiveGenome);
-            Assert.IsNotNull(shipGenome.body, "Should have created a body");
-            Assert.IsNotNull(shipGenome.bridge, "Should have created a bridge");
-            Assert.IsNotNull(shipGenome.laserCannon, "Should have created a laserCannon");
-            Assert.IsNotNull(shipGenome.missileLauncher, "Should have created a missileLauncher");
-            Assert.IsNotNull(shipGenome.tractor, "Should have created a tractor");
-            Assert.IsNotNull(shipGenome.turbine, "Should have created a turbine");
-            Assert.IsNotNull(shipGenome.wing, "Should have created a wing");
+            Assert.IsNotNull(shipGenome.Body, "Should have created a body");
+            Assert.IsNotNull(shipGenome.Bridge, "Should have created a bridge");
+            Assert.IsNotNull(shipGenome.LaserCannon, "Should have created a laserCannon");
+            Assert.IsNotNull(shipGenome.MissileLauncher, "Should have created a missileLauncher");
+            Assert.IsNotNull(shipGenome.Tractor, "Should have created a tractor");
+            Assert.IsNotNull(shipGenome.Turbine, "Should have created a turbine");
+            Assert.IsNotNull(shipGenome.Wing, "Should have created a wing");
         }
 
         [Test]

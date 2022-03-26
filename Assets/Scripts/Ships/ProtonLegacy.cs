@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using GeneticAlgorithm;
+using Ships;
 using UnityEngine;
 
 public class ProtonLegacy : MonoBehaviour
@@ -19,6 +20,9 @@ public class ProtonLegacy : MonoBehaviour
     public Transform[] tractors;
     public Transform[] turbines;
     public Transform[] wings;
+    private SimpleFlight _flight;
+    private EnemyBehaviour _behaviour;
+    public float Level = 1;
     
     // Start is called before the first frame update
     void Start()
@@ -80,12 +84,12 @@ public class ProtonLegacy : MonoBehaviour
         if (_genome == null) return;
         var GenomePartPair = new[]
         {
-            new {parts = bodies, genes = _genome.body},
-            new {parts = bridges, genes = _genome.bridge},
-            new {parts = laserCannons, genes = _genome.laserCannon},
-            new {parts = missileLaunchers, genes = _genome.missileLauncher},
-            new {parts = tractors, genes = _genome.tractor},
-            new {parts = wings, genes = _genome.wing},
+            new {parts = bodies, genes = _genome.Body},
+            new {parts = bridges, genes = _genome.Bridge},
+            new {parts = laserCannons, genes = _genome.LaserCannon},
+            new {parts = missileLaunchers, genes = _genome.MissileLauncher},
+            new {parts = tractors, genes = _genome.Tractor},
+            new {parts = wings, genes = _genome.Wing},
         };
         static void TranslateOnZ(Transform b, float v) =>
             b.Translate(new Vector3(0f, 0f, v), Space.Self);
@@ -102,6 +106,17 @@ public class ProtonLegacy : MonoBehaviour
             // size
             foreach (var r in part.parts) r.localScale *= part.genes.size;
         }
+    }
+
+    private void _SetFeatures()
+    {
+        _behaviour.resistance = (10 * Level) * _genome.Resistance;
+        _behaviour.firePower = (10 * Level) * _genome.FirePower;
+        _behaviour.drainPower = (10 * Level) * _genome.DrainPower;
+        _behaviour.movementSpeed = (10 * Level) * _genome.MovementSpeed;
+        _behaviour.fleeTime = (10 * Level) * _genome.FleeTime;
+        _behaviour.attackProbability = (10 * Level) * _genome.AttackProbability;
+        _behaviour.idleProbability = (10 * Level) * _genome.IdleProbability;
     }
 
     public Individual GetIndividual()
