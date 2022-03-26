@@ -16,6 +16,8 @@ public class Headquarters : MonoBehaviour
     private GameObject _shipsContainer;
 
     public GameObject[] shipPrefabs;
+    public int generationAmount = 3;
+    public int maxShips = 10;
     private Transform _ships;
 
     // Start is called before the first frame update
@@ -44,9 +46,10 @@ public class Headquarters : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Random.value < 0.01f && _ships.childCount < 30)
+        if (Random.value < 0.01f && _ships.childCount < maxShips)
         {
-            var currentGeneration = _shipsContainer.GetComponentsInChildren<ProtonLegacy>();
+            var currentGeneration = _shipsContainer.GetComponentsInChildren<ProtonLegacy>()
+                .Where(e => e.gameObject.activeSelf);
             var currentGen = currentGeneration.Select(
                 r => r.GetIndividual()
             ).ToArray();
@@ -84,14 +87,14 @@ public class Headquarters : MonoBehaviour
     /// </summary>
     /// <param name="n"></param>
     /// <returns>The new generation of ships</returns>
-    private GameObject[] SpawnGeneration(int n = 7)
+    private GameObject[] SpawnGeneration()
     {
         var currentGeneration = _shipsContainer.GetComponentsInChildren<ProtonLegacy>();
         ShipGenome[] genomes;
         if (currentGeneration.Length == 0)
         {
-            genomes = new ShipGenome[n];
-            for (var i = 0; i < n; i++)
+            genomes = new ShipGenome[generationAmount];
+            for (var i = 0; i < generationAmount; i++)
             {
                 genomes[i] = NewShipGenome();
             }
@@ -108,7 +111,7 @@ public class Headquarters : MonoBehaviour
             }
         }
 
-        foreach (Transform ship in _shipsContainer.transform) Destroy(ship.gameObject);
+        //foreach (Transform ship in _shipsContainer.transform) Destroy(ship.gameObject);
         var result = new GameObject[genomes.Length];
         for (var i = 0; i < result.Length; i++)
         {
