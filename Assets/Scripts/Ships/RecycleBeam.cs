@@ -33,7 +33,7 @@ namespace Ships
         private void Update()
         {
             _hasTarget = !(_target is null);
-            _activateBeam = _hasTarget && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl));
+            _activateBeam = _hasTarget && (Input.GetAxis("Fire1") > 0);
             _beam.SetActive(_activateBeam);
             if (_activateBeam) Fire(_target);
             else FindTarget();
