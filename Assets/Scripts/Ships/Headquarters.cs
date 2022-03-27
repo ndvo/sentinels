@@ -55,7 +55,7 @@ public class Headquarters : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Random.value < 0.005 && _ships.childCount < maxShips)
+        if (Random.value < 0.006 && _ships.childCount < maxShips)
         {
             var currentGeneration = _shipsContainer.GetComponentsInChildren<ProtonLegacy>()
                 .Where(e => e.gameObject.activeSelf);
