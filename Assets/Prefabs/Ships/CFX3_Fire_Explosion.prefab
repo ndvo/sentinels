@@ -14203,7 +14203,6 @@ GameObject:
   - component: {fileID: 4113107170636377705}
   - component: {fileID: 4306727118705451927}
   - component: {fileID: 4306392119005575535}
-  - component: {fileID: 4076813588500893783}
   m_Layer: 0
   m_Name: CFX3_Fire_Explosion
   m_TagString: Untagged
@@ -14245,7 +14244,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -19042,19 +19041,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &4076813588500893783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4107827087416020403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fd2e8874f60266498a388d7229a1bac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnlyDeactivate: 0
 --- !u!1 &4108130108546605919
 GameObject:
   m_ObjectHideFlags: 0
