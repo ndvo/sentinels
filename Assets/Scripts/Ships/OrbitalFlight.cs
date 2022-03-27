@@ -25,15 +25,16 @@ namespace Ships
             _move(t, DeltaTimeSpeed);
         }
 
-        public virtual void FixedUpdate()
+        public virtual void Update()
         {
             _setNewDirection();
             _orbitalFlight();
         }
 
+
         protected virtual void _orbitalFlight()
         {
-            DeltaTimeSpeed = speed * Time.fixedDeltaTime;
+            DeltaTimeSpeed = speed * Time.deltaTime;
             _move(transform, DeltaTimeSpeed);
         }
 

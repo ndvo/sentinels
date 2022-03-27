@@ -31,7 +31,7 @@ namespace Ships
             detected.Add(other.gameObject);
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             detected.RemoveAll(i => i is null);
             _renderer.enabled = false;

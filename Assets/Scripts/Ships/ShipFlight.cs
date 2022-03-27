@@ -11,12 +11,16 @@ namespace Ships
 
         private float _drag;
         public float latitude = -90f;
+
         public float longitude = 0f;
+
         // aim is used to set the direction the ship is looking to.
         // the idea is to have an object slightly ahead that moves in the same manner (transform and rotate)
         // using the aim to guide the lookAt function allow us to get rid of bugs due to the orbital navigation.
         protected GameObject Aim;
+
         [SerializeField] private bool inertia;
+
         // The SpaceStationBuilder is responsible for creating the board as is capable of noticing if the ship has left the board.
         protected SpaceStationBuilder SpaceStationBuilder;
         protected bool OffBoard;
@@ -34,28 +38,27 @@ namespace Ships
                 SpaceStationBuilder = station.GetComponent<SpaceStationBuilder>();
                 HasSpaceStationBuilder = true;
             }
+
             AudioSource = GetComponent<AudioSource>();
         }
 
-        public override void FixedUpdate()
+        public override void Start()
         {
-            if (ShipReady)
-            {
-                PreviousDirection = CurrentDirection;
-                OffBoard = HasSpaceStationBuilder && SpaceStationBuilder.IsOffBoard(transform.position);
-                _orbitalFlight();
-            }
-            else
-            {
-                GoToStartPosition();
-                ShipReady = true;
-            }
+            base.Start();
+            GoToStartPosition();
+        }
+
+        public override void Update()
+        {
+            PreviousDirection = CurrentDirection;
+            OffBoard = HasSpaceStationBuilder && SpaceStationBuilder.IsOffBoard(transform.position);
+            _orbitalFlight();
             _drag = 0;
         }
 
         protected override void _orbitalFlight()
         {
-            DeltaTimeSpeed = (speed - (speed * _drag)) * Time.fixedDeltaTime;
+            DeltaTimeSpeed = (speed - (speed * _drag)) * Time.deltaTime;
             if (OffBoard)
             {
                 DeltaTimeSpeed *= warpMultiplier;

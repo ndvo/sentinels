@@ -60,7 +60,7 @@ public class SpaceShip : MonoBehaviour
         TakeDamage(10);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (_hasShield) _shield.SetActive(energyLevel >= 900);
     }

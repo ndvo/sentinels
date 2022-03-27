@@ -10,7 +10,7 @@ public class HeadquartersFlight : ShipFlight
 {
     protected override void _orbitalFlight()
     {
-        DeltaTimeSpeed = speed * Time.fixedDeltaTime;
+        DeltaTimeSpeed = speed * Time.deltaTime;
         if (Random.value < 0.0001f || !OffBoard) _setDirection();
         _positionAim();
         LookAtDirection();
