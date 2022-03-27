@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -11,32 +12,43 @@ namespace Sky
 
         private Image _resistanceImage;
 
-        private float _maxResistance = 1000f;
+        private const float MAXResistance = 1000f;
+
+        private const float ResistanceThreshold = 60f * 3f;
+
+        public float survivedTime = 0f;
 
         private void Start()
         {
             _resistanceImage = GameObject.Find("/Canvas/Earth/MineralResources/Overlay").GetComponent<Image>();
         }
 
-        private void Update()
+        public void Update()
         {
+            resistance = Mathf.Clamp(resistance, 0, MAXResistance);
+            if (resistance == 0)
+            {
+                SceneManager.LoadScene("GameOver");
+            }
+            survivedTime += Time.deltaTime;
+            if (survivedTime > ResistanceThreshold)
+            {
+                SceneManager.LoadScene("Congratulations");
+            }
             // Earth slowly regenerates itself.
-            resistance += Time.deltaTime;
-            resistance = Mathf.Clamp(resistance, 0, _maxResistance);
+            resistance += Time.deltaTime * 2;
             _updateUi();
         }
 
         public void TakeDamage(float amount)
         {
-            Debug.Log($"Total damage amount {amount}");
             resistance -= amount;
             _updateUi();
-            Debug.Log($"Resistance {resistance}");
         }
 
         private void _updateUi()
         {
-            _resistanceImage.fillAmount = resistance / _maxResistance;
+            _resistanceImage.fillAmount = resistance / MAXResistance;
         }
     }
 }
