@@ -52,7 +52,6 @@ public class Headquarters : MonoBehaviour
         _ga ??= new GeneticAlgorithm.GeneticAlgorithm();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Random.value < 0.006 && _ships.childCount < maxShips)
