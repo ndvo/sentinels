@@ -67,6 +67,8 @@ public class Headquarters : MonoBehaviour
             {
                 var stateMachine = s.GetComponent<EnemyBehaviour>().StateMachine;
                 if (stateMachine is {}) _shipStates.Add(stateMachine);
+                var protonLegacyBehaviour = s.GetComponent<ProtonLegacy>();
+                if (protonLegacyBehaviour is { }) protonLegacyBehaviour.level = 1 + (int) (Time.time / 60);
             }
         }
         _updateUi();
