@@ -18,7 +18,7 @@ public class Headquarters : MonoBehaviour
 
     public GameObject[] shipPrefabs;
     public int generationAmount = 3;
-    public int maxShips = 10;
+    public int maxShips = 15;
     private Transform _ships;
 
     private TextMeshProUGUI _uiTextNumberOfEnemies;
@@ -55,7 +55,7 @@ public class Headquarters : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Random.value < 0.01f && _ships.childCount < maxShips)
+        if (Random.value < 0.005 && _ships.childCount < maxShips)
         {
             var currentGeneration = _shipsContainer.GetComponentsInChildren<ProtonLegacy>()
                 .Where(e => e.gameObject.activeSelf);
@@ -130,8 +130,9 @@ public class Headquarters : MonoBehaviour
         var result = new GameObject[genomes.Length];
         for (var i = 0; i < result.Length; i++)
         {
+            var chosenPrefab = Random.Range(0, shipPrefabs.Length);
             var ship = Object.Instantiate(
-                shipPrefabs[Random.Range(0, shipPrefabs.Length - 1)],
+                shipPrefabs[chosenPrefab],
                 transform.position,
                 transform.rotation,
                 _shipsContainer.transform
