@@ -70,8 +70,19 @@ public class Headquarters : MonoBehaviour
                 var protonLegacyBehaviour = s.GetComponent<ProtonLegacy>();
                 if (protonLegacyBehaviour is { }) protonLegacyBehaviour.level = 1 + (int) (Time.time / 60);
             }
+        } else if (_ships.childCount >= maxShips)
+        {
+            _removeInactiveShips();
         }
         _updateUi();
+    }
+
+    private void _removeInactiveShips()
+    {
+        foreach (var s in _ships.GetComponentsInChildren<ProtonLegacy>())
+        {
+           if (!s.gameObject.activeSelf) Destroy(s);
+        }
     }
 
     /// <summary>
