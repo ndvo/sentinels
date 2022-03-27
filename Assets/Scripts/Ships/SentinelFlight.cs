@@ -11,14 +11,11 @@ namespace Ships
         protected override void _setNewDirection()
         {
             PreviousDirection = new Position(CurrentDirection.x, CurrentDirection.y);
-            if (Input.GetKey("left"))
-                CurrentDirection = Utils.Direction.West;
-            if (Input.GetKey("right"))
-                CurrentDirection = Utils.Direction.East;
-            if (Input.GetKey("down"))
-                CurrentDirection = Utils.Direction.South;
-            if (Input.GetKey("up"))
-                CurrentDirection = Utils.Direction.North;
+            var horizontal = Input.GetAxisRaw("Horizontal");
+            var vertical = Input.GetAxisRaw("Vertical");
+            horizontal = horizontal > 0 ? 1 : horizontal < 0 ? -1 : 0;
+            vertical = vertical > 0 ? -1 : vertical < 0 ? 1 : 0;
+            if (horizontal != 0|| vertical != 0) CurrentDirection = new Position((int) horizontal, (int) vertical);
         }
         
     }
