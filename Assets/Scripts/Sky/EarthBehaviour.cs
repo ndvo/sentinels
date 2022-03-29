@@ -18,15 +18,32 @@ namespace Sky
 
         public float survivedTime = 0f;
 
+        private AudioSource _audioSource;
+
         private void Start()
         {
             _resistanceImage = GameObject.Find("/Canvas/Earth/MineralResources/Overlay").GetComponent<Image>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         public void Update()
         {
-            resistance = Mathf.Clamp(resistance, 0, MAXResistance);
-            if (resistance == 0)
+            _handleEndGameScenarios();
+            _handleRegeneration();
+            _handleAlarm();
+            _updateUi();
+        }
+
+        public float TakeDamage(float amount)
+        {
+            resistance -= amount;
+            _updateUi();
+            return amount;
+        }
+
+        private void _handleEndGameScenarios()
+        {
+            if (resistance <= 0)
             {
                 SceneManager.LoadScene("GameOver");
             }
@@ -35,15 +52,25 @@ namespace Sky
             {
                 SceneManager.LoadScene("Congratulations");
             }
-            // Earth slowly regenerates itself.
-            resistance += Time.deltaTime * 2;
-            _updateUi();
         }
 
-        public void TakeDamage(float amount)
+        // Earth slowly regenerates itself.
+        private void _handleRegeneration()
         {
-            resistance -= amount;
-            _updateUi();
+            resistance = Mathf.Min(resistance + Time.deltaTime * 5, MAXResistance);
+        }
+
+        private void _handleAlarm()
+        {
+            if (resistance < 0.3f * MAXResistance)
+            {
+                if (_audioSource.isPlaying) return;
+                _audioSource.Play();
+            }
+            else
+            {
+                _audioSource.Stop();
+            }
         }
 
         private void _updateUi()
