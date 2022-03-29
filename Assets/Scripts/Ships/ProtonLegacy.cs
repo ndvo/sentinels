@@ -22,9 +22,9 @@ public class ProtonLegacy : MonoBehaviour
     public Transform[] wings;
     private SimpleFlight _flight;
     private EnemyBehaviour _behaviour;
+    private AttackEarth _attackEarth;
     public float level = 1;
     
-    // Start is called before the first frame update
     void Start()
     {
         _headquartersGameObject = GameObject.Find("EnemyHeadQuarters");
@@ -32,6 +32,7 @@ public class ProtonLegacy : MonoBehaviour
             _headquarters = _headquartersGameObject.GetComponent<Headquarters>();
         _flight = GetComponent<SimpleFlight>();
         _behaviour = GetComponent<EnemyBehaviour>();
+        _attackEarth = GetComponent<AttackEarth>();
         _IdentifyParts();
         _ApplyGenome();
         _SetFeatures();
@@ -43,7 +44,7 @@ public class ProtonLegacy : MonoBehaviour
         _individual = new Individual
         {
             genes = _genome.GetGenome(),
-            achievements = new float[7]
+            achievements = new float[2] // the first item measures, time alive
         };
     }
 
@@ -73,12 +74,20 @@ public class ProtonLegacy : MonoBehaviour
             .ToArray();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (_genome != null)
+        _updateAchievements();
+    }
+
+    private void _updateAchievements()
+    {
+        if (_attackEarth)
         {
+            _individual.achievements[0] += _attackEarth.inflicted;
+            _attackEarth.inflicted = 0;
         }
+        if (gameObject.activeSelf)
+            _individual.achievements[1] += Time.deltaTime;
     }
 
     private void _ApplyGenome()
