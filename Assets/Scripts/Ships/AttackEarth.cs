@@ -1,5 +1,6 @@
 using Sky;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Ships
 {
@@ -11,6 +12,7 @@ namespace Ships
         private EarthBehaviour _earth;
         private EnemyBehaviour _enemyBehaviour;
         private GameObject _capturedVFX;
+        public float inflicted;
         
         void Start()
         {
@@ -31,7 +33,10 @@ namespace Ships
         {
             _setRayPosition();
             var totalDamage = _enemyBehaviour.drainPower * Time.deltaTime;
-            if (_earth is {}) _earth.TakeDamage(totalDamage);
+            if (_earth is { })
+            {
+                inflicted += _earth.TakeDamage(totalDamage);
+            }
         }
 
         public void SetTarget(Transform target)
