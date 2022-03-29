@@ -23,7 +23,7 @@ public class SpaceShip : MonoBehaviour
     {
         MAXEnergyLevel = energyLevel;
         var parentTransform = transform.parent.transform;
-        _explosionVFX = transform.Find("Explosion").GetComponent<ParticleSystem>();
+        _explosionVFX = parentTransform.Find("Explosion").GetComponent<ParticleSystem>();
         _explosionAudio = parentTransform.Find("jukebox")?.GetComponent<AudioSource>();
         var explosionDestroy = parentTransform.Find("ExplosionDestroy");
         if (explosionDestroy is { }) _explosionDestroyVFX = explosionDestroy.GetComponent<ParticleSystem>();
@@ -49,7 +49,7 @@ public class SpaceShip : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("SpaceStation"))
         {
-            TakeDamage(10);
+            TakeDamage(100);
         }
     }
 
@@ -57,7 +57,7 @@ public class SpaceShip : MonoBehaviour
     {
         if (other.gameObject.layer != LayerMask.NameToLayer("Ship") &&
             other.gameObject.layer != LayerMask.NameToLayer("Sentinel")) return;
-        TakeDamage(10);
+        TakeDamage(200);
     }
 
     private void Update()
