@@ -54,14 +54,10 @@ public class Headquarters : MonoBehaviour
 
     void Update()
     {
-        if (Random.value < 0.006 && _ships.childCount < maxShips)
+        if (Random.value < 0.005 && _ships.childCount < maxShips)
         {
             var currentGeneration = _shipsContainer.GetComponentsInChildren<ProtonLegacy>()
                 .Where(e => e.gameObject.activeSelf);
-            var currentGen = currentGeneration.Select(
-                r => r.GetIndividual()
-            ).ToArray();
-            GeneticAlgorithm.GeneticAlgorithm.SetArbitraryAchievements(currentGen);
             var newGen = SpawnGeneration();
             foreach (var s in newGen)
             {
@@ -81,7 +77,7 @@ public class Headquarters : MonoBehaviour
     {
         foreach (var s in _ships.GetComponentsInChildren<ProtonLegacy>())
         {
-           if (!s.gameObject.activeSelf) Destroy(s);
+            if (!s.gameObject.activeSelf) Destroy(s.gameObject);
         }
     }
 
@@ -137,8 +133,6 @@ public class Headquarters : MonoBehaviour
                 genomes = genomes.Append<ShipGenome>(NewShipGenome()).ToArray();
             }
         }
-
-        //foreach (Transform ship in _shipsContainer.transform) Destroy(ship.gameObject);
         var result = new GameObject[genomes.Length];
         for (var i = 0; i < result.Length; i++)
         {
@@ -152,7 +146,6 @@ public class Headquarters : MonoBehaviour
             ship.GetComponent<ProtonLegacy>().SetGenome(genomes[i]);
             result[i] = ship;
         }
-
         return result;
     }
 
