@@ -29,22 +29,6 @@ namespace Ships
         {
             if (other.gameObject.layer != _shipLayer) return;
             detected.Add(other.gameObject);
-        }
-
-        private void Update()
-        {
-            detected.RemoveAll(i => i is null);
-            _renderer.enabled = false;
-        }
-
-        private void OnTriggerStay(Collider other)
-        {
-            if (other.gameObject.layer != _shipLayer) return;
-            if (!other.gameObject.activeSelf)
-            {
-                detected.Remove(other.gameObject);
-                return;
-            }
             _renderer.enabled = true;
         }
 
@@ -53,21 +37,6 @@ namespace Ships
             if (other.gameObject.layer != _shipLayer) return;
             _renderer.enabled = false;
             detected.Remove(other.gameObject);
-        }
-
-        public void ShowSensor()
-        {
-            _renderer.enabled = true;
-        }
-
-        public void HideSensor()
-        {
-            _renderer.enabled = false;
-        }
-
-        public GameObject[] Detect()
-        {
-            return detected.Where(i => !(i is null)).ToArray();
         }
 
         public GameObject Closest(Vector3 targetPosition)
