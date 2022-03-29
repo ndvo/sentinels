@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Ships
@@ -17,8 +18,20 @@ namespace Ships
         public override float TakeDamage(float damage)
         {
             var inflictedDamage = base.TakeDamage(damage);
-            if (_shieldPowerUI is {}) _shieldPowerUI.fillAmount = energyLevel / MAXEnergyLevel;
+            if (energyLevel <= 0) SceneManager.LoadScene("GameOver");
+            _updateUi();
             return inflictedDamage;
+        }
+
+        public void RecoverEnergy(float energy)
+        {
+            energyLevel += Random.value * energy;
+            _updateUi();
+        }
+
+        private void _updateUi()
+        {
+            if (_shieldPowerUI is {}) _shieldPowerUI.fillAmount = energyLevel / MAXEnergyLevel;
         }
     }
 }

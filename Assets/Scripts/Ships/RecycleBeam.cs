@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using UnityEngine;
 
 namespace Ships
@@ -18,6 +16,7 @@ namespace Ships
         private SpaceShip _targetShip;
         public int power = 10;
         private AudioSource _audioSource;
+        private SentinelShip _sentinelShip;
 
         // Start is called before the first frame update
         void Start()
@@ -28,6 +27,7 @@ namespace Ships
             _detector = detector.GetComponent<ShipDetector>();
             _beam = GameObject.Find("Beam");
             _audioSource = GetComponent<AudioSource>();
+            _sentinelShip = parent.transform.Find("CoreParts").GetComponent<SentinelShip>();
         }
 
         private void Update()
@@ -35,6 +35,10 @@ namespace Ships
             _hasTarget = !(_target is null);
             _activateBeam = _hasTarget && (Input.GetAxis("Fire1") > 0);
             _beam.SetActive(_activateBeam);
+        }
+
+        private void FixedUpdate()
+        {
             if (_activateBeam) Fire(_target);
             else FindTarget();
         }
@@ -55,11 +59,12 @@ namespace Ships
             if (!_audioSource.isPlaying) _audioSource.Play();
             transform.LookAt(target.transform.position);
             _shipFlight.MoveWithMe(target.transform);
-            _shipFlight.SetDrag(0.5f);
-            _targetFlight.SetDrag(0.9f);
+            _shipFlight.SetDrag(0.6f);
+            _targetFlight.SetDrag(0.99f);
             if (!(_target is null) && !(_targetShip is null))
             {
                 var energyLeft = _targetShip.TakeDamage(power);
+                _sentinelShip.RecoverEnergy(1);
                 if (energyLeft <= 0)
                 {
                     Release();
