@@ -8,11 +8,11 @@ namespace Ships
     
     public class SentinelFlight : ShipFlight
     {
-        private float standardSpeed;
+        private float _standardSpeed;
 
         public override void Start()
         {
-            standardSpeed = speed;
+            _standardSpeed = speed;
             base.Start();
         }
 
@@ -25,8 +25,8 @@ namespace Ships
             vertical = vertical > 0 ? -1 : vertical < 0 ? 1 : 0;
             if (horizontal != 0|| vertical != 0) CurrentDirection = new Position((int) horizontal, (int) vertical);
             speed = (Input.GetAxisRaw("Fire2") > 0)
-                ? Mathf.Clamp(speed + 1f, standardSpeed, 10)
-                : Mathf.Clamp(speed - 1f, standardSpeed, 10); 
+                ? Mathf.Clamp(speed + 1f, _standardSpeed, 10)
+                : Mathf.Clamp(speed - 1f, _standardSpeed, 10); 
         }
         
     }
