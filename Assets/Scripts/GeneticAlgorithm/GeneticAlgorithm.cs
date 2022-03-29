@@ -34,6 +34,15 @@ public class GeneticAlgorithm
         return genome;
     }
 
+    /// <summary>
+    /// Creates a Genetic Algorithm given the necessary functions.
+    ///
+    /// </summary>
+    /// <param name="fitnessFunction">a function that converts a list of achievements into a single float representing the fitness value.</param>
+    /// <param name="selectionFunction">a function that select a subset of the individuals.</param>
+    /// <param name="matchingFunction">a function that creates matches of individuals to derive new ones.</param>
+    /// <param name="crossoverFunction">a function that creates a new genome from two parent genomes.</param>
+    /// <returns></returns>
     public Func<Individual[], float[][]> GAFactory(
         Func<float[], float> fitnessFunction,
         Func<Individual[], Individual[]> selectionFunction,
@@ -131,7 +140,7 @@ public class GeneticAlgorithm
     public static Individual[] SelectionRoulette(Individual[] generation, float deathRate = 0.2f)
     {
         var fitnessSum = generation.Sum(r => r.fitness);
-        fitnessSum = fitnessSum == 0 ? 1 : fitnessSum;
+        fitnessSum = fitnessSum == 0 ? 1 : fitnessSum; // avoid division per zero
         var ranking = new float[generation.Length];
         var previous = 0f;
         for (var i = 0; i < generation.Length; i++)
