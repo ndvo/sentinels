@@ -12,7 +12,7 @@ public class CameraFollow : MonoBehaviour
         _targetFlight.GoToStartPosition(transform);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _targetFlight.MoveWithMe(transform);
     }

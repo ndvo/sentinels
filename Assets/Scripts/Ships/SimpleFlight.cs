@@ -31,6 +31,12 @@ namespace Ships
             speed = _behaviour.movementSpeed;
         }
 
+        protected override void _orbitalFlight()
+        {
+            if (Random.value < 0.005f) OffBoard = false;
+            base._orbitalFlight();
+        }
+
         protected override void _setNewDirection()
         {
             if (_behaviour is null)
@@ -57,12 +63,12 @@ namespace Ships
         
         private void _setDirectionRepositioning()
         {
-            if (_sensor.blocked)
+            if (_sensor.blocked || Random.value < 0.01f)
             {
                 CurrentDirection = CurrentDirection.x != 0 
                     ? new Position(0, Random.value > 0.5f ? 1 : -1) 
                     : new Position(Random.value > 0.5f ? 1 : -1, 0);
-            }
+            } 
         }
 
         private void _setDirectionFleeing()

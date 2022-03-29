@@ -27,6 +27,7 @@ namespace Ships
         public float warpMultiplier;
         protected bool HasSpaceStationBuilder = false;
         protected bool ShipReady = false;
+        private float _multiplier = 1;
 
         public virtual void Awake()
         {
@@ -50,28 +51,27 @@ namespace Ships
 
         public override void Update()
         {
-            PreviousDirection = CurrentDirection;
-            OffBoard = HasSpaceStationBuilder && SpaceStationBuilder.IsOffBoard(transform.position);
-            _orbitalFlight();
-            _drag = 0;
+            if (!OffBoard) _setNewDirection();
         }
 
         protected override void _orbitalFlight()
         {
-            DeltaTimeSpeed = (speed - (speed * _drag)) * Time.deltaTime;
+            OffBoard = HasSpaceStationBuilder && SpaceStationBuilder.IsOffBoard(transform.position);
             if (OffBoard)
             {
-                DeltaTimeSpeed *= warpMultiplier;
+                _multiplier = warpMultiplier;
                 if (!(AudioSource is null) && !AudioSource.isPlaying) AudioSource.Play();
             }
             else
             {
-                _setNewDirection();
+                _multiplier = 1;
                 if (!(AudioSource is null) && AudioSource.isPlaying) AudioSource.Stop();
             }
+            DeltaTimeSpeed = _multiplier * (speed - (speed * _drag)) * Time.fixedDeltaTime;
             _positionAim();
             LookAtDirection();
             _move(transform, DeltaTimeSpeed);
+            _drag = 0;
         }
 
         protected virtual void _positionAim()
