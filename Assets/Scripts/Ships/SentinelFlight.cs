@@ -24,7 +24,7 @@ namespace Ships
             horizontal = horizontal > 0 ? 1 : horizontal < 0 ? -1 : 0;
             vertical = vertical > 0 ? -1 : vertical < 0 ? 1 : 0;
             if (horizontal != 0|| vertical != 0) CurrentDirection = new Position((int) horizontal, (int) vertical);
-            speed = (Input.GetAxisRaw("Fire2") > 0)
+            speed = (Input.GetAxisRaw("Jump") > 0)
                 ? Mathf.Clamp(speed + 1f, _standardSpeed, 10)
                 : Mathf.Clamp(speed - 1f, _standardSpeed, 10); 
         }
