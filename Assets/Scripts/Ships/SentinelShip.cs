@@ -6,10 +6,12 @@ namespace Ships
 {
     public class SentinelShip : SpaceShip
     {
+        private GameManager _gameManager; 
         private Image _shieldPowerUI;
         
         protected override void Start()
         {
+            _gameManager = GameObject.Find("/GameManager").GetComponent<GameManager>();
             var shieldObject = GameObject.Find("/Canvas/Sentinel/Shield/ShieldPower");
             if (shieldObject is {}) _shieldPowerUI = shieldObject.GetComponent<Image>();
             base.Start();
@@ -18,7 +20,7 @@ namespace Ships
         public override float TakeDamage(float damage)
         {
             var inflictedDamage = base.TakeDamage(damage);
-            if (energyLevel <= 0) SceneManager.LoadScene("GameOver");
+            if (energyLevel <= 0) _gameManager.GameOver();
             _updateUi();
             return inflictedDamage;
         }

@@ -23,8 +23,11 @@ namespace Sky
 
         private float _accumulatedDamage = 0f;
 
+        private GameManager _gameManager;
+
         private void Start()
         {
+            _gameManager = GameObject.Find("/GameManager").GetComponent<GameManager>();
             _resistanceImage = GameObject.Find("/Canvas/Earth/MineralResources/Overlay").GetComponent<Image>();
             _audioSource = GetComponent<AudioSource>();
         }
@@ -39,8 +42,9 @@ namespace Sky
 
         public void LateUpdate()
         {
-            resistance -= Mathf.Clamp(_accumulatedDamage, 0, 15 * Time.deltaTime);
+            resistance -= Mathf.Clamp(_accumulatedDamage, 0, 25 * Time.deltaTime);
             _accumulatedDamage = 0f;
+            _gameManager.EmergencyLight(resistance/MAXResistance);
             _updateUi();
         }
 
@@ -54,12 +58,15 @@ namespace Sky
         {
             if (resistance <= 0)
             {
-                SceneManager.LoadScene("GameOver");
+                _gameManager.GameOver();
             }
-            survivedTime += Time.deltaTime;
-            if (survivedTime > ResistanceThreshold)
+            else
             {
-                SceneManager.LoadScene("Congratulations");
+                survivedTime += Time.deltaTime;
+                if (survivedTime > ResistanceThreshold)
+                {
+                    _gameManager.GameBeaten();
+                }
             }
         }
 
