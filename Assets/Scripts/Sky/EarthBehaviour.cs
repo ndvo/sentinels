@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -20,6 +21,8 @@ namespace Sky
 
         private AudioSource _audioSource;
 
+        private float _accumulatedDamage = 0f;
+
         private void Start()
         {
             _resistanceImage = GameObject.Find("/Canvas/Earth/MineralResources/Overlay").GetComponent<Image>();
@@ -34,10 +37,16 @@ namespace Sky
             _updateUi();
         }
 
+        public void LateUpdate()
+        {
+            resistance -= Mathf.Clamp(_accumulatedDamage, 0, 15 * Time.deltaTime);
+            _accumulatedDamage = 0f;
+            _updateUi();
+        }
+
         public float TakeDamage(float amount)
         {
-            resistance -= amount;
-            _updateUi();
+            _accumulatedDamage += amount;
             return amount;
         }
 
