@@ -5,14 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     public void LoadMainScene()
     {
+        PlaySession.isPractice = false;
         SceneManager.LoadScene("MainScene");
     }
 
@@ -20,5 +16,13 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("MenuScene");
     }
+
+    public void LoadPracticeScene()
+    {
+        PlaySession.isPractice = true;
+        SceneManager.LoadScene("MainScene");
+    }
+    
+    
     
 }
