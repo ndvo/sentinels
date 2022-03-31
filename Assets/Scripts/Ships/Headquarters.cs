@@ -26,6 +26,8 @@ public class Headquarters : MonoBehaviour
 
     private List<EnemyShipStateMachine> _shipStates = new List<EnemyShipStateMachine>();
 
+    private GameManager _gameManager;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -44,7 +46,7 @@ public class Headquarters : MonoBehaviour
         _ships = GameObject.Find("Ships").transform;
         _uiTextNumberOfEnemies = GameObject.Find("/Canvas/EnemyHeadquarters/enemies").GetComponent<TextMeshProUGUI>();
         _uiTextNumberOfInfectedStations = GameObject.Find("/Canvas/EnemyHeadquarters/stations").GetComponent<TextMeshProUGUI>();
-        Debug.Log($"Looking for texts in ui {_uiTextNumberOfEnemies} {_uiTextNumberOfInfectedStations}");
+        _gameManager = GameObject.Find("/GameManager").GetComponent<GameManager>();
     }
 
     void _setGeneticAlgorithm()
@@ -54,6 +56,7 @@ public class Headquarters : MonoBehaviour
 
     void Update()
     {
+        if (_gameManager.Paused) return;
         if (Random.value < 0.005 && _ships.childCount < maxShips)
         {
             var currentGeneration = _shipsContainer.GetComponentsInChildren<ProtonLegacy>()
