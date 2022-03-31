@@ -17,6 +17,8 @@ namespace Ships
         public int power = 10;
         private AudioSource _audioSource;
         private SentinelShip _sentinelShip;
+        public GameObject help;
+        private GameManager _gameManager;
 
         // Start is called before the first frame update
         void Start()
@@ -28,6 +30,7 @@ namespace Ships
             _beam = GameObject.Find("Beam");
             _audioSource = GetComponent<AudioSource>();
             _sentinelShip = parent.transform.Find("CoreParts").GetComponent<SentinelShip>();
+            _gameManager = GameObject.Find("/GameManager").GetComponent<GameManager>();
         }
 
         private void Update()
@@ -74,6 +77,7 @@ namespace Ships
 
         private void Capture(GameObject target)
         {
+            _gameManager.ShowHelp(help);
             _targetShip = target.GetComponentInChildren<SpaceShip>();
             if (_targetShip is {alive: false})
             {
@@ -85,6 +89,7 @@ namespace Ships
 
         private void Release()
         {
+            help.SetActive(false);
             _target = null;
             _targetFlight = null;
             _audioSource.Stop();

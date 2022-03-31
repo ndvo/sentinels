@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Utils;
+using Random = UnityEngine.Random;
 using Time = UnityEngine.Time;
 
 namespace Ships
@@ -8,11 +9,15 @@ namespace Ships
     
     public class SentinelFlight : ShipFlight
     {
+        public GameObject help;
+        private float _showHelp = 0;
         private float _standardSpeed;
+        private GameManager _gameManager;
 
         public override void Start()
         {
             _standardSpeed = speed;
+            _gameManager = GameObject.Find("/GameManager").GetComponent<GameManager>();
             base.Start();
         }
 
@@ -26,7 +31,17 @@ namespace Ships
             if (horizontal != 0|| vertical != 0) CurrentDirection = new Position((int) horizontal, (int) vertical);
             speed = (Input.GetAxisRaw("Jump") > 0)
                 ? Mathf.Clamp(speed + 1f, _standardSpeed, 10)
-                : Mathf.Clamp(speed - 1f, _standardSpeed, 10); 
+                : Mathf.Clamp(speed - 1f, _standardSpeed, 10);
+            if (_showHelp == 0 && (horizontal != 0 || vertical != 0) && Random.value < 0.001f)
+            {
+                _gameManager.ShowHelp(help);
+                _showHelp += Time.deltaTime;
+                if (_showHelp > 60)
+                {
+                    _showHelp = 0;
+                    help.SetActive(false);
+                }
+            }
         }
         
     }
