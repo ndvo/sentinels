@@ -29,14 +29,15 @@ public class SpaceStationBuilder : MonoBehaviour
 
     public void Awake()
     {
+        if (PlaySession.isPractice)
+        {
+            minSize += 2;
+            maxSize += 2;
+            cellSize -= 1;
+        }
+
         size = _random.Next(minSize, maxSize);
         _mazeGenerator = new WilsonAlgorithm(size, size);
-    }
-
-    public void SetStationsMaxSize(int newMaxSize, int newMinSize)
-    {
-        maxSize = newMaxSize;
-        minSize = newMinSize;
     }
 
     public void Start()

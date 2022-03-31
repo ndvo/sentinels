@@ -13,7 +13,7 @@ namespace Sky
 
         private Image _resistanceImage;
 
-        private const float MAXResistance = 1000f;
+        private float _maxResistance = 1000f;
 
         private const float ResistanceThreshold = 60f * 3f;
 
@@ -30,6 +30,11 @@ namespace Sky
             _gameManager = GameObject.Find("/GameManager").GetComponent<GameManager>();
             _resistanceImage = GameObject.Find("/Canvas/Earth/MineralResources/Overlay").GetComponent<Image>();
             _audioSource = GetComponent<AudioSource>();
+            if (PlaySession.isPractice)
+            {
+                _maxResistance *= 10f;
+                resistance *= 10f;
+            }
         }
 
         public void Update()
@@ -44,7 +49,7 @@ namespace Sky
         {
             resistance -= Mathf.Clamp(_accumulatedDamage, 0, 25 * Time.deltaTime);
             _accumulatedDamage = 0f;
-            _gameManager.EmergencyLight(resistance/MAXResistance);
+            _gameManager.EmergencyLight(resistance/_maxResistance);
             _updateUi();
         }
 
@@ -73,12 +78,12 @@ namespace Sky
         // Earth slowly regenerates itself.
         private void _handleRegeneration()
         {
-            resistance = Mathf.Min(resistance + Time.deltaTime * 5, MAXResistance);
+            resistance = Mathf.Min(resistance + Time.deltaTime * 5, _maxResistance);
         }
 
         private void _handleAlarm()
         {
-            if (resistance < 0.3f * MAXResistance)
+            if (resistance < 0.3f * _maxResistance)
             {
                 if (_audioSource.isPlaying) return;
                 _audioSource.Play();
@@ -91,7 +96,7 @@ namespace Sky
 
         private void _updateUi()
         {
-            _resistanceImage.fillAmount = resistance / MAXResistance;
+            _resistanceImage.fillAmount = resistance / _maxResistance;
         }
     }
 }

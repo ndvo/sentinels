@@ -15,6 +15,11 @@ namespace Ships
             var shieldObject = GameObject.Find("/Canvas/Sentinel/Shield/ShieldPower");
             if (shieldObject is {}) _shieldPowerUI = shieldObject.GetComponent<Image>();
             base.Start();
+            if (PlaySession.isPractice)
+            {
+                MAXEnergyLevel *= 10;
+                energyLevel *= 10;
+            }
         }
 
         public override float TakeDamage(float damage)
