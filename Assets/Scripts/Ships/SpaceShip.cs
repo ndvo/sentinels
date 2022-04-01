@@ -30,7 +30,7 @@ public class SpaceShip : MonoBehaviour
         _explosionDestroyVFX = !(_explosionDestroyVFX is null) ? _explosionDestroyVFX : _explosionVFX;
         var explosionSmoke = parentTransform.Find("ExplosionSmoke");
         if (explosionSmoke is { }) _explosionSmokeVFX = explosionSmoke.GetComponent<ParticleSystem>();
-        _explosionSmokeVFX = !(_explosionSmokeVFX is null) ? _explosionSmokeVFX : _explosionVFX;
+        _explosionSmokeVFX = _explosionSmokeVFX ? _explosionSmokeVFX : _explosionVFX;
         var shield = transform.Find("Shield");
         if (shield is { })
         {
