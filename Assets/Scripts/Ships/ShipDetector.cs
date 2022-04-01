@@ -15,34 +15,33 @@ namespace Ships
         public int size = 1;
         public List<GameObject> detected;
         private LayerMask _shipLayer;
-        private MeshRenderer _renderer;
     
         void Start()
         {
             _shipLayer = LayerMask.NameToLayer("Ship");
             transform.localScale = new Vector3(size, size, size);
-            _renderer = GetComponent<MeshRenderer>();
-            _renderer.enabled = false;
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.layer != _shipLayer) return;
             detected.Add(other.gameObject);
-            _renderer.enabled = true;
         }
 
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.layer != _shipLayer) return;
-            _renderer.enabled = false;
             detected.Remove(other.gameObject);
+        }
+
+        private void Update()
+        {
+            detected = detected.Where(i => !(i is null) && i.activeSelf).ToList();
         }
 
         public GameObject Closest(Vector3 targetPosition)
         {
             detected = detected
-                .Where(i => !(i is null) && i.activeSelf)
                 .OrderBy(i => Vector3.Distance(targetPosition, i.transform.position)).ToList();
             return detected.FirstOrDefault();
         }

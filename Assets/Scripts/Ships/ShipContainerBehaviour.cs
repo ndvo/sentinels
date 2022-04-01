@@ -1,19 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class ShipContainerBehaviour : MonoBehaviour
 {
-    public int maxShips = 0;
+    private void Update()
+    {
+        _removeInactiveShips();
+        
+    }
 
-    void Update()
+    private void _removeInactiveShips()
     {
         foreach (Transform t in transform)
         {
-            if (!t.gameObject.activeSelf)
-                Destroy(t.gameObject);
+            if (t.gameObject.activeSelf) continue;
+            Destroy(t.gameObject, 5);
         }
-        
     }
 }
