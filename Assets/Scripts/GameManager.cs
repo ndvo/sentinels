@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +14,14 @@ public class GameManager : MonoBehaviour
     public GameObject practiceCanvas;
     [NonSerialized]
     public bool Paused = false;
+
+    public GameObject pauseHelp;
+
+    private bool _activeHelp = false;
+    private float _countDownHelp = 0f;
+
+    private bool _pauseHelpShown = false;
+    
 
     void Start()
     {
@@ -30,6 +36,7 @@ public class GameManager : MonoBehaviour
     {
         _handlePause();
         _handleGameOver();
+        _handleHelp();
     }
 
     public void GameOver()
@@ -68,13 +75,26 @@ public class GameManager : MonoBehaviour
 
     public void ShowHelp(GameObject help)
     {
-        if (practiceCanvas.transform.Cast<Transform>().Any(child => child.gameObject.activeSelf))
-            return;
+        if (_activeHelp) return;
         help.SetActive(true);
+        _countDownHelp = 6f;
+    }
+
+    private void _handleHelp()
+    {
+        _activeHelp = practiceCanvas.transform.Cast<Transform>().Any(child => child.gameObject.activeSelf);
+        if (_activeHelp) _countDownHelp = Math.Max(0, _countDownHelp - Time.deltaTime);
+        if (_countDownHelp == 0 && _activeHelp)
+        {
+            practiceCanvas.transform.Cast<Transform>().First(c => c.gameObject.activeSelf).gameObject.SetActive(false);
+            _activeHelp = false;
+        }
     }
 
     private void _handlePause()
     {
+        if (!Paused && !_pauseHelpShown && Random.value < 0.0005f)
+            ShowHelp(pauseHelp);
         if (!Paused)
         {
             if (Input.GetButtonUp("Cancel")) Pause();
@@ -89,8 +109,8 @@ public class GameManager : MonoBehaviour
     {
         if (!_faddingOut) return;
         var oldColor = _sunLight.color.r;
-        // color values range 0 - 1. To gradually fade out in 5 sec we divide deltatime by 5.
-        var newColor = oldColor - Time.deltaTime/5;
+        // color values range 0 - 1. To gradually fade out in 5 sec we divide delta time by 5.
+        var newColor = Mathf.Max(0, oldColor - Time.deltaTime/5);
         if (newColor <= 0) _loadGameOverScene();
         _sunLight.color = new Color(newColor, newColor, newColor);
         _directionalLight.color = new Color(newColor, 0, 0);
@@ -101,11 +121,4 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("GameOver");
     }
 
-    /// <summary>
-    /// There can be only one help message on screen.
-    /// </summary>
-    private void _handleOnlyOneHelp()
-    {
-    }
-    
 }
