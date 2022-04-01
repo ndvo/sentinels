@@ -19,6 +19,9 @@ namespace Ships
         private SentinelShip _sentinelShip;
         public GameObject help;
         private GameManager _gameManager;
+        public GameObject crossHairPrefab;
+        private GameObject _crossHair;
+        private CrossHairScript _crossHairScript;
 
         // Start is called before the first frame update
         void Start()
@@ -31,6 +34,11 @@ namespace Ships
             _audioSource = GetComponent<AudioSource>();
             _sentinelShip = parent.transform.Find("CoreParts").GetComponent<SentinelShip>();
             _gameManager = GameObject.Find("/GameManager").GetComponent<GameManager>();
+            if (crossHairPrefab is { })
+            {
+                _crossHair = Instantiate(crossHairPrefab, transform);
+                _crossHairScript = _crossHair.GetComponent<CrossHairScript>();
+            }
         }
 
         private void Update()
@@ -42,7 +50,11 @@ namespace Ships
 
         private void FixedUpdate()
         {
-            if (_activateBeam) Fire(_target);
+            if (_activateBeam)
+            {
+                _releaseCrossHair();
+                Fire(_target);
+            }
             else FindTarget();
         }
 
@@ -59,6 +71,7 @@ namespace Ships
 
         private void Fire(GameObject target)
         {
+            if (target is null) return;
             if (!_audioSource.isPlaying) _audioSource.Play();
             transform.LookAt(target.transform.position);
             _shipFlight.MoveWithMe(target.transform);
@@ -85,14 +98,22 @@ namespace Ships
                 return;
             }
             _targetFlight = target.GetComponent<ShipFlight>();
+            if (_crossHairScript is { })
+                _crossHairScript.SetTarget(target);
         }
 
         private void Release()
         {
             help.SetActive(false);
+            _releaseCrossHair();
             _target = null;
             _targetFlight = null;
             _audioSource.Stop();
+        }
+
+        private void _releaseCrossHair()
+        {
+            if (_crossHairScript is {} ) _crossHairScript.UnsetTarget();
         }
     }
 }
