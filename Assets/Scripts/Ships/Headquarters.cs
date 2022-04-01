@@ -14,7 +14,7 @@ public class Headquarters : MonoBehaviour
 
     private GeneticAlgorithm.GeneticAlgorithm _ga;
 
-    private GameObject _shipsContainer;
+    private GameObject _shipsContainerGameObject;
 
     public GameObject[] shipPrefabs;
     public int generationAmount = 3;
@@ -40,7 +40,8 @@ public class Headquarters : MonoBehaviour
         _shipsContainerGameObject = GameObject.Find("Ships");
         _ships = GameObject.Find("Ships").transform;
         _uiTextNumberOfEnemies = GameObject.Find("/Canvas/EnemyHeadquarters/enemies").GetComponent<TextMeshProUGUI>();
-        _uiTextNumberOfInfectedStations = GameObject.Find("/Canvas/EnemyHeadquarters/stations").GetComponent<TextMeshProUGUI>();
+        _uiTextNumberOfInfectedStations =
+            GameObject.Find("/Canvas/EnemyHeadquarters/stations").GetComponent<TextMeshProUGUI>();
         _gameManager = GameObject.Find("/GameManager").GetComponent<GameManager>();
     }
 
@@ -54,8 +55,6 @@ public class Headquarters : MonoBehaviour
         if (_gameManager.Paused) return;
         if (Random.value < 0.005 && _ships.childCount < maxShips)
         {
-            var currentGeneration = _shipsContainer.GetComponentsInChildren<ProtonLegacy>()
-                .Where(e => e.gameObject.activeSelf);
             var newGen = SpawnGeneration();
             foreach (var s in newGen)
             {
@@ -110,7 +109,8 @@ public class Headquarters : MonoBehaviour
     /// <returns>The new generation of ships</returns>
     private GameObject[] SpawnGeneration()
     {
-        var currentGeneration = _shipsContainer.GetComponentsInChildren<ProtonLegacy>();
+        var currentGeneration = _shipsContainerGameObject.GetComponentsInChildren<ProtonLegacy>()
+            .Where(e => e.gameObject.activeSelf).ToArray();
         ShipGenome[] genomes;
         if (currentGeneration.Length == 0)
         {
