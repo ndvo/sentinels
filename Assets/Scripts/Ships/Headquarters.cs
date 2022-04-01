@@ -58,16 +58,27 @@ public class Headquarters : MonoBehaviour
             var newGen = SpawnGeneration();
             foreach (var s in newGen)
             {
-                var stateMachine = s.GetComponent<EnemyBehaviour>().StateMachine;
-                if (stateMachine is {}) _shipStates.Add(stateMachine);
-                var protonLegacyBehaviour = s.GetComponent<ProtonLegacy>();
-                if (protonLegacyBehaviour is { }) protonLegacyBehaviour.level = 1 + (int) (Time.time / 60);
+                _storeShipStateMachine(s);
+                _setShipLevel(s);
             }
-        } else if (_ships.childCount >= maxShips)
+        }
+        else if (_ships.childCount >= maxShips)
         {
             _removeInactiveShips();
         }
         _updateUi();
+    }
+
+    private void _storeShipStateMachine(GameObject ship)
+    {
+        var stateMachine = ship.GetComponent<EnemyBehaviour>().StateMachine;
+        if (stateMachine is { }) _shipStates.Add(stateMachine);
+    }
+    
+    private void _setShipLevel(GameObject ship)
+    {
+        var protonLegacyBehaviour = ship.GetComponent<ProtonLegacy>();
+        if (protonLegacyBehaviour is { }) protonLegacyBehaviour.level = 1 + (int) (Time.time / 60);
     }
 
     private void _removeInactiveShips()
