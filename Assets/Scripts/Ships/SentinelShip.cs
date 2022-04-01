@@ -8,6 +8,7 @@ namespace Ships
     {
         private GameManager _gameManager; 
         private Image _shieldPowerUI;
+        public GameObject collisionHelp;
         
         protected override void Start()
         {
@@ -24,6 +25,8 @@ namespace Ships
 
         public override float TakeDamage(float damage)
         {
+            if (PlaySession.isPractice && energyLevel == MAXEnergyLevel )
+                _gameManager.ShowHelp(collisionHelp);
             var inflictedDamage = base.TakeDamage(damage);
             if (energyLevel <= 0) _gameManager.GameOver();
             _updateUi();
