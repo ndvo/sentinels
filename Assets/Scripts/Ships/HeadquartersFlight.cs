@@ -8,17 +8,24 @@ using Time = UnityEngine.Time;
 
 public class HeadquartersFlight : ShipFlight
 {
+    public override void Update()
+    {
+    }
+
     protected override void _orbitalFlight()
     {
-        DeltaTimeSpeed = speed * Time.deltaTime;
-        if (Random.value < 0.0001f || !OffBoard) _setDirection();
+        OffBoard = HasSpaceStationBuilder && SpaceStationBuilder.IsOffBoard(transform.position);
+        DeltaTimeSpeed = speed * Time.fixedDeltaTime;
+        if (Random.value < 0.001f || !OffBoard) _setNewDirection();
         _positionAim();
         LookAtDirection();
         _move(transform, DeltaTimeSpeed);
     }
-    
-    private void _setDirection()
+
+    protected override void _setNewDirection()
     {
+        Debug.Log("Whats happening");
+        Debug.Log(OffBoard);
         CurrentDirection = CurrentDirection.x != 0 
             ? new Position(0, Random.value > 0.5f ? 1 : -1) 
             : new Position(Random.value > 0.5f ? 1 : -1, 0);
