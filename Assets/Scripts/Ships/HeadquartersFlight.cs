@@ -24,8 +24,6 @@ public class HeadquartersFlight : ShipFlight
 
     protected override void _setNewDirection()
     {
-        Debug.Log("Whats happening");
-        Debug.Log(OffBoard);
         CurrentDirection = CurrentDirection.x != 0 
             ? new Position(0, Random.value > 0.5f ? 1 : -1) 
             : new Position(Random.value > 0.5f ? 1 : -1, 0);
