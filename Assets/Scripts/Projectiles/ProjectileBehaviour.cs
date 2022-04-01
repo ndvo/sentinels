@@ -27,7 +27,8 @@ public class ProjectileBehaviour : MonoBehaviour
         if (_fadeOut)
         {
             var oldColor = _material.color;
-            _material.color = new Color(oldColor.r, oldColor.g, oldColor.b, oldColor.a - 0.05f * Time.deltaTime);
+            var newColor = Mathf.Max(0, oldColor.a - 0.05f * Time.deltaTime);
+            _material.color = new Color(oldColor.r, oldColor.g, oldColor.b, newColor);
             if (_material.color.a <= 0f)
             {
                 Destroy(this);
