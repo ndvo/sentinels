@@ -28,12 +28,6 @@ public class Headquarters : MonoBehaviour
 
     private GameManager _gameManager;
 
-    // Start is called before the first frame update
-    private void Awake()
-    {
-        _shipsContainer = GameObject.Find("Ships");
-    }
-
     void Start()
     {
         _ga = new GeneticAlgorithm.GeneticAlgorithm();
@@ -43,6 +37,7 @@ public class Headquarters : MonoBehaviour
             GeneticAlgorithm.GeneticAlgorithm.MatchingLeaderChoice,
             GeneticAlgorithm.GeneticAlgorithm.UniformCrossOver
         );
+        _shipsContainerGameObject = GameObject.Find("Ships");
         _ships = GameObject.Find("Ships").transform;
         _uiTextNumberOfEnemies = GameObject.Find("/Canvas/EnemyHeadquarters/enemies").GetComponent<TextMeshProUGUI>();
         _uiTextNumberOfInfectedStations = GameObject.Find("/Canvas/EnemyHeadquarters/stations").GetComponent<TextMeshProUGUI>();
