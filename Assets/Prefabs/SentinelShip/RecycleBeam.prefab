@@ -9756,6 +9756,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detector: {fileID: 0}
   power: 10
+  help: {fileID: 0}
+  crossHairPrefab: {fileID: 7874133864755337691, guid: cfbfd40ca7026123299d7c5263997135, type: 3}
 --- !u!82 &8499359291433911091
 AudioSource:
   m_ObjectHideFlags: 0
