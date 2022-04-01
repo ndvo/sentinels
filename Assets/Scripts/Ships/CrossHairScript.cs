@@ -18,7 +18,7 @@ public class CrossHairScript : MonoBehaviour
     {
         _target = target;
         _spaceShip = _target.transform.GetComponentInChildren<SpaceShip>();
-        if (_spaceShip.alive)
+        if (_spaceShip is {alive: true})
             gameObject.SetActive(true);
         else
             UnsetTarget();
