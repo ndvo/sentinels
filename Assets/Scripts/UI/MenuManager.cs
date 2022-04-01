@@ -22,7 +22,10 @@ public class MenuManager : MonoBehaviour
         PlaySession.isPractice = true;
         SceneManager.LoadScene("MainScene");
     }
-    
-    
-    
+
+    public void LoadStoryScene()
+    {
+        SceneManager.LoadScene("Story");
+    }
+
 }
