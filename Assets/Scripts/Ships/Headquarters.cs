@@ -8,6 +8,12 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// The enemy headquarters is responsible for instantiating new enemy ships.
+///
+/// The headquarters itself fly off board. This should make the distribution of entry places for enemy ships more
+/// realistic.
+/// </summary>
 public class Headquarters : MonoBehaviour
 {
     private Func<Individual[], float[][]> _protonLegacyGA;
@@ -43,7 +49,7 @@ public class Headquarters : MonoBehaviour
         _gameManager = GameObject.Find("/GameManager").GetComponent<GameManager>();
     }
 
-    void _setGeneticAlgorithm()
+    private void _setGeneticAlgorithm()
     {
         _ga ??= new GeneticAlgorithm.GeneticAlgorithm();
     }
@@ -64,12 +70,20 @@ public class Headquarters : MonoBehaviour
         _updateUi();
     }
 
+    /// <summary>
+    /// Store created ships statemachines to be able ot act on them depending on the state
+    /// </summary>
+    /// <param name="ship"></param>
     private void _storeShipStateMachine(GameObject ship)
     {
         var stateMachine = ship.GetComponent<EnemyBehaviour>().StateMachine;
         if (stateMachine is { }) _shipStates.Add(stateMachine);
     }
     
+    /// <summary>
+    /// Determine the level of the ships.
+    /// </summary>
+    /// <param name="ship"></param>
     private void _setShipLevel(GameObject ship)
     {
         var protonLegacyBehaviour = ship.GetComponent<ProtonLegacy>();

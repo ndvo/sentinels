@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Controls the behaviour of the projectiles (mines) launched by enemies.
+/// </summary>
 public class ProjectileBehaviour : MonoBehaviour
 {
 
@@ -15,7 +18,6 @@ public class ProjectileBehaviour : MonoBehaviour
         _material = transform.GetComponent<MeshRenderer>().material;
     }
 
-    // Update is called once per frame
     void Update()
     {
         duration -= Time.deltaTime;

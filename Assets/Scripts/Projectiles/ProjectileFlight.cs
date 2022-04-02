@@ -4,6 +4,9 @@ using Ships;
 using UnityEngine;
 using Utils;
 
+/// <summary>
+/// Controls the flight behaviour of projectiles.
+/// </summary>
 public class ProjectileFlight : OrbitalFlight
 {
     private SimpleSensor _sensor;
@@ -25,6 +28,9 @@ public class ProjectileFlight : OrbitalFlight
         _hasTarget = true;
     }
 
+    /// <summary>
+    /// The projectile follow the sentinel, avoiding stations.
+    /// </summary>
     protected override void _setNewDirection()
     {
         if (!_hasTarget)

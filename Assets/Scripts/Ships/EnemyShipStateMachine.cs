@@ -7,6 +7,9 @@ using UnityEngine.PlayerLoop;
 
 namespace Ships
 {
+    /// <summary>
+    /// The list of possible states the enemy ship can be in.
+    /// </summary>
     public enum EnemyShipStates
     {
         Idle,
@@ -17,6 +20,14 @@ namespace Ships
         Dying
     }
 
+    /// <summary>
+    /// Controls the transition of states an enemy ship may be in.
+    ///
+    /// The purpose of this class is to ensure a consistent behaviour for the enemy ships, avoiding that logic from
+    /// different parts of the code violate the expected behaviour.
+    ///
+    /// It exposes available transitions an throws errors if an illegal transition is attempted.
+    /// </summary>
     public class EnemyShipStateMachine
     {
 

@@ -163,6 +163,11 @@ namespace MazeGeneration
             return new bool[sizeX, sizeY];
         }
 
+        /// <summary>
+        /// Given a current cell, returns the next cell in the maze
+        /// </summary>
+        /// <param name="currentCell"></param>
+        /// <returns>the next cell</returns>
         private Position? _stepNextCell(Position currentCell)
         {
             var nextCell = currentCell + _maze[currentCell.x, currentCell.y];
