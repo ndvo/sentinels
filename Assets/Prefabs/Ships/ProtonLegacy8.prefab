@@ -1728,6 +1728,7 @@ GameObject:
   - component: {fileID: 3902837449835392213}
   - component: {fileID: 8399416758697249975}
   - component: {fileID: 6620783099251690748}
+  - component: {fileID: 8290026579527127795}
   m_Layer: 8
   m_Name: ProtonLegacy8
   m_TagString: Untagged
@@ -1757,6 +1758,7 @@ Transform:
   - {fileID: 7128216798506935842}
   - {fileID: 5494122449979590952}
   - {fileID: 601613036507990665}
+  - {fileID: 7780987706728523927}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1918,7 +1920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96b50d0413c719a43808bfdac3368d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetStation: {fileID: 0}
+  targetStation: {fileID: 0}
   inflicted: 0
 --- !u!114 &6620783099251690748
 MonoBehaviour:
@@ -1942,6 +1944,24 @@ MonoBehaviour:
   turbines: []
   wings: []
   level: 1
+--- !u!114 &8290026579527127795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8858355983249416439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f38dd7ddc4bb92daa92f451fd2bc53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackProbability: 10
+  projectileDuration: 10
+  projectileSpeed: 10
+  projectilePower: 10
+  projectile: {fileID: 7004482433364253583, guid: f1a7b20e5b8aa6fa4b7954502d38b667, type: 3}
+  attackSensor: {fileID: 8949611375600988749}
 --- !u!1001 &345065514266606626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2056,6 +2076,39 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4400389479008290, guid: e243632bb3aff9549abdcfcc2ef0c4f0, type: 3}
   m_PrefabInstance: {fileID: 345065514266606626}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1919484207243329492
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8855410445712832057}
+    m_Modifications:
+    - target: {fileID: 8167559053225613120, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
+      propertyPath: m_Name
+      value: AttackSensor
+      objectReference: {fileID: 0}
+    - target: {fileID: 8167559053225613123, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
+--- !u!4 &7780987706728523927 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8167559053225613123, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
+  m_PrefabInstance: {fileID: 1919484207243329492}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8949611375600988749 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7390416430946586009, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
+  m_PrefabInstance: {fileID: 1919484207243329492}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c17b2cc25824d1fa6b22de917fd7f6f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2224879465075228720
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2315,15 +2368,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8167559053225613123, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.639477
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8167559053225613123, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.289461
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8167559053225613123, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.997429
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8167559053225613133, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}

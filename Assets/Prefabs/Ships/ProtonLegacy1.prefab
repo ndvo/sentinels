@@ -1512,7 +1512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96b50d0413c719a43808bfdac3368d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetStation: {fileID: 0}
+  targetStation: {fileID: 0}
   inflicted: 0
 --- !u!114 &452045145550620378
 MonoBehaviour:
