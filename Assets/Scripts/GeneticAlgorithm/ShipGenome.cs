@@ -33,6 +33,8 @@ namespace GeneticAlgorithm
         public readonly float FirePower;
         public readonly float DrainPower;
         public readonly float FleeTime;
+        public readonly float AttackSensorSize;
+        public readonly float NavigationSensorSize;
         
         public ShipGenome (float[] data)
         {
@@ -53,7 +55,9 @@ namespace GeneticAlgorithm
             DrainPower = _data.Average(); // how close it is close to 1
             MovementSpeed = _data.SubArray(25, 10).Sum() / 10f; // average of turbine and wings
             FleeTime = _data.Max(); // the maximum value across all
-            AttackProbability = _data.Select(x => 1 - Mathf.Abs(x - 0.5f)).Sum() / _data.Length; // how close it is close to 0.5
+            NavigationSensorSize = _data.Aggregate((acc, i) => acc + Mathf.Abs(i)) / _data.Length; // avg absolute
+            AttackProbability = _data.Select(x => 1 - Mathf.Abs(x) + 0.5f).Sum() / _data.Length; // how close it is close to 0.5
+            AttackSensorSize = _data.Select(x => 1 - Mathf.Abs(x)).Sum() / _data.Length; // how close it is close to 0
             IdleProbability = 1f - _data.Min(); // the minimum value across all
         }
 

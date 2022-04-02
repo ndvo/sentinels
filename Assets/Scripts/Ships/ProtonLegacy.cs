@@ -23,6 +23,7 @@ public class ProtonLegacy : MonoBehaviour
     private SimpleFlight _flight;
     private EnemyBehaviour _behaviour;
     private AttackEarth _attackEarth;
+    private AttackSentinel _attackSentinel;
     public float level = 1;
     
     void Start()
@@ -33,6 +34,7 @@ public class ProtonLegacy : MonoBehaviour
         _flight = GetComponent<SimpleFlight>();
         _behaviour = GetComponent<EnemyBehaviour>();
         _attackEarth = GetComponent<AttackEarth>();
+        _attackSentinel = GetComponent<AttackSentinel>();
         _IdentifyParts();
         _ApplyGenome();
         _SetFeatures();
@@ -130,10 +132,12 @@ public class ProtonLegacy : MonoBehaviour
         _behaviour.resistance = (10 + 5 * level) * _genome.Resistance;
         _behaviour.firePower = (10 * level) * _genome.FirePower;
         _behaviour.drainPower = (5 * level) * _genome.DrainPower;
-        _behaviour.movementSpeed = 2 + level/2 * _genome.MovementSpeed;
+        _flight.speed = 2 + level * _genome.MovementSpeed;
         _behaviour.fleeTime = (10 * level) * _genome.FleeTime;
         _behaviour.attackProbability = Mathf.Clamp((80 * level) * _genome.AttackProbability, 0, 100);
         _behaviour.idleProbability = Mathf.Clamp((20 - level) * _genome.IdleProbability, 0, 60);
+        _behaviour.sentinelSensorSize = 30 + 80 * _genome.AttackSensorSize;
+        _behaviour.navigationSensorSize = 15 + 20 * _genome.NavigationSensorSize;
     }
 
     public Individual GetIndividual()
