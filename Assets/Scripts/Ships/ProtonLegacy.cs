@@ -25,9 +25,11 @@ public class ProtonLegacy : MonoBehaviour
     private AttackEarth _attackEarth;
     private AttackSentinel _attackSentinel;
     public float level = 1;
+    private Transform _core;
     
     void Start()
     {
+        _core = transform.Find("Core");
         _headquartersGameObject = GameObject.Find("EnemyHeadQuarters");
         if (_headquartersGameObject != null)
             _headquarters = _headquartersGameObject.GetComponent<Headquarters>();
@@ -65,7 +67,7 @@ public class ProtonLegacy : MonoBehaviour
     {
         for (var i = 0; i < transform.childCount; i++)
         {
-            yield return transform.GetChild(i);
+            yield return _core.GetChild(i);
         }
     }
 
