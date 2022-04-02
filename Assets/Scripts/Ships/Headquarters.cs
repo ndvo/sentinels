@@ -56,7 +56,8 @@ public class Headquarters : MonoBehaviour
 
     void Update()
     {
-        if (_gameManager.Paused) return;
+        if (_gameManager.Paused) return; // avoid spawning ships in paused game. Pausing stops time, but update daes run
+                                         // without ticking time.
         var childCount = _ships.transform.childCount;
         if (Random.value < 0.005 && childCount < maxShips)
         {
