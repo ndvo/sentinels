@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
@@ -7,6 +6,11 @@ using Time = UnityEngine.Time;
 namespace Ships
 {
     
+    /// <summary>
+    /// Controls the Sentinel Flight, concentrating the gathering of navigation user input.
+    ///
+    /// It uses Unity's Axis Input System to allow the game to be easily ported to other platforms if needed.
+    /// </summary>
     public class SentinelFlight : ShipFlight
     {
         public GameObject help;
@@ -21,6 +25,9 @@ namespace Ships
             base.Start();
         }
 
+        /// <summary>
+        /// Gather user input related to setting a new direction
+        /// </summary>
         protected override void _setNewDirection()
         {
             PreviousDirection = new Position(CurrentDirection.x, CurrentDirection.y);
@@ -32,6 +39,7 @@ namespace Ships
             speed = (Input.GetAxisRaw("Jump") > 0)
                 ? 12
                 : _standardSpeed;
+            // Practice mode help
             if (_showHelp == 0 && (horizontal != 0 || vertical != 0) && Random.value < 0.001f)
             {
                 _gameManager.ShowHelp(help);

@@ -18,6 +18,7 @@ public class HeadquartersFlight : ShipFlight
 {
     public override void Update()
     {
+        // remove base behavior in ShipFlight update method
     }
 
     /// <summary>

@@ -2,6 +2,20 @@ using UnityEngine;
 
 namespace Ships
 {
+    /// <summary>
+    /// RecycleBeam is the most important weapon of the Sentinel.
+    ///
+    /// The recycle beam is used to recycle resources from other ships and use part of such resources to boos Sentinels
+    /// resistance.
+    ///
+    /// It can only be used if within range and cannot be used inefficiently (meaning you can only use it when you have
+    /// a locked target). This is a feature meant to reinforce the theme of a nature-technology balanced Earth society
+    /// that will not waste valuable resources shooting needlessly.
+    ///
+    /// This is probably the single most important feature to mix the environmental theme into the game, and it does so
+    /// without lecturing players about anything, which I hope will help add to the feeling of immersion as the players
+    /// realize these things by themselves.
+    /// </summary>
     public class RecycleBeam : MonoBehaviour
     {
         private ShipDetector _detector;
@@ -58,6 +72,9 @@ namespace Ships
             else FindTarget();
         }
 
+        /// <summary>
+        /// Grab the closest target available
+        /// </summary>
         void FindTarget()
         {
             if (_audioSource.isPlaying) _audioSource.Stop();
@@ -69,6 +86,10 @@ namespace Ships
                 Release();
         }
 
+        /// <summary>
+        /// Use RecycleBeam on active target
+        /// </summary>
+        /// <param name="target"></param>
         private void Fire(GameObject target)
         {
             if (target is null) return;
@@ -88,6 +109,10 @@ namespace Ships
             } else Release();
         }
 
+        /// <summary>
+        /// Makes target the active target for the Recycle Beam
+        /// </summary>
+        /// <param name="target"></param>
         private void Capture(GameObject target)
         {
             _gameManager.ShowHelp(help);
@@ -102,6 +127,9 @@ namespace Ships
                 _crossHairScript.SetTarget(target);
         }
 
+        /// <summary>
+        /// Removes the active target making the beam inactive
+        /// </summary>
         private void Release()
         {
             help.SetActive(false);
@@ -111,6 +139,9 @@ namespace Ships
             _audioSource.Stop();
         }
 
+        /// <summary>
+        /// Unset CrossHair target
+        /// </summary>
         private void _releaseCrossHair()
         {
             if (_crossHairScript is {} ) _crossHairScript.UnsetTarget();
