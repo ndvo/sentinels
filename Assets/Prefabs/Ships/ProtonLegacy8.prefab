@@ -1908,6 +1908,8 @@ MonoBehaviour:
   attackProbability: 90
   idleProbability: 10
   state: 
+  sentinelSensorSize: 0
+  navigationSensorSize: 0
 --- !u!114 &8399416758697249975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2362,6 +2364,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8855410445712832057}
     m_Modifications:
+    - target: {fileID: 7390416430946586009, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
+      propertyPath: layer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 8167559053225613123, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -2380,7 +2386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8167559053225613133, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}

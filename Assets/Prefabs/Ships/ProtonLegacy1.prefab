@@ -1404,6 +1404,8 @@ MonoBehaviour:
   attackProbability: 90
   idleProbability: 10
   state: 
+  sentinelSensorSize: 0
+  navigationSensorSize: 0
 --- !u!82 &3961057599070834257
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1748,6 +1750,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6840774199230643787}
     m_Modifications:
+    - target: {fileID: 7390416430946586009, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
+      propertyPath: layer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 8167559053225613120, guid: 6b06704a47c4bf288b2895bea6998e96, type: 3}
       propertyPath: m_Name
       value: NavigationSensor
