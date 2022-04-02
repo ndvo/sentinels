@@ -62,7 +62,7 @@ public class SpaceShip : MonoBehaviour
 
     private void Update()
     {
-        if (_hasShield) _shield.SetActive(energyLevel >= 900);
+        if (_hasShield) _shield.SetActive(energyLevel >= 300);
     }
 
     public virtual float TakeDamage(float damage)
