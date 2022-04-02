@@ -30,8 +30,8 @@ namespace Ships
             vertical = vertical > 0 ? -1 : vertical < 0 ? 1 : 0;
             if (horizontal != 0|| vertical != 0) CurrentDirection = new Position((int) horizontal, (int) vertical);
             speed = (Input.GetAxisRaw("Jump") > 0)
-                ? Mathf.Clamp(speed + 1f, _standardSpeed, 10)
-                : Mathf.Clamp(speed - 1f, _standardSpeed, 10);
+                ? 12
+                : _standardSpeed;
             if (_showHelp == 0 && (horizontal != 0 || vertical != 0) && Random.value < 0.001f)
             {
                 _gameManager.ShowHelp(help);

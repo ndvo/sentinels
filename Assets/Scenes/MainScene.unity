@@ -3893,7 +3893,7 @@ PrefabInstance:
       objectReference: {fileID: 1693636775}
     - target: {fileID: 422751535666453842, guid: d111cd5d3695c2c56b9ba85fa455f851, type: 3}
       propertyPath: power
-      value: 15
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 1201591339984112987, guid: d111cd5d3695c2c56b9ba85fa455f851, type: 3}
       propertyPath: m_Enabled
@@ -3961,7 +3961,7 @@ PrefabInstance:
       objectReference: {fileID: 236878803}
     - target: {fileID: 6452748918476257306, guid: d111cd5d3695c2c56b9ba85fa455f851, type: 3}
       propertyPath: speed
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7810999579101234403, guid: d111cd5d3695c2c56b9ba85fa455f851, type: 3}
       propertyPath: crossHair
