@@ -58,7 +58,7 @@ namespace Ships
         private void Update()
         {
             _hasTarget = !(_target is null);
-            _activateBeam = _hasTarget && (Input.GetAxis("Fire1") > 0);
+            _activateBeam = _hasTarget && (Input.GetAxis("Fire1") > 0 || Input.GetKey(KeyCode.Z));
             _beam.SetActive(_activateBeam);
         }
 
