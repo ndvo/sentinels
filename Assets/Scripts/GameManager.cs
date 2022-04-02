@@ -45,6 +45,11 @@ public class GameManager : MonoBehaviour
         _directionalLight.color = Color.red;
     }
 
+    public void Quit()
+    {
+        SceneManager.LoadScene("MenuScene");
+    }
+
     public void GameBeaten()
     {
         SceneManager.LoadScene("Congratulations");
