@@ -5,6 +5,12 @@ using GeneticAlgorithm;
 using Ships;
 using UnityEngine;
 
+/// <summary>
+/// ProtonLegacy class is responsible for converting the genome into a ProtonLegacy ship.
+///
+/// The name Proton Legacy is the name of the third party model that is used to create enemies in the game.
+/// This class provides the transformations from the genome values (an array of floats) into ship's model and behaviour.
+/// </summary>
 public class ProtonLegacy : MonoBehaviour
 {
     public bool ready = false;
@@ -42,6 +48,10 @@ public class ProtonLegacy : MonoBehaviour
         _SetFeatures();
     }
     
+    /// <summary>
+    /// Makes the provide ShipGenome the genome of this ship.
+    /// </summary>
+    /// <param name="genome"></param>
     public void SetGenome(ShipGenome genome)
     {
         _genome = genome;
@@ -52,6 +62,11 @@ public class ProtonLegacy : MonoBehaviour
         };
     }
 
+    /// <summary>
+    /// Find the GameObject parts that make for this ship.
+    ///
+    /// For new models to be used (aside ProtonLegacy) it is necessary to rethink these parts.
+    /// </summary>
     void _IdentifyParts()
     {
         bodies = GetParts("ShipBody");
@@ -63,6 +78,10 @@ public class ProtonLegacy : MonoBehaviour
         wings = GetParts("ShipWings");
     }
 
+    /// <summary>
+    /// Helper function to find all the available parts.
+    /// </summary>
+    /// <returns>An iterable with the child parts.</returns>
     private IEnumerable<Transform> _parts()
     {
         for (var i = 0; i < transform.childCount; i++)
@@ -71,6 +90,11 @@ public class ProtonLegacy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Get an array of transforms that contain the tag partType.
+    /// </summary>
+    /// <param name="partType"></param>
+    /// <returns>The array of transforms with the given tag.</returns>
     public Transform[] GetParts(string partType)
     {
         return _parts()
@@ -83,6 +107,14 @@ public class ProtonLegacy : MonoBehaviour
         _updateAchievements();
     }
 
+    /// <summary>
+    /// Set current achievements
+    ///
+    /// So far there are only two metrics of success:
+    /// - damage inflicted upon Earth
+    /// - time alive
+    /// TODO: new metric: damage inflicted upon Sentinel
+    /// </summary>
     private void _updateAchievements()
     {
         if (_attackEarth)
@@ -94,9 +126,14 @@ public class ProtonLegacy : MonoBehaviour
             _individual.achievements[1] += Time.deltaTime;
     }
 
+    /// <summary>
+    /// Transforms the ship in accordance with the genome.
+    /// </summary>
     private void _ApplyGenome()
     {
         if (_genome == null) return;
+        // this helper structure simplifies the application of the genome
+        // for each type of transformable ship part we provide the corresponding genes.
         var GenomePartPair = new[]
         {
             new {parts = bodies, genes = _genome.Body},
