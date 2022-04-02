@@ -33,7 +33,7 @@ namespace Ships
 
         protected override void _orbitalFlight()
         {
-            if (Random.value < 0.005f) OffBoard = false;
+            if (OffBoard && Random.value < 0.008f) _setNewDirection();
             base._orbitalFlight();
         }
 
