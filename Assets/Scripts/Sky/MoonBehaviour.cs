@@ -2,19 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using Ships;
 using UnityEngine;
+using Utils;
+using Time = UnityEngine.Time;
 
-public class MoonBehaviour : ShipFlight
+public class MoonBehaviour : OrbitalFlight
 {
+    
     public override void Start()
     {
-        latitude = Random.Range(0, 180);
-        longitude = 90;
+        CurrentDirection = new Position(1, 1);
     }
 
     protected override void _orbitalFlight()
     {
         transform.LookAt(Vector3.zero);
-        _move(transform, 0.3f * Time.deltaTime);
+        _move(transform, speed * Time.fixedDeltaTime);
     }
-    
+
+    protected override void _setNewDirection()
+    {
+    }
 }
