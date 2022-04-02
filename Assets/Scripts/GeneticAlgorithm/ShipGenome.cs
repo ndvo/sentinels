@@ -11,7 +11,10 @@ namespace GeneticAlgorithm
     /// ShipGenome is the complete genome of a full ship.
     ///
     /// It aggregates in a semantic manner all of the genomes for each of the ship's parts.
+    /// It also maps the information on the genome into ship features.
     ///
+    /// For example, each 3rd gene may be responsible for determine the speed, or the higher value gene may responsible
+    /// for strength. These are hypothetical examples. Refer to the code to understand the current actual mapping.
     /// </summary>
     public class ShipGenome
     {
@@ -57,7 +60,7 @@ namespace GeneticAlgorithm
         /// <summary>
         /// Convert from Genome to Array.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The ship's genome.</returns>
         public float[] GetGenome()
         {
             return Body.GetGene()
@@ -69,7 +72,12 @@ namespace GeneticAlgorithm
                 .Concat(Wing.GetGene()).ToArray();
         }
 
-        private float _std(IEnumerable<float> data)
+        /// <summary>
+        /// Helper function that returns the Standard Deviation for a list.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns>The standard deviation</returns>
+        private static float _std(IEnumerable<float> data)
         {
             var enumerable = data as float[] ?? data.ToArray();
             return (float) Math.Sqrt(enumerable.Average(x=>x*x) - Math.Pow(enumerable.Average(),2f));

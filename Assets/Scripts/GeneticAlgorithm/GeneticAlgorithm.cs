@@ -24,6 +24,10 @@ public class GeneticAlgorithm
 {
     private static readonly Random _random = new Random(Utils.Time.UnixNow());
 
+    /// <summary>
+    /// Create a random ship genome.
+    /// </summary>
+    /// <returns>a random genome</returns>
     public float[] GenerateRandomShip()
     {
         var genome = new float[35];
@@ -42,7 +46,7 @@ public class GeneticAlgorithm
     /// <param name="selectionFunction">a function that select a subset of the individuals.</param>
     /// <param name="matchingFunction">a function that creates matches of individuals to derive new ones.</param>
     /// <param name="crossoverFunction">a function that creates a new genome from two parent genomes.</param>
-    /// <returns></returns>
+    /// <returns>a function that returns a new generation when provided with the previous generation.</returns>
     public Func<Individual[], float[][]> GAFactory(
         Func<float[], float> fitnessFunction,
         Func<Individual[], Individual[]> selectionFunction,
@@ -60,7 +64,7 @@ public class GeneticAlgorithm
     /// </summary>
     /// <param name="generation"></param>
     /// <param name="fitness"></param>
-    /// <returns></returns>
+    /// <returns>The generation ordered by descending order of the fitness value.</returns>
     public static Individual[] EvaluateGeneration(Individual[] generation, Func<float[], float> fitness)
     {
         foreach (var ind in generation) ind.fitness = fitness(ind.achievements);
@@ -90,6 +94,7 @@ public class GeneticAlgorithm
     /// The fitness function is passed into it so that it can be used to choose the pairs.
     /// </param>
     /// <param name="crossoverFunction"></param>
+    /// <returns>the new generation</returns>
     public static float[][] NewGeneration(
         Individual[] previousGeneration,
         Func<float[], float> fitnessFunction,
@@ -136,7 +141,7 @@ public class GeneticAlgorithm
     /// <param name="generation">The generation to be selected from. The generation must have been already evaluated.
     /// </param>
     /// <param name="deathRate">The proportion of the individuals that are not going to be selected.</param>
-    /// <returns></returns>
+    /// <returns>An array of selected individuals.</returns>
     public static Individual[] SelectionRoulette(Individual[] generation, float deathRate = 0.2f)
     {
         var fitnessSum = generation.Sum(r => r.fitness);
@@ -215,6 +220,7 @@ public class GeneticAlgorithm
         }
         return couples.ToArray();
         
+        // scoped function
         Individual[] MakeCouple(Individual a, Individual b) {
             source.Remove(a);
             source.Remove(b);
@@ -222,11 +228,25 @@ public class GeneticAlgorithm
         }
     }
 
+    /// <summary>
+    /// Implements an algorithm to cross over two set of genes by picking all genes from the first one up to a certain
+    /// point and taking genes from the other one from there on.
+    /// </summary>
+    /// <param name="genomeA"></param>
+    /// <param name="genomeB"></param>
+    /// <returns>A new genome inheriting from genomeA and genomeB</returns>
     public static float[] OnePointCrossOver(float[] genomeA, float[] genomeB)
     {
         return KPointCrossOver(genomeA, genomeB, 1);
     }
 
+    /// <summary>
+    /// Implements an algorithm to cross over two set of genes by setting K points
+    /// </summary>
+    /// <param name="genomeA"></param>
+    /// <param name="genomeB"></param>
+    /// <param name="k"></param>
+    /// <returns>The new genome inheriting from genomeA and genomeB</returns>
     public static float[] KPointCrossOver(float[] genomeA, float[] genomeB, int k)
     {
         var result = new float[genomeA.Length];
@@ -236,13 +256,21 @@ public class GeneticAlgorithm
         var coin = 0;
         for (var i = 0; i < genomeA.Length; i++)
         {
+            // if this corresponds to a kpoint, flip the coin
             if (Array.IndexOf(kPoints, i) != -1) coin = (coin + 1) % 2;
+            // get the gene from the genome indicated by the coin
             var gene = coin == 1 ? genomeB[i] : genomeA[i];
             result[i] = gene;
         }
         return result;
     }
     
+    /// <summary>
+    /// Implements a crossover function that randomly pick each gene from a parent.
+    /// </summary>
+    /// <param name="genomeA"></param>
+    /// <param name="genomeB"></param>
+    /// <returns>The new genome inheriting from genomeA and genomeB</returns>
     public static float[] UniformCrossOver(float[] genomeA, float[] genomeB)
     {
         var result = new float[genomeA.Length];
@@ -266,7 +294,7 @@ public class GeneticAlgorithm
     /// <param name="genome">The genome to be mutated.</param>
     /// <param name="mutationProbability">The probability of each mutation.</param>
     /// <param name="mutationIncrement">The maximum increment (or decrement) of each mutation.</param>
-    /// <returns></returns>
+    /// <returns>the mutated genome</returns>
     public static float[] Mutation(
         float[] genome,
         float mutationProbability = 0.01f,
@@ -274,7 +302,7 @@ public class GeneticAlgorithm
         )
     {
         var result = new float[genome.Length];
-        for (int i = 0; i < genome.Length; i++)
+        for (var i = 0; i < genome.Length; i++)
         {
             var increment = 0f;
             if (_random.NextDouble() < mutationProbability)
@@ -308,6 +336,11 @@ public class GeneticAlgorithm
         return offspring;
     }
 
+    /// <summary>
+    /// A placeholder function to test the development of the Genetic algorithm.
+    /// It assigns arbitrary achievements to the individuals so they can be evaluated.
+    /// </summary>
+    /// <param name="generation"></param>
     public static void SetArbitraryAchievements(Individual[] generation)
     {
         for (var i=0; i < generation.Length; i++)

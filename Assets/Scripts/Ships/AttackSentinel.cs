@@ -1,7 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Controls the Attack on the Sentinel
+///
+/// Enemy vessels attack sentinels by launching space mines.
+/// </summary>
 public class AttackSentinel : MonoBehaviour
 {
     public float attackProbability = 10;
@@ -10,15 +13,10 @@ public class AttackSentinel : MonoBehaviour
     public float projectilePower = 10;
     public GameObject projectile;
     public SimpleSensor attackSensor;
-    
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
-        var attackSensorObject = transform.Find("AttackSensor").gameObject;
-        if (attackSensorObject is { })
-        {
-            attackSensor = attackSensorObject.GetComponent<SimpleSensor>();
-        }
+        attackSensor = transform.Find("AttackSensor").gameObject.GetComponent<SimpleSensor>();
     }
 
     // Update is called once per frame

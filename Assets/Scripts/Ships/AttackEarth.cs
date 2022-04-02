@@ -4,9 +4,18 @@ using UnityEngine.Serialization;
 
 namespace Ships
 {
+    /// <summary>
+    /// Implements the behaviour for attacking Earth.
+    /// 
+    /// Enemy vessels cannot attack Earth directly. They act somewhat like a virus that need to take control of a cell
+    /// (a space station in this case) to use the station resources to attack Earth.
+    ///
+    /// When the target station is under control of the ship, it can attack.
+    /// 
+    /// </summary>
     public class AttackEarth : MonoBehaviour
     {
-        public Transform _targetStation;
+        public Transform targetStation;
         private bool _active;
         private GameObject _attackRay;
         private EarthBehaviour _earth;
@@ -29,6 +38,9 @@ namespace Ships
             if (_active) _attack();
         }
 
+        /// <summary>
+        /// Deals damage to earth and sets the ray position.
+        /// </summary>
         private void _attack()
         {
             _setRayPosition();
@@ -39,9 +51,13 @@ namespace Ships
             }
         }
 
+        /// <summary>
+        /// Sets a target to be controlled to attack Earth.
+        /// </summary>
+        /// <param name="target"></param>
         public void SetTarget(Transform target)
         {
-            _targetStation = target;
+            targetStation = target;
             if (_attackRay is { })
             {
                 _attackRay.gameObject.SetActive(true);
@@ -52,25 +68,35 @@ namespace Ships
             else
             {
                 // Do not set target station and attack ray if target has no attack ray.
-                _targetStation = null;
+                targetStation = null;
             }
         }
 
+        /// <summary>
+        /// Stop showing the ray and set _active to false.
+        /// </summary>
         public void StopAttack()
         {
             if (!_active) return;
             _active = false;
             _attackRay.SetActive(false);
             _capturedVFX.SetActive(false);
-            _targetStation = null;
+            targetStation = null;
         }
 
 
+        /// <summary>
+        /// Ray position must start at the target station and reach Earth.
+        /// </summary>
         private void _setRayPosition()
         {
-            if (_attackRay is null || _targetStation is null) return;
-            _attackRay.transform.position = _targetStation.transform.position / 2;
-            _attackRay.transform.LookAt(_targetStation);
+            if (_attackRay is null || targetStation is null) return;
+            // Position the center of the object halfway between the two points.
+            _attackRay.transform.position = targetStation.transform.position / 2;
+            // turn the ray to the station.
+            // The goal is to give the impression that something is being drained from Earth to the station.
+            // - selecting the perfect asset for this impression has not been an easy task.
+            _attackRay.transform.LookAt(targetStation);
         }
     }
 }

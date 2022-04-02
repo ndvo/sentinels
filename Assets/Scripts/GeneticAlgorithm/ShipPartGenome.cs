@@ -3,7 +3,11 @@ using UnityEngine;
 namespace GeneticAlgorithm
 {
     /// <summary>
-    /// ShipPartGenome 
+    /// ShipPartGenome
+    ///
+    /// Describe a genome for a single part of a ship.
+    ///
+    /// A ship part does not map to a ship behaviour, but to parts in it's model.
     /// </summary>
     public class ShipPartGenome
     {
