@@ -8,7 +8,9 @@ using Random = UnityEngine.Random;
 namespace Ships
 {
     /// <summary>
-    /// Sentinel Ship 
+    /// Sentinel Ship
+    ///
+    /// Sentinel Ship behaviour handles taking damage and recovering energy drained from other vessels.
     /// </summary>
     public class SentinelShip : SpaceShip
     {
