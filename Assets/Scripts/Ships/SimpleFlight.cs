@@ -5,6 +5,13 @@ using Random = UnityEngine.Random;
 
 namespace Ships
 {
+    /// <summary>
+    /// SimpleFlight is the most basic flight for the Enemy Ships.
+    ///
+    /// It navigates the maze by simply choosing a random direction when a station is hit.
+    /// SimpleFlight was created as a replacement for BinaryTreeSearchFlight, but it cannot provide the same features,
+    /// notably the ability to set a target goal and move there.
+    /// </summary>
     public class SimpleFlight : ShipFlight
     {
         private SimpleSensor _sensor;
@@ -39,6 +46,10 @@ namespace Ships
             base._orbitalFlight();
         }
 
+        /// <summary>
+        /// Set a new direction randomly according to the ship states.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         protected override void _setNewDirection()
         {
             if (_behaviour is null)
@@ -63,6 +74,9 @@ namespace Ships
             }
         }
         
+        /// <summary>
+        /// Choose a new direction by avoiding hitting a space station
+        /// </summary>
         private void _setDirectionRepositioning()
         {
             if (_sensor.blocked || Random.value < 0.01f)
@@ -73,6 +87,9 @@ namespace Ships
             } 
         }
 
+        /// <summary>
+        /// Choose a new direction by going in the opposite direction of the Sentinel
+        /// </summary>
         private void _setDirectionFleeing()
         {
             if (_sensor.blocked)
