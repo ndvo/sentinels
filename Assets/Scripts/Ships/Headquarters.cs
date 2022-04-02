@@ -82,7 +82,6 @@ public class Headquarters : MonoBehaviour
     /// <returns>The random ShipGenome</returns>
     public ShipGenome NewShipGenome()
     {
-        _setGeneticAlgorithm();
         var randomShip = _ga.GenerateRandomShip();
         return new ShipGenome(randomShip);
     }
