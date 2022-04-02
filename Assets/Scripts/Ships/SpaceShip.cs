@@ -1,12 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Xml.Schema;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Object = UnityEngine.Object;
 
+/// <summary>
+/// SpaceShip class controls basic behaviour of a space ship.
+///
+/// It controls special effects and taking damage upon collisions.
+/// </summary>
 public class SpaceShip : MonoBehaviour
 {
     public float energyLevel = 1000;
@@ -39,12 +37,20 @@ public class SpaceShip : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Check collisions against ships and space stations
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
         CheckCollisionWithSpaceStation(other);
         CheckCollisionWithSpaceShip(other);
     }
 
+    /// <summary>
+    /// Take damage upon collisions with space stations.
+    /// </summary>
+    /// <param name="other">game object that might be a space station</param>
     private void CheckCollisionWithSpaceStation(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("SpaceStation"))
@@ -53,6 +59,10 @@ public class SpaceShip : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Take damage upon collision with a space ship.
+    /// </summary>
+    /// <param name="other">a game object that might be a space ship</param>
     private void CheckCollisionWithSpaceShip(Collider other)
     {
         if (other.gameObject.layer != LayerMask.NameToLayer("Ship") &&
@@ -65,6 +75,11 @@ public class SpaceShip : MonoBehaviour
         if (_hasShield) _shield.SetActive(energyLevel >= 300);
     }
 
+    /// <summary>
+    /// Take damage and return the amount of damage actually taken.
+    /// </summary>
+    /// <param name="damage">The amount of damage one intends to cause</param>
+    /// <returns>The amount of damage actually taken.</returns>
     public virtual float TakeDamage(float damage)
     {
 
@@ -73,6 +88,9 @@ public class SpaceShip : MonoBehaviour
         return energyLevel;
     }
 
+    /// <summary>
+    /// Play the special effects resulting from a collision.
+    /// </summary>
     private void _explode()
     {
         if (_explosionAudio is {}) _explosionAudio.Play();
@@ -100,6 +118,12 @@ public class SpaceShip : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Makes a ship inactive.
+    ///
+    /// An enemy ship that is inactive will be removed from the game.
+    /// If the Sentinel ship is destroyed, the game is over.
+    /// </summary>
     private void SetInactive()
     {
         transform.parent.gameObject.SetActive(false);
