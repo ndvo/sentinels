@@ -12,7 +12,7 @@ public class SimpleSensor : MonoBehaviour
     public bool blocked = false;
     public GameObject blocking;
 
-    private void Start()
+    private void Update()
     {
         transform.localScale = sensorScale;
     }
