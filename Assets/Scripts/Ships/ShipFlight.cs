@@ -6,6 +6,14 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace Ships
 {
+    /// <summary>
+    /// ShipFlight provides a base class for ship orbital flight.
+    ///
+    /// Ships need to do more in Orbital Flight than space bodies. They need to look at the direction they are going and
+    /// need to be arbitrarily positioned.
+    ///
+    /// Ships also need to use warp drive when off the board.
+    /// </summary>
     public class ShipFlight : OrbitalFlight
     {
 
@@ -29,6 +37,9 @@ namespace Ships
         protected bool ShipReady = false;
         private float _multiplier = 1;
 
+        /// <summary>
+        /// Creates a aim object to help pointing the ship in the right direction when moving.
+        /// </summary>
         public virtual void Awake()
         {
             Aim = new GameObject("aim");
@@ -54,6 +65,9 @@ namespace Ships
             if (!OffBoard) _setNewDirection();
         }
 
+        /// <summary>
+        /// Override orbital flight to add 
+        /// </summary>
         protected override void _orbitalFlight()
         {
             OffBoard = HasSpaceStationBuilder && SpaceStationBuilder.IsOffBoard(transform.position);
@@ -88,19 +102,38 @@ namespace Ships
             transform.LookAt(Aim.transform.position);
         }
 
+        /// <summary>
+        /// Move the ship to the center of the board.
+        ///
+        /// This function assumes the distance from Earth is 500.
+        /// </summary>
         public void GoToBoardCenter()
         {
             var pos = transform.position;
             pos.x = 0;
             pos.z = 0;
+            pos.y = 500;
         }
 
+        /// <summary>
+        /// Moves the ship to an initial position defined as latitude and longitude.
+        /// </summary>
+        /// <param name="t"></param>
         public virtual void GoToStartPosition(Transform t = null)
         {
             GoTo(Utils.Direction.North, latitude, t);
             GoTo(Utils.Direction.East, longitude, t);
         }
 
+        /// <summary>
+        /// Move the ship to a specified position
+        ///
+        /// The position is specified as an angle and a direction.
+        /// The distance of the ship from Vector3.zero will not change.
+        /// </summary>
+        /// <param name="dir">The direction the ship should move to.</param>
+        /// <param name="angle">The angle to move.</param>
+        /// <param name="t">The transform to be moved.</param>
         public void GoTo(Position dir, float angle, Transform t = null)
         {
             t = t ? t: transform;
