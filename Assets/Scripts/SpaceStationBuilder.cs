@@ -61,7 +61,7 @@ public class SpaceStationBuilder : MonoBehaviour
         }
     }
 
-    GameObject _createBorderGameObject(Position direction, float padding = 5)
+    GameObject _createBorderGameObject(Position direction, float padding = 7)
     {
         var go = new GameObject(direction.ToString());
         go.transform.position = transform.position + Vector3.zero;
