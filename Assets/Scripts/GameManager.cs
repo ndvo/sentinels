@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     private bool _fadingOut;
 
-    private readonly bool _pauseHelpShown = false;
+    private bool _pauseHelpShown = false;
     private Light _sunLight;
 
     [NonSerialized] public bool Paused;
@@ -129,7 +129,10 @@ public class GameManager : MonoBehaviour
     private void _handlePause()
     {
         if (!Paused && !_pauseHelpShown && Random.value < 0.0005f)
+        {
             ShowHelp(pauseHelp);
+            _pauseHelpShown = true;
+        }
         if (!Paused)
         {
             if (Input.GetButtonUp("Cancel")) Pause();
