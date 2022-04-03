@@ -116,10 +116,10 @@ namespace Tests
             var evaluated = GeneticAlgorithm.GeneticAlgorithm.EvaluateGeneration(
                 generation, r => r.Sum()
             );
-            Assert.AreEqual(evaluated[0].fitness, 27);
-            Assert.AreEqual(evaluated[1].fitness, 24);
-            Assert.AreEqual(evaluated[8].fitness, 3);
-            Assert.AreEqual(evaluated[9].fitness, 0);
+            Assert.AreEqual(evaluated[0].Fitness, 27);
+            Assert.AreEqual(evaluated[1].Fitness, 24);
+            Assert.AreEqual(evaluated[8].Fitness, 3);
+            Assert.AreEqual(evaluated[9].Fitness, 0);
         }
 
         [Test]
@@ -129,13 +129,13 @@ namespace Tests
             for (var i = 0; i < generation.Length; i++)
                 generation[i] = new Individual
                 {
-                    genes = new float[] {i, i, i},
-                    achievements = new float[] {i, i, i},
-                    fitness = (float) Math.Pow(i, 5)
+                    Genes = new float[] {i, i, i},
+                    Achievements = new float[] {i, i, i},
+                    Fitness = (float) Math.Pow(i, 5)
                 };
             var selected = GeneticAlgorithm.GeneticAlgorithm.SelectionRoulette(generation);
-            var previousGenAvg = generation.Average(r => r.fitness);
-            var nextGenAvg = selected.Average(r => r.fitness);
+            var previousGenAvg = generation.Average(r => r.Fitness);
+            var nextGenAvg = selected.Average(r => r.Fitness);
             Assert.AreNotApproximatelyEqual(previousGenAvg, nextGenAvg);
             Assert.IsTrue(nextGenAvg > previousGenAvg);
         }
@@ -144,12 +144,12 @@ namespace Tests
         public void TestMatchingLeaderChoice()
         {
             var generation = _createGeneration(6);
-            generation[0].achievements[0] = 9999f;
-            generation[1].achievements[0] = 8888f;
-            generation[2].achievements[1] = 7777f;
-            generation[3].achievements[1] = 6666f;
-            generation[4].achievements[2] = 5555f;
-            generation[5].achievements[2] = 4444f;
+            generation[0].Achievements[0] = 9999f;
+            generation[1].Achievements[0] = 8888f;
+            generation[2].Achievements[1] = 7777f;
+            generation[3].Achievements[1] = 6666f;
+            generation[4].Achievements[2] = 5555f;
+            generation[5].Achievements[2] = 4444f;
             var matches = GeneticAlgorithm.GeneticAlgorithm.MatchingLeaderChoice(
                 generation, floats => floats.Sum()
             );
@@ -172,8 +172,8 @@ namespace Tests
             for (var i = 0; i < numberOfIndividuals; i++)
                 result[i] = new Individual
                 {
-                    genes = new float[] {i, i, i},
-                    achievements = new float[] {i, i, i}
+                    Genes = new float[] {i, i, i},
+                    Achievements = new float[] {i, i, i}
                 };
             return result;
         }

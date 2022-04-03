@@ -31,11 +31,9 @@ namespace GeneticAlgorithm
         public readonly ShipPartGenome Tractor;
         public readonly ShipPartGenome Turbine;
         public readonly ShipPartGenome Wing;
-        private readonly float[] _data;
 
-        public ShipGenome(float[] data)
+        public ShipGenome(IReadOnlyCollection<float> data)
         {
-            _data = data;
             // Set the body parts
             Body = new ShipPartGenome(data.SubArray(0, 5));
             Bridge = new ShipPartGenome(data.SubArray(5, 5));
@@ -47,17 +45,17 @@ namespace GeneticAlgorithm
             // Set the features
             // - All values are set in such a way that it is best to have the highest value
             // - All values are represented between 0 and 1
-            Resistance = _data.Where((x, i) => i % 5 == 0).Aggregate((acc, i) => acc + Mathf.Abs(i)) / _data.Length /
+            Resistance = data.Where((x, i) => i % 5 == 0).Aggregate((acc, i) => acc + Mathf.Abs(i)) / data.Count /
                          5; // sizes
-            FirePower = _std(_data) / _std(_data.Select((x, i) => i % 2 == 0 ? 1f : 0f)); // normalized std deviation
-            DrainPower = _data.Average(); // how close it is close to 1
-            MovementSpeed = _data.SubArray(25, 10).Sum() / 10f; // average of turbine and wings
-            FleeTime = _data.Max(); // the maximum value across all
-            NavigationSensorSize = _data.Aggregate((acc, i) => acc + Mathf.Abs(i)) / _data.Length; // avg absolute
+            FirePower = _std(data) / _std(data.Select((x, i) => i % 2 == 0 ? 1f : 0f)); // normalized std deviation
+            DrainPower = data.Average(); // how close it is close to 1
+            MovementSpeed = data.SubArray(25, 10).Sum() / 10f; // average of turbine and wings
+            FleeTime = data.Max(); // the maximum value across all
+            NavigationSensorSize = data.Aggregate((acc, i) => acc + Mathf.Abs(i)) / data.Count; // avg absolute
             AttackProbability =
-                _data.Select(x => 1 - Mathf.Abs(x) + 0.5f).Sum() / _data.Length; // how close it is close to 0.5
-            AttackSensorSize = _data.Select(x => 1 - Mathf.Abs(x)).Sum() / _data.Length; // how close it is close to 0
-            IdleProbability = 1f - _data.Min(); // the minimum value across all
+                data.Select(x => 1 - Mathf.Abs(x) + 0.5f).Sum() / data.Count; // how close it is close to 0.5
+            AttackSensorSize = data.Select(x => 1 - Mathf.Abs(x)).Sum() / data.Count; // how close it is close to 0
+            IdleProbability = 1f - data.Min(); // the minimum value across all
         }
 
         /// <summary>

@@ -65,8 +65,8 @@ namespace Ships
             _genome = genome;
             _individual = new Individual
             {
-                genes = _genome.GetGenome(),
-                achievements = new float[2] // the first item measures, time alive
+                Genes = _genome.GetGenome(),
+                Achievements = new float[2] // the first item measures, time alive
             };
         }
 
@@ -117,12 +117,12 @@ namespace Ships
         {
             if (_attackEarth)
             {
-                _individual.achievements[0] += _attackEarth.inflicted;
+                _individual.Achievements[0] += _attackEarth.inflicted;
                 _attackEarth.inflicted = 0;
             }
 
             if (gameObject.activeSelf)
-                _individual.achievements[1] += Time.deltaTime;
+                _individual.Achievements[1] += Time.deltaTime;
         }
 
         /// <summary>

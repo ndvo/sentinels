@@ -27,7 +27,7 @@ namespace Ships
         /// </summary>
         protected override void _setNewDirection()
         {
-            PreviousDirection = new Position(CurrentDirection.x, CurrentDirection.y);
+            PreviousDirection = new Position(CurrentDirection.X, CurrentDirection.Y);
             var horizontal = Input.GetAxisRaw("Horizontal");
             var vertical = Input.GetAxisRaw("Vertical");
             horizontal = horizontal > 0 ? 1 : horizontal < 0 ? -1 : 0;

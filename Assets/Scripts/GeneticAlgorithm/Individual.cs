@@ -6,8 +6,8 @@ namespace GeneticAlgorithm
     /// </summary>
     public class Individual
     {
-        public float[] achievements;
-        public float fitness;
-        public float[] genes;
+        public float[] Achievements;
+        public float Fitness;
+        public float[] Genes;
     }
 }

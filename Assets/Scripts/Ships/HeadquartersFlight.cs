@@ -33,7 +33,7 @@ namespace Ships
 
         protected override void _setNewDirection()
         {
-            CurrentDirection = CurrentDirection.x != 0
+            CurrentDirection = CurrentDirection.X != 0
                 ? new Position(0, Random.value > 0.5f ? 1 : -1)
                 : new Position(Random.value > 0.5f ? 1 : -1, 0);
         }

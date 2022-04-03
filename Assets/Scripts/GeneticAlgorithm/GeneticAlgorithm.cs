@@ -63,8 +63,8 @@ namespace GeneticAlgorithm
         /// <returns>The generation ordered by descending order of the fitness value.</returns>
         public static Individual[] EvaluateGeneration(Individual[] generation, Func<float[], float> fitness)
         {
-            foreach (var ind in generation) ind.fitness = fitness(ind.achievements);
-            return generation.OrderByDescending(r => r.fitness).ToArray();
+            foreach (var ind in generation) ind.Fitness = fitness(ind.Achievements);
+            return generation.OrderByDescending(r => r.Fitness).ToArray();
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace GeneticAlgorithm
                  in this step we apply a fitness function to the generation in order to fill each individual with the
                  fitness result.
             */
-            foreach (var i in previousGeneration) i.fitness = fitnessFunction(i.achievements);
+            foreach (var i in previousGeneration) i.Fitness = fitnessFunction(i.Achievements);
             /* 2- Select the fittest (i.e. remove a percentage from the surviving pool)
                 For this step we need a Selection Method and a Fitness Function
             */
@@ -113,7 +113,7 @@ namespace GeneticAlgorithm
             var matches = matchingFunction(survivors, fitnessFunction);
             /* 4- Generate the offspring */
             var offspring = _breedMatches(
-                matches.Select(r => new[] {r[0].genes, r[1].genes}).ToArray(),
+                matches.Select(r => new[] {r[0].Genes, r[1].Genes}).ToArray(),
                 crossoverFunction);
             /* 5- Mutate:  
             */
@@ -135,13 +135,13 @@ namespace GeneticAlgorithm
         /// <returns>An array of selected individuals.</returns>
         public static Individual[] SelectionRoulette(Individual[] generation, float deathRate = 0.2f)
         {
-            var fitnessSum = generation.Sum(r => r.fitness);
+            var fitnessSum = generation.Sum(r => r.Fitness);
             fitnessSum = fitnessSum == 0 ? 1 : fitnessSum; // avoid division per zero
             var ranking = new float[generation.Length];
             var previous = 0f;
             for (var i = 0; i < generation.Length; i++)
             {
-                ranking[i] = generation[i].fitness / fitnessSum + previous;
+                ranking[i] = generation[i].Fitness / fitnessSum + previous;
                 previous = ranking[i];
             }
 
@@ -177,15 +177,15 @@ namespace GeneticAlgorithm
             for (var i = 0; i < generation.Length; i++)
             {
                 var ind = generation[i];
-                ind.fitness = fitnessFunc(ind.achievements);
+                ind.Fitness = fitnessFunc(ind.Achievements);
                 generationCopy[i] = ind;
             }
 
-            var source = generationCopy.OrderByDescending(r => r.fitness).ToList();
+            var source = generationCopy.OrderByDescending(r => r.Fitness).ToList();
             while (source.Count() > 1)
             {
                 var leader = source.First();
-                var leaderCompetence = leader.achievements.ToList().IndexOf(leader.achievements.Max());
+                var leaderCompetence = leader.Achievements.ToList().IndexOf(leader.Achievements.Max());
                 var notLeaders = source.Where(r => r.GetHashCode() != leader.GetHashCode()).ToArray();
                 if (notLeaders.Length == 0)
                 {
@@ -197,17 +197,17 @@ namespace GeneticAlgorithm
                     // Disregard the feature the leader is better at
                     .Select(r =>
                     {
-                        r.achievements[leaderCompetence] = r.achievements[leaderCompetence] / 10;
-                        r.fitness = fitnessFunc(r.achievements);
+                        r.Achievements[leaderCompetence] = r.Achievements[leaderCompetence] / 10;
+                        r.Fitness = fitnessFunc(r.Achievements);
                         return r;
                     }).ToArray();
                 var corrected = reEvaluated
-                    .OrderByDescending(r => r.fitness)
+                    .OrderByDescending(r => r.Fitness)
                     // Return the list to it's original state
                     .Select(r =>
                     {
-                        r.achievements[leaderCompetence] = r.achievements[leaderCompetence] * 10;
-                        r.fitness = fitnessFunc(r.achievements);
+                        r.Achievements[leaderCompetence] = r.Achievements[leaderCompetence] * 10;
+                        r.Fitness = fitnessFunc(r.Achievements);
                         return r;
                     }).ToArray();
                 var chosen = corrected.First();
@@ -347,7 +347,7 @@ namespace GeneticAlgorithm
         public static void SetArbitraryAchievements(Individual[] generation)
         {
             for (var i = 0; i < generation.Length; i++)
-                generation[i].achievements = new[]
+                generation[i].Achievements = new[]
                 {
                     i / 10f,
                     i / 10f,

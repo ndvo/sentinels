@@ -37,8 +37,8 @@ public class TestMazeWilsonAlgorithm
             var maze = _mazeWilson.CreateMaze();
             foreach (var i in maze)
             {
-                Assert.IsTrue(i.x != 0 || i.y != 0);
-                Assert.IsTrue(i.x != i.y);
+                Assert.IsTrue(i.X != 0 || i.Y != 0);
+                Assert.IsTrue(i.X != i.Y);
             }
         }
     }

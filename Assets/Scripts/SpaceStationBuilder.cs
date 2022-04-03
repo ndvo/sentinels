@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using MazeGeneration;
 using UnityEngine;
@@ -11,10 +12,6 @@ using Time = Utils.Time;
 /// </summary>
 public class SpaceStationBuilder : MonoBehaviour
 {
-    public GameObject commonPrefab;
-    public GameObject core1Prefab;
-    public GameObject core2Prefab;
-    public GameObject panelsPrefab;
     public GameObject regularConnectionPrefab;
     public GameObject tubularConnectionPrefab;
 
@@ -82,7 +79,7 @@ public class SpaceStationBuilder : MonoBehaviour
         go.transform.position = transform.position + Vector3.zero;
         go.transform.RotateAround(
             new Vector3(0f, 0f, 0f),
-            new Vector3(direction.y, 0, direction.x),
+            new Vector3(direction.Y, 0, direction.X),
             Mathf.Sqrt(2 * Mathf.Pow(cellSize * _size / 2, 2)) + padding);
         return go;
     }
@@ -95,7 +92,7 @@ public class SpaceStationBuilder : MonoBehaviour
     /// </summary>
     /// <param name="part"></param>
     /// <param name="position"></param>
-    private void _transformPosition(GameObject part, float[] position)
+    private static void _transformPosition(GameObject part, IReadOnlyList<float> position)
     {
         part.transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.right, position[0]);
         part.transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.forward, position[1]);
@@ -134,9 +131,9 @@ public class SpaceStationBuilder : MonoBehaviour
     /// </summary>
     /// <param name="availablePrefabs"></param>
     /// <returns>A random piece of the puzzle.</returns>
-    private GameObject _createObject(GameObject[] availablePrefabs)
+    private GameObject _createObject(IReadOnlyList<GameObject> availablePrefabs)
     {
-        var prefab = availablePrefabs[_random.Next(0, availablePrefabs.Length)];
+        var prefab = availablePrefabs[_random.Next(0, availablePrefabs.Count)];
         return Instantiate(prefab, transform);
     }
 

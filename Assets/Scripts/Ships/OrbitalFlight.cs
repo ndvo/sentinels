@@ -68,12 +68,12 @@ namespace Ships
             t.RotateAround(
                 Vector3.zero,
                 Vector3.right,
-                moveSpeed * CurrentDirection.y * -1
+                moveSpeed * CurrentDirection.Y * -1
             );
             t.RotateAround(
                 Vector3.zero,
                 Vector3.forward,
-                moveSpeed * CurrentDirection.x * -1
+                moveSpeed * CurrentDirection.X * -1
             );
         }
 

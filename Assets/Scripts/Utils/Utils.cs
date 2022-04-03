@@ -121,7 +121,7 @@ namespace Utils
     {
         private bool Equals(Position other)
         {
-            return x == other.x && y == other.y;
+            return X == other.X && Y == other.Y;
         }
 
         public override bool Equals(object obj)
@@ -133,27 +133,27 @@ namespace Utils
         {
             unchecked
             {
-                return (x * 397) ^ y;
+                return (X * 397) ^ Y;
             }
         }
 
-        public readonly int x;
-        public readonly int y;
+        public readonly int X;
+        public readonly int Y;
 
         public Position(int x, int y)
         {
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
 
         public static Position operator +(Position a, Position b)
         {
-            return new Position(a.x + b.x, a.y + b.y);
+            return new Position(a.X + b.X, a.Y + b.Y);
         }
 
         public static bool operator ==(Position a, Position b)
         {
-            return a.x == b.x && a.y == b.y;
+            return a.X == b.X && a.Y == b.Y;
         }
 
         public static bool operator !=(Position a, Position b)

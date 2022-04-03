@@ -32,7 +32,7 @@ namespace MazeGeneration
         {
             _visitedBoard = _createBoard();
             var currentCell = _randomPosition();
-            _visitedBoard[currentCell.x, currentCell.y] = true;
+            _visitedBoard[currentCell.X, currentCell.Y] = true;
             var mazeLength = sizeX * sizeY;
             var mazeCreated = 1;
             while (mazeCreated < mazeLength)
@@ -60,7 +60,7 @@ namespace MazeGeneration
             while (true)
             {
                 var direction = _randomDirection();
-                _maze[currentCell.x, currentCell.y] = direction;
+                _maze[currentCell.X, currentCell.Y] = direction;
                 var adjacent = currentCell + direction;
                 if (
                     !_validatePosition(adjacent)
@@ -90,9 +90,9 @@ namespace MazeGeneration
                 !_isPositionInBoard(currentCell, _visitedBoard)
             )
             {
-                _visitedBoard[currentCell.x, currentCell.y] = true;
+                _visitedBoard[currentCell.X, currentCell.Y] = true;
                 var next = _stepNextCell(currentCell);
-                var nextCell = currentCell + _maze[currentCell.x, currentCell.y];
+                var nextCell = currentCell + _maze[currentCell.X, currentCell.Y];
                 currentCell = nextCell;
                 count++;
             }
@@ -108,7 +108,7 @@ namespace MazeGeneration
         /// <returns>True if the position is already in the board.</returns>
         private bool _isPositionInBoard(Position p, bool[,] board)
         {
-            return board[p.x, p.y];
+            return board[p.X, p.Y];
         }
 
         private Position _randomPosition()
@@ -157,7 +157,7 @@ namespace MazeGeneration
         /// <returns>the next cell</returns>
         private Position? _stepNextCell(Position currentCell)
         {
-            var nextCell = currentCell + _maze[currentCell.x, currentCell.y];
+            var nextCell = currentCell + _maze[currentCell.X, currentCell.Y];
             if (_validatePosition(nextCell))
                 return nextCell;
             return null;
@@ -165,8 +165,8 @@ namespace MazeGeneration
 
         private bool _validatePosition(Position pos)
         {
-            return pos.x >= 0 && pos.x < sizeX &&
-                   pos.y >= 0 && pos.y < sizeY;
+            return pos.X >= 0 && pos.X < sizeX &&
+                   pos.Y >= 0 && pos.Y < sizeY;
         }
     }
 }
