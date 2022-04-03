@@ -16,7 +16,6 @@ namespace Ships
 
         public float longitude;
 
-        [SerializeField] private bool inertia;
         public float warpMultiplier;
 
         private float _drag;
@@ -87,8 +86,9 @@ namespace Ships
 
         protected virtual void _positionAim()
         {
-            var position = transform.position;
-            var rotation = transform.rotation;
+            var transform1 = transform;
+            var position = transform1.position;
+            var rotation = transform1.rotation;
             Aim.transform.position = new Vector3(position.x, position.y, position.z);
             Aim.transform.rotation = new Quaternion(rotation.x, rotation.y, rotation.z, rotation.w);
             _move(Aim.transform, speed);
@@ -97,18 +97,6 @@ namespace Ships
         protected virtual void LookAtDirection()
         {
             transform.LookAt(Aim.transform.position);
-        }
-
-        /// <summary>
-        ///     Move the ship to the center of the board.
-        ///     This function assumes the distance from Earth is 500.
-        /// </summary>
-        public void GoToBoardCenter()
-        {
-            var pos = transform.position;
-            pos.x = 0;
-            pos.z = 0;
-            pos.y = 500;
         }
 
         /// <summary>
@@ -129,10 +117,9 @@ namespace Ships
         /// <param name="dir">The direction the ship should move to.</param>
         /// <param name="angle">The angle to move.</param>
         /// <param name="t">The transform to be moved.</param>
-        public void GoTo(Position dir, float angle, Transform t = null)
+        private void GoTo(Position dir, float angle, Transform t = null)
         {
             t = t ? t : transform;
-            GoToBoardCenter();
             var oldDirection = CurrentDirection;
             CurrentDirection = dir;
             _move(t, angle);
