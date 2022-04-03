@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Utils;
+using Random = UnityEngine.Random;
 
 namespace GeneticAlgorithm
 {
@@ -19,8 +19,7 @@ namespace GeneticAlgorithm
     /// </summary>
     public class GeneticAlgorithm
     {
-        private static readonly Random _random = new Random(Time.UnixNow());
-
+        
         /// <summary>
         ///     Create a random ship genome.
         /// </summary>
@@ -28,7 +27,7 @@ namespace GeneticAlgorithm
         public float[] GenerateRandomShip()
         {
             var genome = new float[35];
-            for (var i = 0; i < 35; i++) genome[i] = (float) _random.NextDouble();
+            for (var i = 0; i < 35; i++) genome[i] = Random.value;
             return genome;
         }
 
@@ -149,7 +148,7 @@ namespace GeneticAlgorithm
             var selected = new Individual[selectionSize];
             for (var i = 0; i < selectionSize; i++)
             {
-                var chosenValue = _random.NextDouble();
+                var chosenValue = Random.value;
                 for (var ii = 0; ii < generation.Length; ii++)
                 {
                     if (chosenValue > ranking[ii]) continue;
@@ -248,12 +247,12 @@ namespace GeneticAlgorithm
         {
             var result = new float[genomeA.Length];
             var kPoints = new int[k];
-            for (var i = 0; i < k; i++) kPoints[i] = _random.Next(0, genomeA.Length);
+            for (var i = 0; i < k; i++) kPoints[i] = Random.Range(0, genomeA.Length);
             Array.Sort(kPoints);
             var coin = 0;
             for (var i = 0; i < genomeA.Length; i++)
             {
-                // if this corresponds to a kpoint, flip the coin
+                // if this corresponds to a k point, flip the coin
                 if (Array.IndexOf(kPoints, i) != -1) coin = (coin + 1) % 2;
                 // get the gene from the genome indicated by the coin
                 var gene = coin == 1 ? genomeB[i] : genomeA[i];
@@ -274,7 +273,7 @@ namespace GeneticAlgorithm
             var result = new float[genomeA.Length];
             for (var i = 0; i < genomeA.Length; i++)
             {
-                var coin = _random.Next(1, 3);
+                var coin = Random.Range(1, 3);
                 var gene = coin == 1 ? genomeA[i] : genomeB[i];
                 result[i] = gene;
             }
@@ -303,10 +302,10 @@ namespace GeneticAlgorithm
             for (var i = 0; i < genome.Length; i++)
             {
                 var increment = 0f;
-                if (_random.NextDouble() < mutationProbability)
+                if (Random.value < mutationProbability)
                 {
-                    var decrementModifier = _random.NextDouble() >= 0.5 ? -1 : 1;
-                    increment = (float) _random.NextDouble() * mutationIncrement * decrementModifier;
+                    var decrementModifier = Random.value >= 0.5 ? -1 : 1;
+                    increment = Random.value * mutationIncrement * decrementModifier;
                 }
 
                 result[i] = genome[i] + increment;
