@@ -1,9 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// StoryManager controls the display of the game story.
+///
+/// It provides a button to move forward and a button to move backwards in the story.
+///
+/// As it is now the story is told only through 
+/// </summary>
 public class StoryManager : MonoBehaviour
 {
 
@@ -12,10 +16,9 @@ public class StoryManager : MonoBehaviour
         "It took Earth thousand of years to balance life, culture and technology.",
         "It finally arrived. Earth grew in power and splendour and became a beacon in the sky.",
         "The beacon was noticed.",
-        "Unfortunately, instead of a guide it was viewed as an unlimited source of wealth",
+        "Unfortunately, instead of a guide it was viewed as an unlimited source of wealth.",
         "Wealth to be expropriated, to be used as a shortcut by other ecosystems.",
-        "The next step in Earth's struggle is not so dissimilar from the previous ones.",
-        "Sentinel, you are Earth's arm to protect, recover, and preserve."
+        "Sentinel, you are Earth's arm to protect, recover, and preserve.",
     };
     public GameObject gui;
     public GameObject left;
