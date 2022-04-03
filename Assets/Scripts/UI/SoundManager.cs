@@ -1,35 +1,38 @@
 using UnityEngine;
 
-/// <summary>
-///     Helper class to be used to provide functions to be used by Menu buttons
-/// </summary>
-public class SoundManager : MonoBehaviour
+namespace UI
 {
-    public AudioClip moveSound;
-
-    public AudioClip clickSound;
-
-    public AudioClip startSound;
-
-    private AudioSource _audioSource;
-
-    private void Start()
+    /// <summary>
+    ///     Helper class to be used to provide functions to be used by Menu buttons
+    /// </summary>
+    public class SoundManager : MonoBehaviour
     {
-        _audioSource = GetComponent<AudioSource>();
-    }
+        public AudioClip moveSound;
 
-    public void PlayMoveSound()
-    {
-        _audioSource.PlayOneShot(moveSound);
-    }
+        public AudioClip clickSound;
 
-    public void PlayClickSound()
-    {
-        _audioSource.PlayOneShot(clickSound);
-    }
+        public AudioClip startSound;
 
-    public void PlayStartSound()
-    {
-        _audioSource.PlayOneShot(startSound);
+        private AudioSource _audioSource;
+
+        private void Start()
+        {
+            _audioSource = GetComponent<AudioSource>();
+        }
+
+        public void PlayMoveSound()
+        {
+            _audioSource.PlayOneShot(moveSound);
+        }
+
+        public void PlayClickSound()
+        {
+            _audioSource.PlayOneShot(clickSound);
+        }
+
+        public void PlayStartSound()
+        {
+            _audioSource.PlayOneShot(startSound);
+        }
     }
 }

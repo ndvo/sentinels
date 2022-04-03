@@ -1,25 +1,28 @@
 using UnityEngine;
 
-/// <summary>
-///     Ship Container is the game object that is parent to all instantiated enemy vessels.
-/// </summary>
-public class ShipContainerBehaviour : MonoBehaviour
+namespace Ships
 {
-    private void Update()
-    {
-        _removeInactiveShips();
-    }
-
     /// <summary>
-    ///     Remove enemy vessels five seconds after they are inactive
-    ///     This allows the enemy headquarters to instantiate new ships.
+    ///     Ship Container is the game object that is parent to all instantiated enemy vessels.
     /// </summary>
-    private void _removeInactiveShips()
+    public class ShipContainerBehaviour : MonoBehaviour
     {
-        foreach (Transform t in transform)
+        private void Update()
         {
-            if (t.gameObject.activeSelf) continue;
-            Destroy(t.gameObject, 5);
+            _removeInactiveShips();
+        }
+
+        /// <summary>
+        ///     Remove enemy vessels five seconds after they are inactive
+        ///     This allows the enemy headquarters to instantiate new ships.
+        /// </summary>
+        private void _removeInactiveShips()
+        {
+            foreach (Transform t in transform)
+            {
+                if (t.gameObject.activeSelf) continue;
+                Destroy(t.gameObject, 5);
+            }
         }
     }
 }

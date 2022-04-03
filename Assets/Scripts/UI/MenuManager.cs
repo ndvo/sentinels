@@ -1,30 +1,33 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-///     Helper class that provide functions to be used by the menu buttons
-/// </summary>
-public class MenuManager : MonoBehaviour
+namespace UI
 {
-    public void LoadMainScene()
+    /// <summary>
+    ///     Helper class that provide functions to be used by the menu buttons
+    /// </summary>
+    public class MenuManager : MonoBehaviour
     {
-        PlaySession.IsPractice = false;
-        SceneManager.LoadScene("MainScene");
-    }
+        public void LoadMainScene()
+        {
+            PlaySession.IsPractice = false;
+            SceneManager.LoadScene("MainScene");
+        }
 
-    public void LoadMenuScene()
-    {
-        SceneManager.LoadScene("MenuScene");
-    }
+        public void LoadMenuScene()
+        {
+            SceneManager.LoadScene("MenuScene");
+        }
 
-    public void LoadPracticeScene()
-    {
-        PlaySession.IsPractice = true;
-        SceneManager.LoadScene("MainScene");
-    }
+        public void LoadPracticeScene()
+        {
+            PlaySession.IsPractice = true;
+            SceneManager.LoadScene("MainScene");
+        }
 
-    public void LoadStoryScene()
-    {
-        SceneManager.LoadScene("Story");
+        public void LoadStoryScene()
+        {
+            SceneManager.LoadScene("Story");
+        }
     }
 }

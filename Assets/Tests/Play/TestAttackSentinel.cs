@@ -1,5 +1,6 @@
 using System.Collections;
 using NUnit.Framework;
+using Ships;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;

@@ -1,6 +1,7 @@
 using System.Collections;
 using GeneticAlgorithm;
 using NUnit.Framework;
+using Ships;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
