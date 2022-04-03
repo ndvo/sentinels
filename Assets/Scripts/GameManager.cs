@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     private bool _fadingOut;
 
-    private bool _pauseHelpShown = false;
+    private bool _pauseHelpShown;
     private Light _sunLight;
 
     [NonSerialized] public bool Paused;
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     ///     Ends the game with the player's victory.
     /// </summary>
-    public void GameBeaten()
+    public static void GameBeaten()
     {
         SceneManager.LoadScene("Congratulations");
     }
@@ -116,11 +116,9 @@ public class GameManager : MonoBehaviour
     {
         _activeHelp = practiceCanvas.transform.Cast<Transform>().Any(child => child.gameObject.activeSelf);
         if (_activeHelp) _countDownHelp = Math.Max(0, _countDownHelp - Time.deltaTime);
-        if (_countDownHelp == 0 && _activeHelp)
-        {
-            practiceCanvas.transform.Cast<Transform>().First(c => c.gameObject.activeSelf).gameObject.SetActive(false);
-            _activeHelp = false;
-        }
+        if (_countDownHelp != 0 || !_activeHelp) return;
+        practiceCanvas.transform.Cast<Transform>().First(c => c.gameObject.activeSelf).gameObject.SetActive(false);
+        _activeHelp = false;
     }
 
     /// <summary>
@@ -159,7 +157,7 @@ public class GameManager : MonoBehaviour
         _directionalLight.color = new Color(newColor, 0, 0);
     }
 
-    private void _loadGameOverScene()
+    private static void _loadGameOverScene()
     {
         SceneManager.LoadScene("GameOver");
     }

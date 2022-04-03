@@ -84,7 +84,7 @@ namespace Sky
             else
             {
                 survivedTime += Time.deltaTime;
-                if (survivedTime > ResistanceThreshold) _gameManager.GameBeaten();
+                if (survivedTime > ResistanceThreshold) GameManager.GameBeaten();
             }
         }
 
