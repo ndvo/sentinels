@@ -41,7 +41,6 @@ namespace Ships
             if (behaviour is { })
             {
                 behaviour.duration = projectileDuration;
-                behaviour.power = projectilePower;
             }
 
             var flight = newProjectile.GetComponent<ProjectileFlight>();
