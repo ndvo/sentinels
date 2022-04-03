@@ -12,7 +12,7 @@ namespace Sky
         private const float ResistanceThreshold = 60f * 3f;
         public float resistance = 1000f;
 
-        public float MAXResistance = 1000f;
+        public float maxResistance = 1000f;
 
         public float survivedTime;
 
@@ -29,11 +29,9 @@ namespace Sky
             _gameManager = GameObject.Find("/GameManager").GetComponent<GameManager>();
             _resistanceImage = GameObject.Find("/Canvas/Earth/MineralResources/Overlay").GetComponent<Image>();
             _audioSource = GetComponent<AudioSource>();
-            if (PlaySession.IsPractice)
-            {
-                MAXResistance *= 10f;
-                resistance *= 10f;
-            }
+            if (!PlaySession.IsPractice) return;
+            maxResistance *= 10f;
+            resistance *= 10f;
         }
 
         public void Update()
@@ -52,7 +50,7 @@ namespace Sky
             resistance -= Mathf.Clamp(_accumulatedDamage, 0, 25 * Time.deltaTime);
             _accumulatedDamage = 0f;
             // Changes the game lights to cause the impression of danger.
-            _gameManager.EmergencyLight(resistance / MAXResistance);
+            _gameManager.EmergencyLight(resistance / maxResistance);
             _updateUi();
         }
 
@@ -91,7 +89,7 @@ namespace Sky
         // Earth slowly regenerates itself.
         private void _handleRegeneration()
         {
-            resistance = Mathf.Min(resistance + Time.deltaTime * 5, MAXResistance);
+            resistance = Mathf.Min(resistance + Time.deltaTime * 5, maxResistance);
         }
 
         /// <summary>
@@ -99,7 +97,7 @@ namespace Sky
         /// </summary>
         private void _handleAlarm()
         {
-            if (resistance < 0.3f * MAXResistance)
+            if (resistance < 0.3f * maxResistance)
             {
                 if (_audioSource.isPlaying) return;
                 _audioSource.Play();
@@ -112,7 +110,7 @@ namespace Sky
 
         private void _updateUi()
         {
-            _resistanceImage.fillAmount = resistance / MAXResistance;
+            _resistanceImage.fillAmount = resistance / maxResistance;
         }
     }
 }

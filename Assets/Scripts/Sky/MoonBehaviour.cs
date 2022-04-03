@@ -23,8 +23,9 @@ namespace Sky
         protected override void _orbitalFlight()
         {
             // Moon should keep the same side facing Earth at all times.
-            transform.LookAt(Vector3.zero);
-            _move(transform, speed * Time.fixedDeltaTime);
+            Transform transform1;
+            (transform1 = transform).LookAt(Vector3.zero);
+            _move(transform1, speed * Time.fixedDeltaTime);
         }
 
         /// <summary>

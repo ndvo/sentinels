@@ -60,7 +60,7 @@ namespace Ships
         {
             var efficiency = Mathf.Clamp(Random.value, 0.4f, 1);
             var recovered = energy * efficiency;
-            var earthShare = 1 - _earth.resistance / _earth.MAXResistance;
+            var earthShare = 1 - _earth.resistance / _earth.maxResistance;
             energyLevel += (1 - earthShare) * recovered;
             _earth.resistance += earthShare * recovered;
             _updateUi();

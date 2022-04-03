@@ -25,15 +25,12 @@ public class SpaceStationBuilder : MonoBehaviour
     [SerializeField] private int minSize = 3;
 
     private readonly Random _random = new Random(Time.UnixNow());
-    private GameObject[] _corePrefabs;
     private GameObject[] _longPrefabs;
     private IMazeAlgorithm _mazeGenerator;
 
-    private GameObject[] _shortPrefabs;
-
     // a border game object that allows one to check if a position is inside or outside the game board.
-    private GameObject border;
-    private int size;
+    private GameObject _border;
+    private int _size;
 
     public void Awake()
     {
@@ -47,22 +44,22 @@ public class SpaceStationBuilder : MonoBehaviour
         }
 
         // determine the size of the game board
-        size = _random.Next(minSize, maxSize);
+        _size = _random.Next(minSize, maxSize);
         // determine the maze generation algorithm to be used
-        _mazeGenerator = new WilsonAlgorithm(size, size);
+        _mazeGenerator = new WilsonAlgorithm(_size, _size);
     }
 
     public void Start()
     {
         _setupPrefabs();
-        border = _createBorderGameObject(new Position(1, 1));
+        _border = _createBorderGameObject(new Position(1, 1));
         var maze = _mazeGenerator.CreateMaze();
         var stationParts = (from i in
                 new int[maze.GetLength(0) * maze.GetLength(1)]
             select _createConnection()).ToArray();
         var positionGrid = Iterables.CreateGrid(
-            (from n in Iterables.BalancedRange(size) select n * cellSize).ToArray(),
-            (from n in Iterables.BalancedRange(size) select n * cellSize).ToArray()
+            (from n in Iterables.BalancedRange(_size) select n * cellSize).ToArray(),
+            (from n in Iterables.BalancedRange(_size) select n * cellSize).ToArray()
         );
         for (var i = 0; i < stationParts.Length; i++)
         {
@@ -86,7 +83,7 @@ public class SpaceStationBuilder : MonoBehaviour
         go.transform.RotateAround(
             new Vector3(0f, 0f, 0f),
             new Vector3(direction.y, 0, direction.x),
-            Mathf.Sqrt(2 * Mathf.Pow(cellSize * size / 2, 2)) + padding);
+            Mathf.Sqrt(2 * Mathf.Pow(cellSize * _size / 2, 2)) + padding);
         return go;
     }
 
@@ -106,8 +103,6 @@ public class SpaceStationBuilder : MonoBehaviour
 
     private void _setupPrefabs()
     {
-        _shortPrefabs = new[] {commonPrefab, panelsPrefab};
-        _corePrefabs = new[] {core1Prefab, core2Prefab};
         _longPrefabs = new[] {regularConnectionPrefab, tubularConnectionPrefab};
     }
 
@@ -116,7 +111,7 @@ public class SpaceStationBuilder : MonoBehaviour
     /// </summary>
     /// <param name="piece">A piece of the puzzle, i.e. a game object representing a space station.</param>
     /// <param name="direction">The direction it should be rotated to.</param>
-    private void _rotatePiece(GameObject piece, Position direction)
+    private static void _rotatePiece(GameObject piece, Position direction)
     {
         if (direction == Direction.South) piece.transform.Rotate(new Vector3(0f, 180f, 0f));
         if (direction == Direction.East) piece.transform.Rotate(new Vector3(0f, 90f, 0f));
@@ -154,6 +149,6 @@ public class SpaceStationBuilder : MonoBehaviour
     {
         // It is not necessary to check in all positions. Given the board is a part of a sphere, any position that is
         // lower in y than the border point is outside of the board game.
-        return position.y < border.transform.position.y;
+        return position.y < _border.transform.position.y;
     }
 }
