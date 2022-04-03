@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Helper class that provide functions to be used by the menu buttons
+/// </summary>
 public class MenuManager : MonoBehaviour
 {
 

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Helper class to be used to provide functions to be used by Menu buttons
+/// </summary>
 public class SoundManager : MonoBehaviour
 {
     public AudioClip moveSound;
