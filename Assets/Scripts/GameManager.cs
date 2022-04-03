@@ -30,8 +30,8 @@ public class GameManager : MonoBehaviour
     {
         _directionalLight = GameObject.Find("/Directional Light").GetComponent<Light>();
         _sunLight = GameObject.Find("/Sun").GetComponent<Light>();
-        practiceCanvas.SetActive(PlaySession.isPractice);
-        if (PlaySession.isPractice) _directionalLight.color = Color.blue;
+        practiceCanvas.SetActive(PlaySession.IsPractice);
+        if (PlaySession.IsPractice) _directionalLight.color = Color.blue;
     }
 
     // Update is called once per frame

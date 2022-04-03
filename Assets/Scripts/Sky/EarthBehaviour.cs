@@ -29,7 +29,7 @@ namespace Sky
             _gameManager = GameObject.Find("/GameManager").GetComponent<GameManager>();
             _resistanceImage = GameObject.Find("/Canvas/Earth/MineralResources/Overlay").GetComponent<Image>();
             _audioSource = GetComponent<AudioSource>();
-            if (PlaySession.isPractice)
+            if (PlaySession.IsPractice)
             {
                 MAXResistance *= 10f;
                 resistance *= 10f;

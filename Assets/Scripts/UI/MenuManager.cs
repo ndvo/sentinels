@@ -8,7 +8,7 @@ public class MenuManager : MonoBehaviour
 {
     public void LoadMainScene()
     {
-        PlaySession.isPractice = false;
+        PlaySession.IsPractice = false;
         SceneManager.LoadScene("MainScene");
     }
 
@@ -19,7 +19,7 @@ public class MenuManager : MonoBehaviour
 
     public void LoadPracticeScene()
     {
-        PlaySession.isPractice = true;
+        PlaySession.IsPractice = true;
         SceneManager.LoadScene("MainScene");
     }
 

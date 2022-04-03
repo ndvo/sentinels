@@ -37,7 +37,7 @@ public class SpaceStationBuilder : MonoBehaviour
 
     public void Awake()
     {
-        if (PlaySession.isPractice)
+        if (PlaySession.IsPractice)
         {
             // make the board larger
             minSize += 2;

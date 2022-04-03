@@ -24,7 +24,7 @@ namespace Ships
             var shieldObject = GameObject.Find("/Canvas/Sentinel/Shield/ShieldPower");
             if (shieldObject is { }) _shieldPowerUI = shieldObject.GetComponent<Image>();
             base.Start();
-            if (PlaySession.isPractice)
+            if (PlaySession.IsPractice)
             {
                 MAXEnergyLevel *= 10;
                 energyLevel *= 10;
@@ -41,7 +41,7 @@ namespace Ships
         /// <returns>the amount of damage that was actually inflicted.</returns>
         public override float TakeDamage(float damage)
         {
-            if (PlaySession.isPractice && Math.Abs(energyLevel - MAXEnergyLevel) < 0.1)
+            if (PlaySession.IsPractice && Math.Abs(energyLevel - MAXEnergyLevel) < 0.1)
                 _gameManager.ShowHelp(collisionHelp);
             var inflictedDamage = base.TakeDamage(damage);
             if (energyLevel <= 0) _gameManager.GameOver();
