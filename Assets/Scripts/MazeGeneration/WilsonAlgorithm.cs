@@ -17,14 +17,14 @@ namespace MazeGeneration
     {
         private readonly Position[,] _maze;
         private readonly Random _random = new Random(Time.UnixNow());
-        public readonly int sizeX;
-        public readonly int sizeY;
+        public readonly int SizeX;
+        public readonly int SizeY;
         private bool[,] _visitedBoard;
 
         public WilsonAlgorithm(int sizeX, int sizeY)
         {
-            this.sizeX = sizeX;
-            this.sizeY = sizeY;
+            this.SizeX = sizeX;
+            this.SizeY = sizeY;
             _maze = new Position[sizeX, sizeY];
         }
 
@@ -33,7 +33,7 @@ namespace MazeGeneration
             _visitedBoard = _createBoard();
             var currentCell = _randomPosition();
             _visitedBoard[currentCell.X, currentCell.Y] = true;
-            var mazeLength = sizeX * sizeY;
+            var mazeLength = SizeX * SizeY;
             var mazeCreated = 1;
             while (mazeCreated < mazeLength)
             {
@@ -105,7 +105,7 @@ namespace MazeGeneration
         /// <param name="p"></param>
         /// <param name="board"></param>
         /// <returns>True if the position is already in the board.</returns>
-        private bool _isPositionInBoard(Position p, bool[,] board)
+        private static bool _isPositionInBoard(Position p, bool[,] board)
         {
             return board[p.X, p.Y];
         }
@@ -113,8 +113,8 @@ namespace MazeGeneration
         private Position _randomPosition()
         {
             return new Position(
-                _random.Next(0, sizeX),
-                _random.Next(0, sizeY)
+                _random.Next(0, SizeX),
+                _random.Next(0, SizeY)
             );
         }
 
@@ -146,13 +146,13 @@ namespace MazeGeneration
         /// <returns>A clean board with all fields false</returns>
         private bool[,] _createBoard()
         {
-            return new bool[sizeX, sizeY];
+            return new bool[SizeX, SizeY];
         }
 
         private bool _validatePosition(Position pos)
         {
-            return pos.X >= 0 && pos.X < sizeX &&
-                   pos.Y >= 0 && pos.Y < sizeY;
+            return pos.X >= 0 && pos.X < SizeX &&
+                   pos.Y >= 0 && pos.Y < SizeY;
         }
     }
 }

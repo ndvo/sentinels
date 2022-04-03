@@ -25,8 +25,8 @@ public class TestMazeWilsonAlgorithm
         var mazeGenerator = new WilsonAlgorithm(sizeX, sizeY);
         var maze = mazeGenerator.CreateMaze();
         Assert.IsTrue(maze.Length == sizeX * sizeY);
-        Assert.IsTrue(maze.GetLength(0) == mazeGenerator.sizeX);
-        Assert.IsTrue(maze.GetLength(1) == mazeGenerator.sizeY);
+        Assert.IsTrue(maze.GetLength(0) == mazeGenerator.SizeX);
+        Assert.IsTrue(maze.GetLength(1) == mazeGenerator.SizeY);
     }
 
     [Test]
