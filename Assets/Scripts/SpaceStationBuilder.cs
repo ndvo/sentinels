@@ -5,6 +5,9 @@ using Utils;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+/// <summary>
+/// SpaceStation Builder is responsible for creating the game board.
+/// </summary>
 public class SpaceStationBuilder : MonoBehaviour
 {
     public GameObject commonPrefab;
@@ -25,25 +28,30 @@ public class SpaceStationBuilder : MonoBehaviour
     private int minSize = 3;
     private readonly System.Random _random = new System.Random(Utils.Time.UnixNow());
     private int size;
+    // a border game object that allows one to check if a position is inside or outside the game board.
     private GameObject border;
 
     public void Awake()
     {
         if (PlaySession.isPractice)
         {
+            // make the board larger
             minSize += 2;
             maxSize += 2;
+            // make the space between stations shorter
             cellSize -= 1;
         }
 
+        // determine the size of the game board
         size = _random.Next(minSize, maxSize);
+        // determine the maze generation algorithm to be used
         _mazeGenerator = new WilsonAlgorithm(size, size);
     }
 
     public void Start()
     {
         _setupPrefabs();
-        border = _createBorderGameObject(Direction.North);
+        border = _createBorderGameObject(new Position(1, 1));
         var maze = _mazeGenerator.CreateMaze();
         var stationParts = (from i in 
                 new int[maze.GetLength(0) * maze.GetLength(1)]
@@ -61,7 +69,13 @@ public class SpaceStationBuilder : MonoBehaviour
         }
     }
 
-    GameObject _createBorderGameObject(Position direction, float padding = 7)
+    /// <summary>
+    /// Creates a game object to set the border of the board.
+    /// </summary>
+    /// <param name="direction">The direction for the boarder</param>
+    /// <param name="padding">the space between the last tile and the border</param>
+    /// <returns>the border game object</returns>
+    GameObject _createBorderGameObject(Position direction, float padding = 2)
     {
         var go = new GameObject(direction.ToString());
         go.transform.position = transform.position + Vector3.zero;
@@ -94,6 +108,11 @@ public class SpaceStationBuilder : MonoBehaviour
         _longPrefabs = new[] {regularConnectionPrefab, tubularConnectionPrefab};
     }
 
+    /// <summary>
+    /// Rotate a single piece of the puzzle.
+    /// </summary>
+    /// <param name="piece">A piece of the puzzle, i.e. a game object representing a space station.</param>
+    /// <param name="direction">The direction it should be rotated to.</param>
     private void _rotatePiece(GameObject piece, Position direction)
     {
         if (direction == Direction.South) piece.transform.Rotate(new Vector3(0f, 180f, 0f));
@@ -101,35 +120,39 @@ public class SpaceStationBuilder : MonoBehaviour
         if (direction == Direction.West) piece.transform.Rotate(new Vector3(0f, -90f, 0f));
     }
 
-    private GameObject _createCore()
-    {
-        return _createObject(_corePrefabs);
-    }
-
+    /// <summary>
+    /// Create a connection piece.
+    ///
+    /// A connection piece is a "long" prefab. This is a game object that represents a "line" in a maze.
+    /// A long object is capable of blocking the passage if connected to another long object.
+    /// </summary>
+    /// <returns>the connection object.</returns>
     private GameObject _createConnection()
     {
         return _createObject(_longPrefabs);
     }
 
-    private GameObject _createRoom()
-    {
-        return _createObject(_shortPrefabs);
-    }
-
+    /// <summary>
+    /// Create a random station.
+    /// </summary>
+    /// <param name="availablePrefabs"></param>
+    /// <returns>A random piece of the puzzle.</returns>
     private GameObject _createObject(GameObject[] availablePrefabs)
     {
         var prefab = availablePrefabs[_random.Next(0, availablePrefabs.Length)];
         return Object.Instantiate(prefab, this.transform);
     }
 
+    /// <summary>
+    /// Checks if an object is inside the game board.
+    /// </summary>
+    /// <param name="position">The position to checked.</param>
+    /// <returns>a boolean indicating if the position is within the board</returns>
     public bool IsOffBoard(Vector3 position)
     {
+        // It is not necessary to check in all positions. Given the board is a part of a sphere, any position that is
+        // lower in y than the border point is outside of the board game.
         return position.y < border.transform.position.y;
-    }
-
-    public int GetBoardSize()
-    {
-        return size;
     }
 
 }
