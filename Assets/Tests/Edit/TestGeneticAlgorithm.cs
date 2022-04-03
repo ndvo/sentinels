@@ -48,7 +48,7 @@ namespace Tests
         [Test]
         public void TestGeneticAlgorithmCreatesRandomGenome()
         {
-            var randomShipGenome = _geneticAlgorithm.GenerateRandomShip();
+            var randomShipGenome = GeneticAlgorithm.GeneticAlgorithm.GenerateRandomShip();
             Assert.IsNotNull(randomShipGenome);
             Assert.IsTrue(randomShipGenome.Length == 35);
             foreach (var i in randomShipGenome) Assert.IsTrue(i != 0, "A gene cannot be null");

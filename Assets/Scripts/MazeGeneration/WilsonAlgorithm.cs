@@ -91,7 +91,6 @@ namespace MazeGeneration
             )
             {
                 _visitedBoard[currentCell.X, currentCell.Y] = true;
-                var next = _stepNextCell(currentCell);
                 var nextCell = currentCell + _maze[currentCell.X, currentCell.Y];
                 currentCell = nextCell;
                 count++;
@@ -148,19 +147,6 @@ namespace MazeGeneration
         private bool[,] _createBoard()
         {
             return new bool[sizeX, sizeY];
-        }
-
-        /// <summary>
-        ///     Given a current cell, returns the next cell in the maze
-        /// </summary>
-        /// <param name="currentCell"></param>
-        /// <returns>the next cell</returns>
-        private Position? _stepNextCell(Position currentCell)
-        {
-            var nextCell = currentCell + _maze[currentCell.X, currentCell.Y];
-            if (_validatePosition(nextCell))
-                return nextCell;
-            return null;
         }
 
         private bool _validatePosition(Position pos)

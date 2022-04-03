@@ -33,7 +33,7 @@ public class Headquarters : MonoBehaviour
     {
         _ga = new GeneticAlgorithm.GeneticAlgorithm();
         // Create the Genetic Algorithm factory that will generate the new ship's genomes
-        _protonLegacyGA = _ga.GAFactory(
+        _protonLegacyGA = GeneticAlgorithm.GeneticAlgorithm.GaFactory(
             achievements => achievements.Sum(),
             r => GeneticAlgorithm.GeneticAlgorithm.SelectionRoulette(r, 0.0f),
             GeneticAlgorithm.GeneticAlgorithm.MatchingLeaderChoice,
@@ -95,7 +95,7 @@ public class Headquarters : MonoBehaviour
     /// <returns>The random ShipGenome</returns>
     public ShipGenome NewShipGenome()
     {
-        var randomShip = _ga.GenerateRandomShip();
+        var randomShip = GeneticAlgorithm.GeneticAlgorithm.GenerateRandomShip();
         return new ShipGenome(randomShip);
     }
 

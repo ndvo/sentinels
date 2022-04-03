@@ -24,7 +24,7 @@ namespace GeneticAlgorithm
         ///     Create a random ship genome.
         /// </summary>
         /// <returns>a random genome</returns>
-        public float[] GenerateRandomShip()
+        public static float[] GenerateRandomShip()
         {
             var genome = new float[35];
             for (var i = 0; i < 35; i++) genome[i] = Random.value;
@@ -42,7 +42,7 @@ namespace GeneticAlgorithm
         /// <param name="matchingFunction">a function that creates matches of individuals to derive new ones.</param>
         /// <param name="crossoverFunction">a function that creates a new genome from two parent genomes.</param>
         /// <returns>a function that returns a new generation when provided with the previous generation.</returns>
-        public Func<Individual[], float[][]> GAFactory(
+        public static Func<Individual[], float[][]> GaFactory(
             Func<float[], float> fitnessFunction,
             Func<Individual[], Individual[]> selectionFunction,
             Func<Individual[], Func<float[], float>, Individual[][]> matchingFunction,
@@ -89,7 +89,7 @@ namespace GeneticAlgorithm
         /// </param>
         /// <param name="crossoverFunction"></param>
         /// <returns>the new generation</returns>
-        public static float[][] NewGeneration(
+        private static float[][] NewGeneration(
             Individual[] previousGeneration,
             Func<float[], float> fitnessFunction,
             Func<Individual[], Individual[]> selectionFunction,
@@ -181,7 +181,7 @@ namespace GeneticAlgorithm
             }
 
             var source = generationCopy.OrderByDescending(r => r.Fitness).ToList();
-            while (source.Count() > 1)
+            while (source.Count > 1)
             {
                 var leader = source.First();
                 var leaderCompetence = leader.Achievements.ToList().IndexOf(leader.Achievements.Max());
@@ -324,10 +324,10 @@ namespace GeneticAlgorithm
         /// </param>
         /// <param name="crossoverFunction">A function that receives two genomes and return one.</param>
         /// <returns>An array of genomes.</returns>
-        private static float[][] _breedMatches(float[][][] matches, Func<float[], float[], float[]> crossoverFunction)
+        private static IEnumerable<float[]> _breedMatches(IReadOnlyList<float[][]> matches, Func<float[], float[], float[]> crossoverFunction)
         {
-            var offspring = new float[matches.Length * 2][];
-            for (var i = 0; i < matches.Length; i++)
+            var offspring = new float[matches.Count * 2][];
+            for (var i = 0; i < matches.Count; i++)
             {
                 var first = i * 2;
                 var second = first + 1;
@@ -338,20 +338,5 @@ namespace GeneticAlgorithm
             return offspring;
         }
 
-        /// <summary>
-        ///     A placeholder function to test the development of the Genetic algorithm.
-        ///     It assigns arbitrary achievements to the individuals so they can be evaluated.
-        /// </summary>
-        /// <param name="generation"></param>
-        public static void SetArbitraryAchievements(Individual[] generation)
-        {
-            for (var i = 0; i < generation.Length; i++)
-                generation[i].Achievements = new[]
-                {
-                    i / 10f,
-                    i / 10f,
-                    i / 10f
-                };
-        }
     }
 }

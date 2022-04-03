@@ -156,13 +156,13 @@ namespace Ships
             foreach (var part in GenomePartPair)
             {
                 // position
-                foreach (var r in part.parts) TranslateOnZ(r, part.genes.position);
+                foreach (var r in part.parts) TranslateOnZ(r, part.genes.Position);
                 // rotation
-                var rotation = part.genes.rotation;
+                var rotation = part.genes.Rotation;
                 Iterables.SymmetricalApply(
                     turbines, RotateOnY(rotation), RotateOnY(-1 * rotation));
                 // size
-                foreach (var r in part.parts) r.localScale *= part.genes.size;
+                foreach (var r in part.parts) r.localScale *= part.genes.Size;
             }
         }
 

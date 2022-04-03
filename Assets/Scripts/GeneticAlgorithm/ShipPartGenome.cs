@@ -13,11 +13,11 @@ namespace GeneticAlgorithm
         private readonly float _maxSize;
 
         private float[] _data;
-        public float count;
-        public float position;
-        public float rotation;
-        public float size;
-        public int type;
+        public float Count;
+        public float Position;
+        public float Rotation;
+        public float Size;
+        public int Type;
 
         public ShipPartGenome(
             float[] data,
@@ -44,11 +44,11 @@ namespace GeneticAlgorithm
         /// </summary>
         private void _setFeatures()
         {
-            count = 1 + (int) _data[0] * _maxParts;
-            position = _data[1] * _maxPosition;
-            rotation = _data[2] * _maxRotation;
-            size = _data[3] * _maxSize;
-            type = (int) _data[4] * 3;
+            Count = 1 + (int) _data[0] * _maxParts;
+            Position = _data[1] * _maxPosition;
+            Rotation = _data[2] * _maxRotation;
+            Size = _data[3] * _maxSize;
+            Type = (int) _data[4] * 3;
         }
 
         /// <summary>

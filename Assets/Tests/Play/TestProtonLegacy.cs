@@ -25,7 +25,7 @@ public class TestProtonLegacy
         var bodyPosition = body.position.z;
         yield return null;
         var ga = new GeneticAlgorithm.GeneticAlgorithm();
-        var newGenome = new ShipGenome(ga.GenerateRandomShip());
+        var newGenome = new ShipGenome(GeneticAlgorithm.GeneticAlgorithm.GenerateRandomShip());
         protonManager.SetGenome(newGenome);
         yield return null;
         var bodyPosition2 = body.position.z;

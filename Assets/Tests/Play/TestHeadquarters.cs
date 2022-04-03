@@ -31,11 +31,11 @@ public class TestHeadquarters
         yield return null;
         var randomGenome = _headquarterManager.NewShipGenome();
         Assert.IsNotNull(randomGenome);
-        Assert.IsNotNull(randomGenome.Body.count);
-        Assert.IsNotNull(randomGenome.Body.rotation);
-        Assert.IsNotNull(randomGenome.Body.type);
-        Assert.IsNotNull(randomGenome.Bridge.position);
-        Assert.IsNotNull(randomGenome.Tractor.size);
+        Assert.IsNotNull(randomGenome.Body.Count);
+        Assert.IsNotNull(randomGenome.Body.Rotation);
+        Assert.IsNotNull(randomGenome.Body.Type);
+        Assert.IsNotNull(randomGenome.Bridge.Position);
+        Assert.IsNotNull(randomGenome.Tractor.Size);
         Assert.IsTrue(_testGenome(randomGenome.GetGenome()));
     }
 
