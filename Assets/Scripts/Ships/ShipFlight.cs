@@ -84,7 +84,7 @@ namespace Ships
             _drag = 0;
         }
 
-        protected virtual void _positionAim()
+        protected void _positionAim()
         {
             var transform1 = transform;
             var position = transform1.position;
@@ -94,7 +94,7 @@ namespace Ships
             _move(Aim.transform, speed);
         }
 
-        protected virtual void LookAtDirection()
+        protected void LookAtDirection()
         {
             transform.LookAt(Aim.transform.position);
         }

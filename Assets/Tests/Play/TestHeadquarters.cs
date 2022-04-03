@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using NUnit.Framework;
+using Ships;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -29,7 +30,7 @@ public class TestHeadquarters
     public IEnumerator TestHeadquartersCreateNewGenomes()
     {
         yield return null;
-        var randomGenome = _headquarterManager.NewShipGenome();
+        var randomGenome = Headquarters.NewShipGenome();
         Assert.IsNotNull(randomGenome);
         Assert.IsNotNull(randomGenome.Body.Count);
         Assert.IsNotNull(randomGenome.Body.Rotation);

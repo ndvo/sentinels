@@ -68,7 +68,7 @@ namespace GeneticAlgorithm
         ///     Changes the genes of the ShipPart and parses it to create the Features of the Phenotype.
         /// </summary>
         /// <param name="data"></param>
-        public void SetGene(float[] data)
+        private void SetGene(float[] data)
         {
             _data = data;
             _setFeatures();

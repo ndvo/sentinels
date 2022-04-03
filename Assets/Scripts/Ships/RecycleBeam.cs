@@ -45,11 +45,9 @@ namespace Ships
             _audioSource = GetComponent<AudioSource>();
             _sentinelShip = parent.transform.Find("CoreParts").GetComponent<SentinelShip>();
             _gameManager = GameObject.Find("/GameManager").GetComponent<GameManager>();
-            if (crossHairPrefab is { })
-            {
-                _crossHair = Instantiate(crossHairPrefab, transform);
-                _crossHairScript = _crossHair.GetComponent<CrossHairScript>();
-            }
+            if (crossHairPrefab is null) return;
+            _crossHair = Instantiate(crossHairPrefab, transform);
+            _crossHairScript = _crossHair.GetComponent<CrossHairScript>();
         }
 
         private void Update()

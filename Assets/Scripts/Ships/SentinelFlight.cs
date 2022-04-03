@@ -37,16 +37,12 @@ namespace Ships
                 ? 12
                 : _standardSpeed;
             // Practice mode help
-            if (_showHelp == 0 && (horizontal != 0 || vertical != 0) && Random.value < 0.001f)
-            {
-                _gameManager.ShowHelp(help);
-                _showHelp += Time.deltaTime;
-                if (_showHelp > 60)
-                {
-                    _showHelp = 0;
-                    help.SetActive(false);
-                }
-            }
+            if (_showHelp != 0 || (horizontal == 0 && vertical == 0) || !(Random.value < 0.001f)) return;
+            _gameManager.ShowHelp(help);
+            _showHelp += Time.deltaTime;
+            if (!(_showHelp > 60)) return;
+            _showHelp = 0;
+            help.SetActive(false);
         }
     }
 }

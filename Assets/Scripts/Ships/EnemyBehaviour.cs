@@ -40,11 +40,9 @@ namespace Ships
             }
 
             _attackSensorTransform = transform.Find("AttackSensor");
-            if (_attackSensorTransform is { })
-            {
-                _sentinelDetector = _attackSensorTransform.GetComponent<SimpleSensor>();
-                _sentinelDetector.sensorScale = new Vector3(sentinelSensorSize, sentinelSensorSize, sentinelSensorSize);
-            }
+            if (_attackSensorTransform is null) return;
+            _sentinelDetector = _attackSensorTransform.GetComponent<SimpleSensor>();
+            _sentinelDetector.sensorScale = new Vector3(sentinelSensorSize, sentinelSensorSize, sentinelSensorSize);
         }
 
         private void Update()

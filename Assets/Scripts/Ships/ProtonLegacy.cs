@@ -16,7 +16,6 @@ namespace Ships
     /// </summary>
     public class ProtonLegacy : MonoBehaviour
     {
-        public bool ready;
         public float[] achievements;
         public Transform[] bodies;
         public Transform[] bridges;
@@ -133,7 +132,7 @@ namespace Ships
             if (_genome == null) return;
             // this helper structure simplifies the application of the genome
             // for each type of transformable ship part we provide the corresponding genes.
-            var GenomePartPair = new[]
+            var genomePartPair = new[]
             {
                 new {parts = bodies, genes = _genome.Body},
                 new {parts = bridges, genes = _genome.Bridge},
@@ -153,7 +152,7 @@ namespace Ships
                 return b => b.Rotate(new Vector3(0f, v, 0f), Space.Self);
             }
 
-            foreach (var part in GenomePartPair)
+            foreach (var part in genomePartPair)
             {
                 // position
                 foreach (var r in part.parts) TranslateOnZ(r, part.genes.Position);

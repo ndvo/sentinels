@@ -12,7 +12,6 @@ namespace Ships
         public float attackProbability = 10;
         public float projectileDuration = 10;
         public float projectileSpeed = 10;
-        public float projectilePower = 10;
         public GameObject projectile;
         public SimpleSensor attackSensor;
 
@@ -44,11 +43,9 @@ namespace Ships
             }
 
             var flight = newProjectile.GetComponent<ProjectileFlight>();
-            if (flight is { })
-            {
-                flight.speed = projectileSpeed;
-                flight.SetTarget(attackSensor.blocking);
-            }
+            if (flight is null) return;
+            flight.speed = projectileSpeed;
+            flight.SetTarget(attackSensor.blocking);
         }
     }
 }

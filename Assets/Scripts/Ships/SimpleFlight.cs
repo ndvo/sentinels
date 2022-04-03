@@ -33,7 +33,7 @@ namespace Ships
 
         protected override void _orbitalFlight()
         {
-            // Allow for a chance of changing directions during offboard
+            // Allow for a chance of changing directions during off board
             // this ensures that the enemy ships will eventually find the board.
             if (OffBoard && Random.value < 0.1f) _setNewDirection();
             base._orbitalFlight();

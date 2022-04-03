@@ -31,11 +31,9 @@ namespace Ships
             if (explosionSmoke is { }) _explosionSmokeVFX = explosionSmoke.GetComponent<ParticleSystem>();
             _explosionSmokeVFX = _explosionSmokeVFX ? _explosionSmokeVFX : _explosionVFX;
             var shield = transform.Find("Shield");
-            if (shield is { })
-            {
-                _shield = shield.gameObject;
-                _hasShield = true;
-            }
+            if (shield is null) return;
+            _shield = shield.gameObject;
+            _hasShield = true;
         }
 
         private void Update()

@@ -23,8 +23,8 @@ namespace MazeGeneration
 
         public WilsonAlgorithm(int sizeX, int sizeY)
         {
-            this.SizeX = sizeX;
-            this.SizeY = sizeY;
+            SizeX = sizeX;
+            SizeY = sizeY;
             _maze = new Position[sizeX, sizeY];
         }
 
