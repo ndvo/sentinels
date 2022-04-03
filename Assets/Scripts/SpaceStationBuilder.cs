@@ -67,7 +67,8 @@ public class SpaceStationBuilder : MonoBehaviour
         go.transform.position = transform.position + Vector3.zero;
         go.transform.RotateAround(
             new Vector3(0f, 0f, 0f), 
-            new Vector3(direction.y, 0, direction.x), (cellSize/2) * size + padding);
+            new Vector3(direction.y, 0, direction.x),
+            Mathf.Sqrt(2 * Mathf.Pow(cellSize * size/2, 2))  + padding);
         return go;
     }
 
