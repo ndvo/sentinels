@@ -9,9 +9,10 @@ public class TestHeadquarters
 {
     private readonly GameObject _headquartersPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
         "Assets/Prefabs/EnemyHeadQuarters.prefab");
-    private GameObject _headquartersGameObject;
+
     private Headquarters _headquarterManager;
-    
+    private GameObject _headquartersGameObject;
+
 
     [OneTimeSetUp]
     public void Setup()
@@ -47,7 +48,6 @@ public class TestHeadquarters
         Assert.IsTrue(randomGeneration.All(r => !(r is null)), "No generated ship is null");
         Assert.IsTrue(randomGeneration.All(r => _testGenome(r.GetGenome())), "Genomes should be valid.");
         Assert.IsTrue(randomGeneration.All(r => r.Body.GetGene().Length == 5), "Each feature is 5 genes long");
-
     }
 
     private static bool _testGenome(float[] genome)

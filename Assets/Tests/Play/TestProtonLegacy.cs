@@ -1,14 +1,15 @@
 using System.Collections;
 using GeneticAlgorithm;
 using NUnit.Framework;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.TestTools;
 
 public class TestProtonLegacy
 {
     private readonly GameObject _headquartersPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
         "Assets/Prefabs/EnemyHeadQuarters.prefab");
+
     private readonly GameObject _prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
         "Assets/Prefabs/ProtonLegacy1.prefab");
 
@@ -22,7 +23,7 @@ public class TestProtonLegacy
         var body = protonManager.GetParts("ShipBody")[0];
         var bodyPosition = body.position.z;
         yield return null;
-        var ga = new global::GeneticAlgorithm.GeneticAlgorithm();
+        var ga = new GeneticAlgorithm.GeneticAlgorithm();
         var newGenome = new ShipGenome(ga.GenerateRandomShip());
         protonManager.SetGenome(newGenome);
         yield return null;

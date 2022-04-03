@@ -1,25 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using Ships;
 using UnityEngine;
 using Utils;
 
 /// <summary>
-/// Controls the flight behaviour of projectiles.
+///     Controls the flight behaviour of projectiles.
 /// </summary>
 public class ProjectileFlight : OrbitalFlight
 {
+    private bool _hasTarget;
     private SimpleSensor _sensor;
     private GameObject _target;
-    private bool _hasTarget = false;
 
     public override void Start()
     {
         var sensorObj = transform.Find("SimpleSensor");
-        if (sensorObj != null)
-        {
-            _sensor = sensorObj.GetComponent<SimpleSensor>();
-        }
+        if (sensorObj != null) _sensor = sensorObj.GetComponent<SimpleSensor>();
     }
 
     public void SetTarget(GameObject target)
@@ -29,7 +24,7 @@ public class ProjectileFlight : OrbitalFlight
     }
 
     /// <summary>
-    /// The projectile follow the sentinel, avoiding stations.
+    ///     The projectile follow the sentinel, avoiding stations.
     /// </summary>
     protected override void _setNewDirection()
     {
@@ -47,6 +42,7 @@ public class ProjectileFlight : OrbitalFlight
                 CurrentDirection = new Position(0, 0);
                 return;
             }
+
             // Select the direction where the target is further (if target is further south than east, move south)
             CurrentDirection = x > z ? new Position(x > 0 ? 1 : -1, 0) : new Position(0, z > 0 ? 1 : -1);
             if (!_sensor.blocked || !PreviousDirection.Equals(CurrentDirection)) return;
@@ -54,5 +50,4 @@ public class ProjectileFlight : OrbitalFlight
             CurrentDirection = x < z ? new Position(x > 0 ? 1 : -1, 0) : new Position(0, z > 0 ? 1 : -1);
         }
     }
-
 }

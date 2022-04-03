@@ -1,38 +1,36 @@
 using System;
-using System.Collections;
 using System.Linq;
 using GeneticAlgorithm;
 using NUnit.Framework;
-using UnityEngine.TestTools;
 using Assert = UnityEngine.Assertions.Assert;
-
 
 namespace Tests
 {
     public class TestGeneticAlgorithm
     {
         // this variable creates a standard genome
-        private static float[] _oneThroughFiveGenome = new float[] {
-                1, 2, 3, 4, 5,   1, 2, 3, 4, 5,
-                1, 2, 3, 4, 5,   1, 2, 3, 4, 5,
-                1, 2, 3, 4, 5,   1, 2, 3, 4, 5,
-                1, 2, 3, 4, 5
+        private static readonly float[] _oneThroughFiveGenome =
+        {
+            1, 2, 3, 4, 5, 1, 2, 3, 4, 5,
+            1, 2, 3, 4, 5, 1, 2, 3, 4, 5,
+            1, 2, 3, 4, 5, 1, 2, 3, 4, 5,
+            1, 2, 3, 4, 5
         };
 
-        private static float[] _allOnes = new float[]
+        private static readonly float[] _allOnes =
         {
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1
         };
-        
-        private static float[] _allNines = new float[]
+
+        private static readonly float[] _allNines =
         {
             9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
             9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-            9, 9, 9, 9, 9,
+            9, 9, 9, 9, 9
         };
-        
+
         private GeneticAlgorithm.GeneticAlgorithm _geneticAlgorithm;
 
         [OneTimeSetUp]
@@ -53,16 +51,13 @@ namespace Tests
             var randomShipGenome = _geneticAlgorithm.GenerateRandomShip();
             Assert.IsNotNull(randomShipGenome);
             Assert.IsTrue(randomShipGenome.Length == 35);
-            foreach (var i in randomShipGenome)
-            {
-                Assert.IsTrue(i != 0, "A gene cannot be null");
-            }
+            foreach (var i in randomShipGenome) Assert.IsTrue(i != 0, "A gene cannot be null");
         }
 
         [Test]
         public void TestGeneticAlgorithmParsesGenome()
         {
-            var shipGenome = new GeneticAlgorithm.ShipGenome(TestGeneticAlgorithm._oneThroughFiveGenome);
+            var shipGenome = new ShipGenome(_oneThroughFiveGenome);
             Assert.IsNotNull(shipGenome.Body, "Should have created a body");
             Assert.IsNotNull(shipGenome.Bridge, "Should have created a bridge");
             Assert.IsNotNull(shipGenome.LaserCannon, "Should have created a laserCannon");
@@ -75,8 +70,8 @@ namespace Tests
         [Test]
         public void TestGeneticAlgorithmCrossOver()
         {
-            var shipGenomeA = new GeneticAlgorithm.ShipGenome(_allOnes);
-            var shipGenomeB = new GeneticAlgorithm.ShipGenome(_allNines);
+            var shipGenomeA = new ShipGenome(_allOnes);
+            var shipGenomeB = new ShipGenome(_allNines);
             var uniformCrossOver = GeneticAlgorithm.GeneticAlgorithm.UniformCrossOver(
                 shipGenomeA.GetGenome(),
                 shipGenomeB.GetGenome());
@@ -102,18 +97,16 @@ namespace Tests
         [Test]
         public void TestMutation()
         {
-            var shipGenome = new GeneticAlgorithm.ShipGenome(_allOnes).GetGenome();
+            var shipGenome = new ShipGenome(_allOnes).GetGenome();
             var mutated = GeneticAlgorithm.GeneticAlgorithm.Mutation(
                 shipGenome, 1, 10
             );
-            for (int i = 0; i < shipGenome.Length ; i++)
-            {
+            for (var i = 0; i < shipGenome.Length; i++)
                 Assert.AreNotApproximatelyEqual(
                     shipGenome[i],
                     mutated[i],
                     "No gene should be equal"
-                    );
-            }
+                );
         }
 
         [Test]
@@ -133,15 +126,13 @@ namespace Tests
         public void TestSelectionRoulette()
         {
             var generation = new Individual[10];
-            for (int i = 0; i < generation.Length; i++)
-            {
+            for (var i = 0; i < generation.Length; i++)
                 generation[i] = new Individual
                 {
                     genes = new float[] {i, i, i},
                     achievements = new float[] {i, i, i},
                     fitness = (float) Math.Pow(i, 5)
                 };
-            }
             var selected = GeneticAlgorithm.GeneticAlgorithm.SelectionRoulette(generation);
             var previousGenAvg = generation.Average(r => r.fitness);
             var nextGenAvg = selected.Average(r => r.fitness);
@@ -161,7 +152,7 @@ namespace Tests
             generation[5].achievements[2] = 4444f;
             var matches = GeneticAlgorithm.GeneticAlgorithm.MatchingLeaderChoice(
                 generation, floats => floats.Sum()
-                );
+            );
             Assert.AreEqual(matches[0][0], generation[0]);
             Assert.AreEqual(matches[0][1], generation[2]);
             Assert.AreEqual(matches[1][0], generation[1]);
@@ -171,24 +162,20 @@ namespace Tests
         }
 
         /// <summary>
-        /// Helper function to create a generation for tests.
-        ///
-        /// Each created individual is identified by having it's index value as each of the gene and achievements value.
+        ///     Helper function to create a generation for tests.
+        ///     Each created individual is identified by having it's index value as each of the gene and achievements value.
         /// </summary>
         /// <param name="numberOfIndividuals"></param>
         private static Individual[] _createGeneration(int numberOfIndividuals)
         {
             var result = new Individual[numberOfIndividuals];
             for (var i = 0; i < numberOfIndividuals; i++)
-            {
                 result[i] = new Individual
                 {
                     genes = new float[] {i, i, i},
-                    achievements = new float[] {i, i, i},
+                    achievements = new float[] {i, i, i}
                 };
-            }
             return result;
         }
-
     }
 }

@@ -4,7 +4,6 @@ using Random = UnityEngine.Random;
 
 namespace Ships
 {
-    
     public class EnemyBehaviour : MonoBehaviour
     {
         public float resistance = 10f;
@@ -14,55 +13,56 @@ namespace Ships
         public float fleeTime = 10f;
         public float attackProbability = 10f;
         public float idleProbability = 10f;
-        public readonly EnemyShipStateMachine StateMachine = new EnemyShipStateMachine();
-        private SimpleSensor _sentinelDetector;
-        private SimpleSensor _navigationSensor;
         public string state;
 
         public float sentinelSensorSize;
         public float navigationSensorSize;
-        
-        private float _timeAfterEscape = 0;
+        public readonly EnemyShipStateMachine StateMachine = new EnemyShipStateMachine();
         private AttackEarth _attack;
+        private Transform _attackSensorTransform;
+        private SimpleSensor _navigationSensor;
 
         private Transform _navigationSensorTransform;
-        private Transform _attackSensorTransform;
+        private SimpleSensor _sentinelDetector;
+
+        private float _timeAfterEscape;
 
         private void Start()
         {
             _attack = GetComponent<AttackEarth>();
             _timeAfterEscape = fleeTime;
             _navigationSensorTransform = transform.Find("NavigationSensor");
-            if (_navigationSensorTransform is {})
+            if (_navigationSensorTransform is { })
             {
                 _navigationSensor = _navigationSensorTransform.GetComponent<SimpleSensor>();
-                _navigationSensor.sensorScale = new Vector3(navigationSensorSize,navigationSensorSize, navigationSensorSize);
+                _navigationSensor.sensorScale =
+                    new Vector3(navigationSensorSize, navigationSensorSize, navigationSensorSize);
             }
+
             _attackSensorTransform = transform.Find("AttackSensor");
-            if (_attackSensorTransform is {})
+            if (_attackSensorTransform is { })
             {
                 _sentinelDetector = _attackSensorTransform.GetComponent<SimpleSensor>();
-                _sentinelDetector.sensorScale = new Vector3(sentinelSensorSize,sentinelSensorSize, sentinelSensorSize);
+                _sentinelDetector.sensorScale = new Vector3(sentinelSensorSize, sentinelSensorSize, sentinelSensorSize);
             }
         }
 
         private void Update()
         {
             var newState = StateMachine.GetState();
-            this.state = newState.ToString();
+            state = newState.ToString();
             if (newState == EnemyShipStates.Dying) return;
             if (newState != EnemyShipStates.Fleeing)
-            {
                 if (_sentinelDetector.blocked)
                 {
                     StateMachine.Flee();
                     if (
-                        resistance < 5 
+                        resistance < 5
                         || Vector3.Distance(_sentinelDetector.blocking.transform.position, transform.position) < 20f
-                        )
+                    )
                         StateMachine.Resist();
                 }
-            }
+
             switch (StateMachine.GetState())
             {
                 case EnemyShipStates.Dying:
@@ -78,6 +78,7 @@ namespace Ships
                         _timeAfterEscape = 0;
                         StateMachine.Reposition();
                     }
+
                     break;
                 case EnemyShipStates.Repositioning:
                     _attack.StopAttack();
@@ -87,20 +88,15 @@ namespace Ships
                         StateMachine.AttackEarth();
                         _attack.SetTarget(_navigationSensor.blocking.transform);
                     }
+
                     break;
                 case EnemyShipStates.Idle:
                     _attack.StopAttack();
-                    if (Random.value < idleProbability / 100)
-                    {
-                        StateMachine.Reposition();
-                    }
+                    if (Random.value < idleProbability / 100) StateMachine.Reposition();
                     break;
                 case EnemyShipStates.Resisting:
                     _attack.StopAttack();
-                    if (!_sentinelDetector.blocked)
-                    {
-                        StateMachine.Reposition();
-                    }
+                    if (!_sentinelDetector.blocked) StateMachine.Reposition();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

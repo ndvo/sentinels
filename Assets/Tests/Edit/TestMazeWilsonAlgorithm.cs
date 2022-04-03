@@ -3,8 +3,8 @@ using NUnit.Framework;
 
 public class TestMazeWilsonAlgorithm
 {
-    private MazeGeneration.WilsonAlgorithm _mazeWilson;
-    
+    private WilsonAlgorithm _mazeWilson;
+
     [OneTimeSetUp]
     public void Setup()
     {
@@ -22,7 +22,7 @@ public class TestMazeWilsonAlgorithm
     {
         var sizeX = 3;
         var sizeY = 3;
-        var mazeGenerator = new MazeGeneration.WilsonAlgorithm(sizeX, sizeY);
+        var mazeGenerator = new WilsonAlgorithm(sizeX, sizeY);
         var maze = mazeGenerator.CreateMaze();
         Assert.IsTrue(maze.Length == sizeX * sizeY);
         Assert.IsTrue(maze.GetLength(0) == mazeGenerator.sizeX);
@@ -32,15 +32,14 @@ public class TestMazeWilsonAlgorithm
     [Test]
     public void TestMazeWilsonContainsDirections()
     {
-        for (int a = 0; a < 100; a++)
+        for (var a = 0; a < 100; a++)
         {
             var maze = _mazeWilson.CreateMaze();
             foreach (var i in maze)
             {
                 Assert.IsTrue(i.x != 0 || i.y != 0);
-                Assert.IsTrue(i.x != i.y );
+                Assert.IsTrue(i.x != i.y);
             }
         }
     }
-
 }

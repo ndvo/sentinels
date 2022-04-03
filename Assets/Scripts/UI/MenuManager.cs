@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Helper class that provide functions to be used by the menu buttons
+///     Helper class that provide functions to be used by the menu buttons
 /// </summary>
 public class MenuManager : MonoBehaviour
 {
-
     public void LoadMainScene()
     {
         PlaySession.isPractice = false;
@@ -30,5 +27,4 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("Story");
     }
-
 }

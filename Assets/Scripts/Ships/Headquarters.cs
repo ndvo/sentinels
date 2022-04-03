@@ -5,40 +5,37 @@ using GeneticAlgorithm;
 using Ships;
 using TMPro;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 /// <summary>
-/// The enemy headquarters is responsible for instantiating new enemy ships.
-///
-/// The headquarters itself fly off board. This should make the distribution of entry places for enemy ships more
-/// realistic.
+///     The enemy headquarters is responsible for instantiating new enemy ships.
+///     The headquarters itself fly off board. This should make the distribution of entry places for enemy ships more
+///     realistic.
 /// </summary>
 public class Headquarters : MonoBehaviour
 {
-    private Func<Individual[], float[][]> _protonLegacyGA;
-
-    private GeneticAlgorithm.GeneticAlgorithm _ga;
-
     public GameObject[] shipPrefabs;
     public int generationAmount = 3;
     public int maxShips = 15;
+
+    private GeneticAlgorithm.GeneticAlgorithm _ga;
+
+    private GameManager _gameManager;
+    private Func<Individual[], float[][]> _protonLegacyGA;
     private GameObject _ships;
+
+    private readonly List<EnemyShipStateMachine> _shipStates = new List<EnemyShipStateMachine>();
 
     private TextMeshProUGUI _uiTextNumberOfEnemies;
     private TextMeshProUGUI _uiTextNumberOfInfectedStations;
 
-    private List<EnemyShipStateMachine> _shipStates = new List<EnemyShipStateMachine>();
-
-    private GameManager _gameManager;
-
-    void Start()
+    private void Start()
     {
         _ga = new GeneticAlgorithm.GeneticAlgorithm();
         // Create the Genetic Algorithm factory that will generate the new ship's genomes
         _protonLegacyGA = _ga.GAFactory(
-            (achievements) => achievements.Sum(),
-            (r) => GeneticAlgorithm.GeneticAlgorithm.SelectionRoulette(r, 0.0f),
+            achievements => achievements.Sum(),
+            r => GeneticAlgorithm.GeneticAlgorithm.SelectionRoulette(r, 0.0f),
             GeneticAlgorithm.GeneticAlgorithm.MatchingLeaderChoice,
             GeneticAlgorithm.GeneticAlgorithm.UniformCrossOver
         );
@@ -49,15 +46,10 @@ public class Headquarters : MonoBehaviour
         _gameManager = GameObject.Find("/GameManager").GetComponent<GameManager>();
     }
 
-    private void _setGeneticAlgorithm()
-    {
-        _ga ??= new GeneticAlgorithm.GeneticAlgorithm();
-    }
-
-    void Update()
+    private void Update()
     {
         if (_gameManager.Paused) return; // avoid spawning ships in paused game. Pausing stops time, but update daes run
-                                         // without ticking time.
+        // without ticking time.
         var childCount = _ships.transform.childCount;
         if (Random.value < 0.005 && childCount < maxShips)
         {
@@ -68,11 +60,17 @@ public class Headquarters : MonoBehaviour
                 _setShipLevel(s);
             }
         }
+
         _updateUi();
     }
 
+    private void _setGeneticAlgorithm()
+    {
+        _ga ??= new GeneticAlgorithm.GeneticAlgorithm();
+    }
+
     /// <summary>
-    /// Store created ships statemachines to be able ot act on them depending on the state
+    ///     Store created ships statemachines to be able ot act on them depending on the state
     /// </summary>
     /// <param name="ship"></param>
     private void _storeShipStateMachine(GameObject ship)
@@ -80,9 +78,9 @@ public class Headquarters : MonoBehaviour
         var stateMachine = ship.GetComponent<EnemyBehaviour>().StateMachine;
         if (stateMachine is { }) _shipStates.Add(stateMachine);
     }
-    
+
     /// <summary>
-    /// Determine the level of the ships.
+    ///     Determine the level of the ships.
     /// </summary>
     /// <param name="ship"></param>
     private void _setShipLevel(GameObject ship)
@@ -92,7 +90,7 @@ public class Headquarters : MonoBehaviour
     }
 
     /// <summary>
-    /// Creates a new ShipGenome from random values.
+    ///     Creates a new ShipGenome from random values.
     /// </summary>
     /// <returns>The random ShipGenome</returns>
     public ShipGenome NewShipGenome()
@@ -102,7 +100,7 @@ public class Headquarters : MonoBehaviour
     }
 
     /// <summary>
-    /// Creates a generation of N random genomes of ships.
+    ///     Creates a generation of N random genomes of ships.
     /// </summary>
     /// <param name="n">number of different random genomes to create</param>
     /// <returns></returns>
@@ -112,10 +110,9 @@ public class Headquarters : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawns n new enemy ships for this HeadQuarters.
-    ///
-    /// If there is already an existing generation, it will use the genetic algorithm to evaluate it and breed the next
-    /// generation from it.
+    ///     Spawns n new enemy ships for this HeadQuarters.
+    ///     If there is already an existing generation, it will use the genetic algorithm to evaluate it and breed the next
+    ///     generation from it.
     /// </summary>
     /// <param name="n"></param>
     /// <returns>The new generation of ships</returns>
@@ -127,10 +124,7 @@ public class Headquarters : MonoBehaviour
         if (currentGeneration.Length == 0)
         {
             genomes = new ShipGenome[generationAmount];
-            for (var i = 0; i < generationAmount; i++)
-            {
-                genomes[i] = NewShipGenome();
-            }
+            for (var i = 0; i < generationAmount; i++) genomes[i] = NewShipGenome();
         }
         else
         {
@@ -139,15 +133,14 @@ public class Headquarters : MonoBehaviour
             ).ToArray();
             genomes = _protonLegacyGA(currentGen).Select(r => new ShipGenome(r)).ToArray();
             for (var i = 0; i < currentGen.Length - genomes.Length; i++)
-            {
-                genomes = genomes.Append<ShipGenome>(NewShipGenome()).ToArray();
-            }
+                genomes = genomes.Append(NewShipGenome()).ToArray();
         }
+
         var result = new GameObject[genomes.Length];
         for (var i = 0; i < result.Length; i++)
         {
             var chosenPrefab = Random.Range(0, shipPrefabs.Length);
-            var ship = Object.Instantiate(
+            var ship = Instantiate(
                 shipPrefabs[chosenPrefab],
                 transform.position,
                 transform.rotation,
@@ -156,12 +149,14 @@ public class Headquarters : MonoBehaviour
             ship.GetComponent<ProtonLegacy>().SetGenome(genomes[i]);
             result[i] = ship;
         }
+
         return result;
     }
 
     private void _updateUi()
     {
         _uiTextNumberOfEnemies.text = $"Enemies: {_ships.transform.childCount}";
-        _uiTextNumberOfInfectedStations.text = $"Infected Stations: {_shipStates.Count(i => i.GetState() == EnemyShipStates.AttackingEarth)}";
+        _uiTextNumberOfInfectedStations.text =
+            $"Infected Stations: {_shipStates.Count(i => i.GetState() == EnemyShipStates.AttackingEarth)}";
     }
 }

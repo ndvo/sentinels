@@ -1,9 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-/// Controls the Attack on the Sentinel
-///
-/// Enemy vessels attack sentinels by launching space mines.
+///     Controls the Attack on the Sentinel
+///     Enemy vessels attack sentinels by launching space mines.
 /// </summary>
 public class AttackSentinel : MonoBehaviour
 {
@@ -20,7 +19,7 @@ public class AttackSentinel : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         _handleAttack();
     }
@@ -31,7 +30,7 @@ public class AttackSentinel : MonoBehaviour
         if (!(Random.value < attackProbability / 100)) return;
         _attack();
     }
-    
+
     private void _attack()
     {
         var newProjectile = Instantiate(projectile, transform.position, Quaternion.identity);

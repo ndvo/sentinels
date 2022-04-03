@@ -3,28 +3,26 @@ using UnityEngine.UI;
 
 namespace Sky
 {
-
     /// <summary>
-    /// EarthBehaviour controls the the amount of damage Earth takes, updates the UI and handles visual and sound
-    /// effects.
+    ///     EarthBehaviour controls the the amount of damage Earth takes, updates the UI and handles visual and sound
+    ///     effects.
     /// </summary>
     public class EarthBehaviour : MonoBehaviour
     {
+        private const float ResistanceThreshold = 60f * 3f;
         public float resistance = 1000f;
-
-        private Image _resistanceImage;
 
         public float MAXResistance = 1000f;
 
-        private const float ResistanceThreshold = 60f * 3f;
+        public float survivedTime;
 
-        public float survivedTime = 0f;
+        private float _accumulatedDamage;
 
         private AudioSource _audioSource;
 
-        private float _accumulatedDamage = 0f;
-
         private GameManager _gameManager;
+
+        private Image _resistanceImage;
 
         private void Start()
         {
@@ -47,26 +45,24 @@ namespace Sky
         }
 
         /// <summary>
-        /// Takes and resets the accumulated damage.
+        ///     Takes and resets the accumulated damage.
         /// </summary>
         public void LateUpdate()
         {
             resistance -= Mathf.Clamp(_accumulatedDamage, 0, 25 * Time.deltaTime);
             _accumulatedDamage = 0f;
             // Changes the game lights to cause the impression of danger.
-            _gameManager.EmergencyLight(resistance/MAXResistance);
+            _gameManager.EmergencyLight(resistance / MAXResistance);
             _updateUi();
         }
 
         /// <summary>
-        /// Takes a given amount of damage.
-        ///
-        /// Earth has a cap on the amount of damage it can take per second.
-        /// Without this cap when a great number of ships attack Earth at the same time the game ends quickly. Lowering
-        /// the damage the ships can cause would render each enemy ship close to useless.
-        ///
-        /// This solution makes it so that each enemy ship attacking Earth can cause damage, but yet if a dozer ships
-        /// hit at the same time the player still get a chance.
+        ///     Takes a given amount of damage.
+        ///     Earth has a cap on the amount of damage it can take per second.
+        ///     Without this cap when a great number of ships attack Earth at the same time the game ends quickly. Lowering
+        ///     the damage the ships can cause would render each enemy ship close to useless.
+        ///     This solution makes it so that each enemy ship attacking Earth can cause damage, but yet if a dozer ships
+        ///     hit at the same time the player still get a chance.
         /// </summary>
         /// <param name="amount">The amount of damage one intends to cause</param>
         /// <returns>the amount of damage to be taken into account, within a cap.</returns>
@@ -77,7 +73,7 @@ namespace Sky
         }
 
         /// <summary>
-        /// Ends the game if Earth ecosystem collapses or if Sentinel manages to preserve Earth during its shift.
+        ///     Ends the game if Earth ecosystem collapses or if Sentinel manages to preserve Earth during its shift.
         /// </summary>
         private void _handleEndGameScenarios()
         {
@@ -88,10 +84,7 @@ namespace Sky
             else
             {
                 survivedTime += Time.deltaTime;
-                if (survivedTime > ResistanceThreshold)
-                {
-                    _gameManager.GameBeaten();
-                }
+                if (survivedTime > ResistanceThreshold) _gameManager.GameBeaten();
             }
         }
 
@@ -102,7 +95,7 @@ namespace Sky
         }
 
         /// <summary>
-        /// Fire an alarm if the Earth ecosystem is threatened.
+        ///     Fire an alarm if the Earth ecosystem is threatened.
         /// </summary>
         private void _handleAlarm()
         {

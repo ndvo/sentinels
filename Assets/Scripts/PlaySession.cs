@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 /// <summary>
-/// PlaySession is the only static class in Sentinels.
-///
-/// It stores information that needs to be shared between scenes.
+///     PlaySession is the only static class in Sentinels.
+///     It stores information that needs to be shared between scenes.
 /// </summary>
 public static class PlaySession
 {

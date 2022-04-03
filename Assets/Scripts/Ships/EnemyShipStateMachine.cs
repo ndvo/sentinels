@@ -1,14 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using MiscUtil.Collections.Extensions;
-using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 namespace Ships
 {
     /// <summary>
-    /// The list of possible states the enemy ship can be in.
+    ///     The list of possible states the enemy ship can be in.
     /// </summary>
     public enum EnemyShipStates
     {
@@ -21,23 +16,20 @@ namespace Ships
     }
 
     /// <summary>
-    /// Controls the transition of states an enemy ship may be in.
-    ///
-    /// The purpose of this class is to ensure a consistent behaviour for the enemy ships, avoiding that logic from
-    /// different parts of the code violate the expected behaviour.
-    ///
-    /// It exposes available transitions an throws errors if an illegal transition is attempted.
+    ///     Controls the transition of states an enemy ship may be in.
+    ///     The purpose of this class is to ensure a consistent behaviour for the enemy ships, avoiding that logic from
+    ///     different parts of the code violate the expected behaviour.
+    ///     It exposes available transitions an throws errors if an illegal transition is attempted.
     /// </summary>
     public class EnemyShipStateMachine
     {
-
         private EnemyShipStates _state = EnemyShipStates.Idle;
 
         public EnemyShipStates GetState()
         {
             return _state;
         }
-        
+
         private void _throwInvalidState()
         {
             throw new Exception($"Invalid state {_state}");
@@ -71,6 +63,5 @@ namespace Ships
         {
             return $"StateMachine {_state.ToString()}";
         }
-
     }
 }

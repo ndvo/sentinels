@@ -1,21 +1,20 @@
 using UnityEngine;
 
 /// <summary>
-/// SpaceShip class controls basic behaviour of a space ship.
-///
-/// It controls special effects and taking damage upon collisions.
+///     SpaceShip class controls basic behaviour of a space ship.
+///     It controls special effects and taking damage upon collisions.
 /// </summary>
 public class SpaceShip : MonoBehaviour
 {
     public float energyLevel = 1000;
-    protected float MAXEnergyLevel;
-    private ParticleSystem _explosionVFX;
+    public bool alive = true;
+    private AudioSource _explosionAudio;
     private ParticleSystem _explosionDestroyVFX;
     private ParticleSystem _explosionSmokeVFX;
-    private AudioSource _explosionAudio;
+    private ParticleSystem _explosionVFX;
+    private bool _hasShield;
     private GameObject _shield;
-    private bool _hasShield = false;
-    public bool alive = true;
+    protected float MAXEnergyLevel;
 
     protected virtual void Start()
     {
@@ -37,8 +36,13 @@ public class SpaceShip : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (_hasShield) _shield.SetActive(energyLevel >= 300);
+    }
+
     /// <summary>
-    /// Check collisions against ships and space stations
+    ///     Check collisions against ships and space stations
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
@@ -48,19 +52,16 @@ public class SpaceShip : MonoBehaviour
     }
 
     /// <summary>
-    /// Take damage upon collisions with space stations.
+    ///     Take damage upon collisions with space stations.
     /// </summary>
     /// <param name="other">game object that might be a space station</param>
     private void CheckCollisionWithSpaceStation(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("SpaceStation"))
-        {
-            TakeDamage(100);
-        }
+        if (other.gameObject.layer == LayerMask.NameToLayer("SpaceStation")) TakeDamage(100);
     }
 
     /// <summary>
-    /// Take damage upon collision with a space ship.
+    ///     Take damage upon collision with a space ship.
     /// </summary>
     /// <param name="other">a game object that might be a space ship</param>
     private void CheckCollisionWithSpaceShip(Collider other)
@@ -70,37 +71,33 @@ public class SpaceShip : MonoBehaviour
         TakeDamage(200);
     }
 
-    private void Update()
-    {
-        if (_hasShield) _shield.SetActive(energyLevel >= 300);
-    }
-
     /// <summary>
-    /// Take damage and return the amount of damage actually taken.
+    ///     Take damage and return the amount of damage actually taken.
     /// </summary>
     /// <param name="damage">The amount of damage one intends to cause</param>
     /// <returns>The amount of damage actually taken.</returns>
     public virtual float TakeDamage(float damage)
     {
-
         energyLevel -= damage;
         _explode();
         return energyLevel;
     }
 
     /// <summary>
-    /// Play the special effects resulting from a collision.
+    ///     Play the special effects resulting from a collision.
     /// </summary>
     private void _explode()
     {
-        if (_explosionAudio is {}) _explosionAudio.Play();
+        if (_explosionAudio is { }) _explosionAudio.Play();
         if (energyLevel <= 0)
         {
             alive = false;
-            if (_explosionDestroyVFX is null) {
+            if (_explosionDestroyVFX is null)
+            {
                 Debug.Log("No destroy explosion found");
                 return; // the ship may have been destroyed
             }
+
             _explosionDestroyVFX.Clear();
             _explosionDestroyVFX.Stop();
             _explosionSmokeVFX.Clear();
@@ -119,18 +116,12 @@ public class SpaceShip : MonoBehaviour
     }
 
     /// <summary>
-    /// Makes a ship inactive.
-    ///
-    /// An enemy ship that is inactive will be removed from the game.
-    /// If the Sentinel ship is destroyed, the game is over.
+    ///     Makes a ship inactive.
+    ///     An enemy ship that is inactive will be removed from the game.
+    ///     If the Sentinel ship is destroyed, the game is over.
     /// </summary>
     private void SetInactive()
     {
         transform.parent.gameObject.SetActive(false);
     }
-
-
-
-
-
 }

@@ -3,42 +3,39 @@ using UnityEngine;
 namespace Ships
 {
     /// <summary>
-    /// RecycleBeam is the most important weapon of the Sentinel.
-    ///
-    /// The recycle beam is used to recycle resources from other ships and use part of such resources to boos Sentinels
-    /// resistance.
-    ///
-    /// It can only be used if within range and cannot be used inefficiently (meaning you can only use it when you have
-    /// a locked target). This is a feature meant to reinforce the theme of a nature-technology balanced Earth society
-    /// that will not waste valuable resources shooting needlessly.
-    ///
-    /// This is probably the single most important feature to mix the environmental theme into the game, and it does so
-    /// without lecturing players about anything, which I hope will help add to the feeling of immersion as the players
-    /// realize these things by themselves.
+    ///     RecycleBeam is the most important weapon of the Sentinel.
+    ///     The recycle beam is used to recycle resources from other ships and use part of such resources to boos Sentinels
+    ///     resistance.
+    ///     It can only be used if within range and cannot be used inefficiently (meaning you can only use it when you have
+    ///     a locked target). This is a feature meant to reinforce the theme of a nature-technology balanced Earth society
+    ///     that will not waste valuable resources shooting needlessly.
+    ///     This is probably the single most important feature to mix the environmental theme into the game, and it does so
+    ///     without lecturing players about anything, which I hope will help add to the feeling of immersion as the players
+    ///     realize these things by themselves.
     /// </summary>
     public class RecycleBeam : MonoBehaviour
     {
-        private ShipDetector _detector;
-        private GameObject _beam;
-        private Transform _shipTransform;
-        private GameObject _target;
         public GameObject detector;
-        private bool _hasTarget;
-        private bool _activateBeam = false;
-        private ShipFlight _shipFlight;
-        private ShipFlight _targetFlight;
-        private SpaceShip _targetShip;
         public int power = 10;
-        private AudioSource _audioSource;
-        private SentinelShip _sentinelShip;
         public GameObject help;
-        private GameManager _gameManager;
         public GameObject crossHairPrefab;
+        private bool _activateBeam;
+        private AudioSource _audioSource;
+        private GameObject _beam;
         private GameObject _crossHair;
         private CrossHairScript _crossHairScript;
+        private ShipDetector _detector;
+        private GameManager _gameManager;
+        private bool _hasTarget;
+        private SentinelShip _sentinelShip;
+        private ShipFlight _shipFlight;
+        private Transform _shipTransform;
+        private GameObject _target;
+        private ShipFlight _targetFlight;
+        private SpaceShip _targetShip;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             var parent = transform.parent;
             _shipTransform = parent.transform;
@@ -69,13 +66,16 @@ namespace Ships
                 _releaseCrossHair();
                 Fire(_target);
             }
-            else FindTarget();
+            else
+            {
+                FindTarget();
+            }
         }
 
         /// <summary>
-        /// Grab the closest target available
+        ///     Grab the closest target available
         /// </summary>
-        void FindTarget()
+        private void FindTarget()
         {
             if (_audioSource.isPlaying) _audioSource.Stop();
             _target = _detector.Closest(transform.position);
@@ -87,7 +87,7 @@ namespace Ships
         }
 
         /// <summary>
-        /// Use RecycleBeam on active target
+        ///     Use RecycleBeam on active target
         /// </summary>
         /// <param name="target"></param>
         private void Fire(GameObject target)
@@ -102,15 +102,16 @@ namespace Ships
             {
                 var energyLeft = _targetShip.TakeDamage(power);
                 _sentinelShip.RecoverEnergy(1);
-                if (energyLeft <= 0)
-                {
-                    Release();
-                }
-            } else Release();
+                if (energyLeft <= 0) Release();
+            }
+            else
+            {
+                Release();
+            }
         }
 
         /// <summary>
-        /// Makes target the active target for the Recycle Beam
+        ///     Makes target the active target for the Recycle Beam
         /// </summary>
         /// <param name="target"></param>
         private void Capture(GameObject target)
@@ -122,13 +123,14 @@ namespace Ships
                 Release();
                 return;
             }
+
             _targetFlight = target.GetComponent<ShipFlight>();
             if (_crossHairScript is { })
                 _crossHairScript.SetTarget(target);
         }
 
         /// <summary>
-        /// Removes the active target making the beam inactive
+        ///     Removes the active target making the beam inactive
         /// </summary>
         private void Release()
         {
@@ -140,11 +142,11 @@ namespace Ships
         }
 
         /// <summary>
-        /// Unset CrossHair target
+        ///     Unset CrossHair target
         /// </summary>
         private void _releaseCrossHair()
         {
-            if (_crossHairScript is {} ) _crossHairScript.UnsetTarget();
+            if (_crossHairScript is { }) _crossHairScript.UnsetTarget();
         }
     }
 }

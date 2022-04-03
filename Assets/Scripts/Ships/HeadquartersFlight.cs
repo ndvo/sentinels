@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using Ships;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utils;
 using Time = UnityEngine.Time;
 
 /// <summary>
-/// Controls the flight of the Headquarters
-///
-/// The purpose of the Headquarters flight is twofold:
-/// - distribute spawned ships in a less predictable way
-/// - make it harder for players to destroy the headquarter (this feature is not implemented yet and will not be
-/// implemented before the final project deadline)
+///     Controls the flight of the Headquarters
+///     The purpose of the Headquarters flight is twofold:
+///     - distribute spawned ships in a less predictable way
+///     - make it harder for players to destroy the headquarter (this feature is not implemented yet and will not be
+///     implemented before the final project deadline)
 /// </summary>
 public class HeadquartersFlight : ShipFlight
 {
@@ -22,7 +18,7 @@ public class HeadquartersFlight : ShipFlight
     }
 
     /// <summary>
-    /// Override the orbital flight to change directions in a random fashion and to fly only off board.
+    ///     Override the orbital flight to change directions in a random fashion and to fly only off board.
     /// </summary>
     protected override void _orbitalFlight()
     {
@@ -36,9 +32,8 @@ public class HeadquartersFlight : ShipFlight
 
     protected override void _setNewDirection()
     {
-        CurrentDirection = CurrentDirection.x != 0 
-            ? new Position(0, Random.value > 0.5f ? 1 : -1) 
+        CurrentDirection = CurrentDirection.x != 0
+            ? new Position(0, Random.value > 0.5f ? 1 : -1)
             : new Position(Random.value > 0.5f ? 1 : -1, 0);
     }
-
 }

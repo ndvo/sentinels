@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
 using MazeGeneration;
-using Utils;
 using UnityEngine;
-using Object = UnityEngine.Object;
+using Utils;
+using Random = System.Random;
+using Time = Utils.Time;
 
 /// <summary>
-/// SpaceStation Builder is responsible for creating the game board.
+///     SpaceStation Builder is responsible for creating the game board.
 /// </summary>
 public class SpaceStationBuilder : MonoBehaviour
 {
@@ -16,20 +17,23 @@ public class SpaceStationBuilder : MonoBehaviour
     public GameObject panelsPrefab;
     public GameObject regularConnectionPrefab;
     public GameObject tubularConnectionPrefab;
+
+    [SerializeField] private float cellSize = 0.1f;
+
+    [SerializeField] private int maxSize = 5;
+
+    [SerializeField] private int minSize = 3;
+
+    private readonly Random _random = new Random(Time.UnixNow());
     private GameObject[] _corePrefabs;
     private GameObject[] _longPrefabs;
-    private GameObject[] _shortPrefabs;
     private IMazeAlgorithm _mazeGenerator;
-    [SerializeField]
-    private float cellSize = 0.1f;
-    [SerializeField]
-    private int maxSize = 5;
-    [SerializeField]
-    private int minSize = 3;
-    private readonly System.Random _random = new System.Random(Utils.Time.UnixNow());
-    private int size;
+
+    private GameObject[] _shortPrefabs;
+
     // a border game object that allows one to check if a position is inside or outside the game board.
     private GameObject border;
+    private int size;
 
     public void Awake()
     {
@@ -53,14 +57,14 @@ public class SpaceStationBuilder : MonoBehaviour
         _setupPrefabs();
         border = _createBorderGameObject(new Position(1, 1));
         var maze = _mazeGenerator.CreateMaze();
-        var stationParts = (from i in 
+        var stationParts = (from i in
                 new int[maze.GetLength(0) * maze.GetLength(1)]
             select _createConnection()).ToArray();
-        var positionGrid = Utils.Iterables.CreateGrid(
-            (from n in  Utils.Iterables.BalancedRange(size) select (float) n * cellSize).ToArray(), 
-            (from n in Utils.Iterables.BalancedRange(size) select (float) n * cellSize).ToArray() 
-            );
-        for (int i = 0; i < stationParts.Length; i++)
+        var positionGrid = Iterables.CreateGrid(
+            (from n in Iterables.BalancedRange(size) select n * cellSize).ToArray(),
+            (from n in Iterables.BalancedRange(size) select n * cellSize).ToArray()
+        );
+        for (var i = 0; i < stationParts.Length; i++)
         {
             var col = Math.Abs(i % maze.GetLength(1));
             var row = Math.Abs(i / maze.GetLength(0));
@@ -70,35 +74,34 @@ public class SpaceStationBuilder : MonoBehaviour
     }
 
     /// <summary>
-    /// Creates a game object to set the border of the board.
+    ///     Creates a game object to set the border of the board.
     /// </summary>
     /// <param name="direction">The direction for the boarder</param>
     /// <param name="padding">the space between the last tile and the border</param>
     /// <returns>the border game object</returns>
-    GameObject _createBorderGameObject(Position direction, float padding = 2)
+    private GameObject _createBorderGameObject(Position direction, float padding = 2)
     {
         var go = new GameObject(direction.ToString());
         go.transform.position = transform.position + Vector3.zero;
         go.transform.RotateAround(
-            new Vector3(0f, 0f, 0f), 
+            new Vector3(0f, 0f, 0f),
             new Vector3(direction.y, 0, direction.x),
-            Mathf.Sqrt(2 * Mathf.Pow(cellSize * size/2, 2))  + padding);
+            Mathf.Sqrt(2 * Mathf.Pow(cellSize * size / 2, 2)) + padding);
         return go;
     }
 
     /// <summary>
-    /// Changes the position of a part making it relative to the space station builder object.
-    ///
-    /// makes the part.transform.position equal to this.transform.position plus the provided x and z values.
-    /// Even though the game is 3D the action actually happens in a curved 2D plane around Earth.
-    /// The z axis of the 3D world is the y axis of our virtual plane.
+    ///     Changes the position of a part making it relative to the space station builder object.
+    ///     makes the part.transform.position equal to this.transform.position plus the provided x and z values.
+    ///     Even though the game is 3D the action actually happens in a curved 2D plane around Earth.
+    ///     The z axis of the 3D world is the y axis of our virtual plane.
     /// </summary>
     /// <param name="part"></param>
     /// <param name="position"></param>
     private void _transformPosition(GameObject part, float[] position)
     {
-        part.transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.right, (float) position[0]);
-        part.transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.forward, (float) position[1]);
+        part.transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.right, position[0]);
+        part.transform.RotateAround(new Vector3(0f, 0f, 0f), Vector3.forward, position[1]);
     }
 
     private void _setupPrefabs()
@@ -109,7 +112,7 @@ public class SpaceStationBuilder : MonoBehaviour
     }
 
     /// <summary>
-    /// Rotate a single piece of the puzzle.
+    ///     Rotate a single piece of the puzzle.
     /// </summary>
     /// <param name="piece">A piece of the puzzle, i.e. a game object representing a space station.</param>
     /// <param name="direction">The direction it should be rotated to.</param>
@@ -121,10 +124,9 @@ public class SpaceStationBuilder : MonoBehaviour
     }
 
     /// <summary>
-    /// Create a connection piece.
-    ///
-    /// A connection piece is a "long" prefab. This is a game object that represents a "line" in a maze.
-    /// A long object is capable of blocking the passage if connected to another long object.
+    ///     Create a connection piece.
+    ///     A connection piece is a "long" prefab. This is a game object that represents a "line" in a maze.
+    ///     A long object is capable of blocking the passage if connected to another long object.
     /// </summary>
     /// <returns>the connection object.</returns>
     private GameObject _createConnection()
@@ -133,18 +135,18 @@ public class SpaceStationBuilder : MonoBehaviour
     }
 
     /// <summary>
-    /// Create a random station.
+    ///     Create a random station.
     /// </summary>
     /// <param name="availablePrefabs"></param>
     /// <returns>A random piece of the puzzle.</returns>
     private GameObject _createObject(GameObject[] availablePrefabs)
     {
         var prefab = availablePrefabs[_random.Next(0, availablePrefabs.Length)];
-        return Object.Instantiate(prefab, this.transform);
+        return Instantiate(prefab, transform);
     }
 
     /// <summary>
-    /// Checks if an object is inside the game board.
+    ///     Checks if an object is inside the game board.
     /// </summary>
     /// <param name="position">The position to checked.</param>
     /// <returns>a boolean indicating if the position is within the board</returns>
@@ -154,5 +156,4 @@ public class SpaceStationBuilder : MonoBehaviour
         // lower in y than the border point is outside of the board game.
         return position.y < border.transform.position.y;
     }
-
 }

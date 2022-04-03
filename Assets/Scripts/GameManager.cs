@@ -5,28 +5,28 @@ using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 /// <summary>
-/// Game Manager controls general aspects of the game that are not related to specific objects.
+///     Game Manager controls general aspects of the game that are not related to specific objects.
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-
-    private bool _fadingOut = false;
-    private Light _directionalLight;
-    private Light _sunLight;
     public GameObject pauseCanvas;
     public GameObject practiceCanvas;
-    [NonSerialized]
-    public bool Paused = false;
 
     public GameObject pauseHelp;
 
-    private bool _activeHelp = false;
-    private float _countDownHelp = 0f;
+    private bool _activeHelp;
+    private float _countDownHelp;
+    private Light _directionalLight;
 
-    private bool _pauseHelpShown = false;
-    
+    private bool _fadingOut;
 
-    void Start()
+    private readonly bool _pauseHelpShown = false;
+    private Light _sunLight;
+
+    [NonSerialized] public bool Paused;
+
+
+    private void Start()
     {
         _directionalLight = GameObject.Find("/Directional Light").GetComponent<Light>();
         _sunLight = GameObject.Find("/Sun").GetComponent<Light>();
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         _handlePause();
         _handleGameOver();
@@ -43,9 +43,8 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Ends the game
-    ///
-    /// Initiate a fading out sequence and set the light color to red.
+    ///     Ends the game
+    ///     Initiate a fading out sequence and set the light color to red.
     /// </summary>
     public void GameOver()
     {
@@ -54,7 +53,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Provide a function to return to the main menu.
+    ///     Provide a function to return to the main menu.
     /// </summary>
     public void Quit()
     {
@@ -62,7 +61,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Ends the game with the player's victory.
+    ///     Ends the game with the player's victory.
     /// </summary>
     public void GameBeaten()
     {
@@ -70,7 +69,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Change the tone of red in the light to give a sense of urgency
+    ///     Change the tone of red in the light to give a sense of urgency
     /// </summary>
     /// <param name="amount"></param>
     public void EmergencyLight(float amount)
@@ -86,11 +85,10 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Pauses the game
-    ///
-    /// Makes the timescale equal to zero, causing any behaviour dependent on time not to happen.
-    /// It is important to note that Update is still called in GameObject instances, with zero Time.deltaTime.
-    /// FixedUpdate is not called at all.
+    ///     Pauses the game
+    ///     Makes the timescale equal to zero, causing any behaviour dependent on time not to happen.
+    ///     It is important to note that Update is still called in GameObject instances, with zero Time.deltaTime.
+    ///     FixedUpdate is not called at all.
     /// </summary>
     private void Pause()
     {
@@ -100,7 +98,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Shows a provided help, which is provided as a game object.
+    ///     Shows a provided help, which is provided as a game object.
     /// </summary>
     /// <param name="help"></param>
     public void ShowHelp(GameObject help)
@@ -111,9 +109,8 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles the active help.
-    ///
-    /// There should be only one active help at a time and it should not be shown for more than _countDownHelp seconds.
+    ///     Handles the active help.
+    ///     There should be only one active help at a time and it should not be shown for more than _countDownHelp seconds.
     /// </summary>
     private void _handleHelp()
     {
@@ -127,7 +124,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// When paused, show the pause canvas and allow for unpause buttons to be triggered.
+    ///     When paused, show the pause canvas and allow for unpause buttons to be triggered.
     /// </summary>
     private void _handlePause()
     {
@@ -144,17 +141,16 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles the process of ending the game.
-    ///
-    /// There is a fading out process to end the game. Without this one would never see the player ship exploding and
-    /// the darkening of the scene.
+    ///     Handles the process of ending the game.
+    ///     There is a fading out process to end the game. Without this one would never see the player ship exploding and
+    ///     the darkening of the scene.
     /// </summary>
     private void _handleGameOver()
     {
         if (!_fadingOut) return;
         var oldColor = _sunLight.color.r;
         // color values range 0 - 1. To gradually fade out in 5 sec we divide delta time by 5.
-        var newColor = Mathf.Max(0, oldColor - Time.deltaTime/5);
+        var newColor = Mathf.Max(0, oldColor - Time.deltaTime / 5);
         if (newColor <= 0) _loadGameOverScene();
         _sunLight.color = new Color(newColor, newColor, newColor);
         _directionalLight.color = new Color(newColor, 0, 0);
@@ -164,5 +160,4 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("GameOver");
     }
-
 }
